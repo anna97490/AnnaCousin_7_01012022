@@ -5,9 +5,11 @@ const router = express.Router();
 
 //router.post('/signup',);
 //router.post('/login',);
-//router.get('/:id');
-//router.put('/updateProfil/:id',);
-//router.put('/updatePicture/:id',);
-//router.put('/updatePassword/:id',);
+//router.get('/:id'); infos d'un user                getOneUser
+//router.get('/:id/image') afficher img du user            
+//router.get('/:id/logout',) logout
+//router.put('/image/:id',); modifier la pp          updatePP
+//router.put('/:id/count',); modifier compte
+//router.delete('/:id',) desactiver
 
 module.exports = router;
