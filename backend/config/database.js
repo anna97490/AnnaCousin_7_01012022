@@ -1,7 +1,7 @@
-const Sequelize = require('sequelize');
+const { Sequelize } = require('sequelize');
 require('dotenv').config();
 
-const sequelize = new Sequelize('groupomania', process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASSWORD, {
+const sequelize = new Sequelize(, {
     dialect: "mysql",
     host: "localhost"
 });

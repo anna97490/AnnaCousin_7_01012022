@@ -1,30 +1,35 @@
-const Sequelize = require('sequelize');
-const sequelize = require('../config/database');
-const comment = require('./comment.models');
-const like = require('./like.models');
+const sequelize = require('sequelize');
+const db = require('../config/database');
+const Comment = require('./comment.models');
+const {DataTypes} = sequelize;
 
-const post = sequelize.define('post', {
+const Post = db.define('post', {
     id: {
-        type: Sequelize.INTEGER,
+        type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true
       },
     userId: {
-        type: Sequelize.INTEGER,
+        type: DataTypes.INTEGER,
         allowNull: false
     },
     date: {
-        type: Sequelize.DATE,
+        type: DataTypes.DATE,
         defaultValue: Sequelize.NOW,
         allowNull: false
     },
     text: {
-        type: Sequelize.TEXT,
+        type: DataTypes.TEXT,
         allowNull: false
     },
+    imageUrl: {
+        type: DataTypes.STRING,
+        allowNull:true
+    }
 });
 
-post.Hasmany(comment,  {onDelete: 'cascade', hooks:'true'});
-post.Hasmany(like,  {onDelete: 'cascade', hooks:'true'});
 
-module.exports = post;
+Post.hasMany(Comment,  {onDelete: 'cascade', hooks:'true'});
+
+Post.sync();
+module.exports = Post;

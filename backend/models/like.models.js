@@ -1,4 +1,4 @@
-const Sequelize = require('sequelize');
+/*const Sequelize = require('sequelize');
 const sequelize = require('../config/database');
 
 const like = sequelize.define('like', {
@@ -21,4 +21,4 @@ like.associations = (models) => {
     like.belongsTo(models.post);
 }
 
-module.exports = like;
+module.exports = like;*/

@@ -1,5 +1,7 @@
-const express = require("express");
+const express = require('express');
 const app = express();
+const userRoutes = require('./routes/user.routes');
+const db = require('./config/database');
 
 // Ajout des headers à l'objet réponse
 app.use((req, res, next) => {
@@ -15,13 +17,16 @@ app.use((req, res, next) => {
     next();
   });
   
-  // Accès au corps de la req
-  app.use(express.json());
+// Accès au corps de la req
+app.use(express.json());
 
+// Routes
+app.use('/api/auth', userRoutes);
+//app.use('/api/post', userpost);
 
-
-
-
+db.sync()
+.then(console.log('Connected to the Database!'))
+.catch(error => console.log(error));
 
 
 

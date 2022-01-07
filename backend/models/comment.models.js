@@ -26,8 +26,7 @@ const comment = sequelize.define('comment', {
     }
 });
 
-comment.associations = (models) => {
-    comment.belongsTo(models.post)
-}
 
-module.exports = comment;
+
+Comment.sync();
+module.exports = Comment;
