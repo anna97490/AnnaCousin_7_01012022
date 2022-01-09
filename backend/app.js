@@ -1,9 +1,24 @@
 const express = require('express');
 const app = express();
+const helmet = require('helmet');
+const path = require('path');
+const db = require('./config/database');
+
+// Routers
 const userRoutes = require('./routes/user.routes');
 const postRoutes = require('./routes/post.routes');
 const commentRoutes = require('./routes/comment.routes');
-const db = require('./config/database');
+
+// Connexion à la base de donnée
+db.sync()
+.then(console.log('Connected to the Database!'))
+.catch(error => console.log(error));
+
+// Accès au corps de la req
+app.use(express.json());
+
+// Sécurisation des en-têtes HTTP
+app.use(helmet());
 
 // Ajout des headers à l'objet réponse
 app.use((req, res, next) => {
@@ -19,16 +34,12 @@ app.use((req, res, next) => {
     next();
   });
   
-// Accès au corps de la req
-app.use(express.json());
+// Les images
+app.use('/images', express.static(path.join(__dirname, 'images')));
 
 // Routes
 app.use('/api/auth', userRoutes);
 app.use('/api/post', postRoutes);
 app.use('/api/comment', commentRoutes);
-
-db.sync()
-.then(console.log('Connected to the Database!'))
-.catch(error => console.log(error));
 
 module.exports = app;

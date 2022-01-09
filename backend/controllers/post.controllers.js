@@ -1,36 +1,27 @@
 const Post = require('../models/post.models');
-//const fs = require('fs');
+const fs = require('fs');
 //manque implementation des imgs
 
 // Création de post
 exports.createPost = (req, res, next) => {
   const post = {
-    userId: req.body.userId,
-    postId: req.body.postId, // faire en sorte de mettre la condition qui cerifie si le userId est le bon
-    date: req.body.date,
-    text: req.body.text
-  }
-  Post.findOne({where: { id: req.params.id}})
-  .then(post => {
-    if(!post){
-        return res.status(404).json({ message: 'Post not found!' })
-    } else if (req.token.userId !== comment.UserId) {
-        return res.status(401).json({ message: 'Unauthorized request!' }) 
-    }
-    Post.update({...post}, {where: { id: req.params.id }})
-    .then(() => res.status(200).json({message: 'Post modified!'}))
-})
-.catch(error => {
-    res.status(500).json({ error })
-})
-};
+      userId: req.body.userId,
+      date: req.body.date,
+      text: req.body.text,
+      imageUrl: req.body.imageUrl,
+      likes: req.body.likes
+  };
+  Post.create(post)
+  .then(() => res.status(201).json({ message: 'Post successfully created!' }))
+  .catch((error) => res.status(400).json({ error: "no"}));
+}
 
 // Lire un post
 exports.getOnePost = (req, res, next) => {
   const id = req.body.id;
   Post.findByPk(id)
     .then((post) => {
-      if(!post) return res.status(404).json({ error: "no" });
+      if(!post) return res.status(404).json({ error: "Post not found!" });
       res.status(200).json(post);
     })
     .catch((error) => res.status(404).json({ error }));
@@ -40,7 +31,7 @@ exports.getOnePost = (req, res, next) => {
 exports.getAllPost = (req, res, next) => {
   Post.findAll()
     .then((posts) => res.status(200).json(posts))
-    .catch((error) => res.status(400).json({ error: "no" }));
+    .catch((error) => res.status(400).json({ error}));
 };
 
 // Modifier un post

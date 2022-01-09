@@ -1,13 +1,9 @@
 const User = require('../models/user.models');
-//const Post = require('../models/post.models');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const fs = require('fs');
 require('dotenv').config();
-//manque implementation des imgs
-// checker toutes les fonctions user 
-// creer fonctions comment
-// toutes les options, imgs, auth, validator password et email helmet
+//ok
 
 // Inscription
 exports.signup = (req, res, next) => {
@@ -17,7 +13,7 @@ exports.signup = (req, res, next) => {
       firstname: req.body.firstname,
       lastname: req.body.lastname,
       email: req.body.email,
-      //imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
+      //imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`, // POUR LE MOMENT PAS POSSSIBLE
       imageUrl: req.body.imageUrl,
       password: hash,
       isAdmin: req.body.isAdmin || 0// 0?
@@ -58,16 +54,17 @@ exports.login = (req, res, next) => {
 exports.updateUser = (req, res, next) => {
   const userObject = req.file ? {
     ...JSON.parse(req.body),
-    imageUrl: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`
+    imageUrl: req.body.imageUrl
+    //imageUrl: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`
   } : { ...req.body}
-  User.findByPk(req.params.id)
+  User.findByPk(req.params.id) // OU const id = req.params.id
   .then(user => {
     if (!user){
       return res.status(404).json({ message: 'User not found!' });
     } 
     User.update({...userObject}, { where: { id: req.params.id }})
       .then(() => res.status(200).json({message: 'Profil successfully updated !'}))
-      .catch((error) => res.status(500).json({ error: "no work"  }));
+      .catch((error) => res.status(500).json({ error }));
   })
   .catch(error => { res.status(500).json({ error });
   })
@@ -79,13 +76,16 @@ exports.deleteUser = (req, res, next) => {
   .then((user) => {
     console.log(req.params.id)
       if (!user) {
-        return res.status(404).json({ message: 'User not found!' + req.body.id})
+        return res.status(404).json({ message: 'User not found!' })
       } else {
-        User.destroy({ where: { id: req.params.id }})
+        //const filename = sauce.imageUrl.split('/images/')[1];
+        //fs.unlink({where: { id: req.params.id}}/*`images/${filename}`*/, () => {
+          User.destroy({ where: { id: req.params.id }})
           .then(() => {
             return res.status(200).json({message: 'Profil successfully deleted!'});  
-          })
-          .catch((error) => res.status(500).json({ error: "no work"  }));
+            })
+          .catch((error) => res.status(500).json({ error }));
+        //});
       }
   })    
   .catch(error => { res.status(500).json({ error });

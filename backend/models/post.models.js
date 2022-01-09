@@ -1,6 +1,6 @@
 const sequelize = require('sequelize');
 const db = require('../config/database');
-//const Comment = require('./comment.models');
+const Comment = require('./comment.models');
 const {DataTypes} = sequelize;
 
 const Post = db.define('post', {
@@ -8,10 +8,10 @@ const Post = db.define('post', {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true
-      },
+    },
     userId: {
         type: DataTypes.INTEGER,
-        allowNull: false
+        allowNull: true
     },
     date: {
         type: DataTypes.DATE,
@@ -23,15 +23,15 @@ const Post = db.define('post', {
     },
     imageUrl: {
         type: DataTypes.STRING,
-        allowNull:true
+        allowNull: true
     },
     likes: {
         type: DataTypes.INTEGER
     }
 });
 
-
-//Post.hasMany(Comment, {onDelete: 'cascade', hooks:'true'});
+Post.hasMany(Comment, {foreignKey: 'postId', onDelete: 'cascade', onUpdate: 'cascade', hooks:'true'});
+Comment.belongsTo(Post, { foreignKey: 'postId' });
 
 Post.sync();
 module.exports = Post;
