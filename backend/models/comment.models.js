@@ -1,32 +1,30 @@
-const Sequelize = require('sequelize');
-const sequelize = require('../config/database');
+const sequelize = require('sequelize');
+const db = require('../config/database');
+const {DataTypes} = sequelize;
 
-const comment = sequelize.define('comment', {
+const Comment = db.define('comment', {
     id: {
-        type: Sequelize.INTEGER,
+        type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true
       },
     userId: {
-        type: Sequelize.INTEGER,
-        allowNull: false
+        type: DataTypes.INTEGER,
+        allowNull: true
     },
     postId: {
-        type: Sequelize.INTEGER,
-        allowNull: false
+        type: DataTypes.INTEGER,
+        allowNull: true
     },
     date: {
-        type: Sequelize.DATE,
-        defaultValue: Sequelize.NOW,
-        allowNull: false
+        type: DataTypes.DATE,
+        defaultValue: DataTypes.NOW,
     },
-    text:{
+    text: {
         type:DataTypes.TEXT,
-        allowNull:false
+        allowNull: false
     }
 });
-
-
 
 Comment.sync();
 module.exports = Comment;

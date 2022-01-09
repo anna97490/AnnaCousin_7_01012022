@@ -4,10 +4,8 @@ const userCtrl = require('../controllers/user.controllers');
 //const multer = require('multer');
 
 router.post('/signup', userCtrl.signup);
-router.post('/login', userCtrl.login);
-router.get('/:id', userCtrl.getOneUser);                            
-//router.get('/:id/logout',) logout
-router.put('/:id/', userCtrl.updateUser); 
-router.delete('/:id', userCtrl.deleteUser) ;
+router.post('/login', userCtrl.login);                          
+router.put('/:id/update', userCtrl.updateUser); 
+router.delete('/:id/delete', userCtrl.deleteUser) ;
 
 module.exports = router;

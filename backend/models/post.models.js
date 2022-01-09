@@ -1,6 +1,6 @@
 const sequelize = require('sequelize');
 const db = require('../config/database');
-const Comment = require('./comment.models');
+//const Comment = require('./comment.models');
 const {DataTypes} = sequelize;
 
 const Post = db.define('post', {
@@ -15,8 +15,7 @@ const Post = db.define('post', {
     },
     date: {
         type: DataTypes.DATE,
-        defaultValue: Sequelize.NOW,
-        allowNull: false
+        defaultValue: DataTypes.NOW
     },
     text: {
         type: DataTypes.TEXT,
@@ -25,11 +24,14 @@ const Post = db.define('post', {
     imageUrl: {
         type: DataTypes.STRING,
         allowNull:true
+    },
+    likes: {
+        type: DataTypes.INTEGER
     }
 });
 
 
-Post.hasMany(Comment,  {onDelete: 'cascade', hooks:'true'});
+//Post.hasMany(Comment, {onDelete: 'cascade', hooks:'true'});
 
 Post.sync();
 module.exports = Post;

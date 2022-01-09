@@ -8,11 +8,11 @@ const User = db.define('user', {
         autoIncrement: true,
         primaryKey: true
       },
-    firstName: {
+    firstname: {
         type: DataTypes.STRING,
         allowNull: false
     },
-    lastName: {
+    lastname: {
         type: DataTypes.STRING,
         allowNull: false
     },
@@ -27,13 +27,12 @@ const User = db.define('user', {
     },
     imageUrl: {
         type: DataTypes.STRING,
-        allowNull:true
+        allowNull: true
     },
     isAdmin: {
-        type: DataTypes.INTEGER,
-        allowNull: false
+        type: DataTypes.BOOLEAN
     }
 });
 
 User.sync();
-module.exports = User
+module.exports = User;
