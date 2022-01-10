@@ -13,13 +13,13 @@ exports.createPost = (req, res, next) => {
   };
   Post.create(post)
   .then(() => res.status(201).json({ message: 'Post successfully created!' }))
-  .catch((error) => res.status(400).json({ error: "no"}));
+  .catch((error) => res.status(400).json({ error }));
 }
 
 // Lire un post
 exports.getOnePost = (req, res, next) => {
   const id = req.body.id;
-  Post.findByPk(id)
+  Post.findOne(id)
     .then((post) => {
       if(!post) return res.status(404).json({ error: "Post not found!" });
       res.status(200).json(post);
@@ -54,11 +54,22 @@ exports.updatePost = (req, res, next) => {
 
 //Supprimer un post
 exports.deletePost = (req, res, next) => {
-  const id = req.params;
-  Post.destroy({ where: {id: id} })
-  .then(post => {
-    if ( post === 0) return res.status(404).json({error: "no"})
-    res.status(200).json({message: 'Post Deleted!'})
-  })
-  .catch((error) => res.status(404).json({ error: "no1"  }));
+  Post.findOne({ where: { id: req.params.id }})
+  .then((user) => {
+  console.log(req.params.id)
+      if (!user) {
+          return res.status(404).json({ message: 'User not found!' })
+      } else {
+      //const filename = sauce.imageUrl.split('/images/')[1];
+      //fs.unlink({where: { id: req.params.id}}/*`images/${filename}`*/, () => {
+      Post.destroy({ where: { id: req.params.id }})
+      .then(() => {
+          return res.status(200).json({message: 'Post successfully deleted!'});  
+      })
+      .catch((error) => res.status(500).json({ error }));
+      //});
+    }
+  })    
+  .catch(error => { res.status(500).json({ error });
+  }) 
 };

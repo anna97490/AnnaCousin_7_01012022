@@ -12,11 +12,19 @@ const Comment = db.define('comment', {
       },
     userId: {
         type: DataTypes.INTEGER,
-        allowNull: true
+        allowNull: false,
+        references: {
+            model: 'users', 
+            key: 'id'
+        }
     },
     postId: {
         type: DataTypes.INTEGER,
-        allowNull: true
+        allowNull: false,
+        references: {
+            model: 'posts', 
+            key: 'id'
+        }
     },
     date: {
         type: DataTypes.DATE,
@@ -25,8 +33,10 @@ const Comment = db.define('comment', {
     text: {
         type:DataTypes.TEXT,
         allowNull: false
-    }
+    },
 });
+
+//Post.hasMany(Comment, {foreignKey: 'userId', onDelete: 'cascade', onUpdate: 'cascade', hooks:'true'});
 
 Comment.sync();
 module.exports = Comment;

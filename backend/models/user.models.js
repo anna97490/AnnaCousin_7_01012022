@@ -36,10 +36,10 @@ const User = db.define('user', {
     }
 });
 
-User.hasMany(Post, {foreignKey: 'userId', onDelete: 'cascade', onUpdate: 'cascade', hooks:'true'});
-Post.belongsTo(User, { foreignKey: 'userId' });
-User.hasMany(Comment, {foreignKey: 'userId', onDelete: 'cascade', onUpdate: 'cascade', hooks:'true'});
-Comment.belongsTo(User, { foreignKey: 'userId' });
+User.hasMany(Post, {/*foreignKey: 'userId',*/ onDelete: 'cascade', onUpdate: 'cascade', hooks:'true'});
+//Post.belongsTo(User, { foreignKey: 'userId' });
+User.hasMany(Comment, {/*foreignKey: 'userId',*/ onDelete: 'cascade', onUpdate: 'cascade', hooks:'true'});
+//Comment.belongsTo(User, { foreignKey: 'userId' });
 
 User.sync();
 module.exports = User;

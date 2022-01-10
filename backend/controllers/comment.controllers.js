@@ -1,4 +1,4 @@
-const Comment = require('./post.controllers');
+const Comment = require('../models/comment.models');
 //ok
 
 exports.createComment = (req, res, next) => {
@@ -10,7 +10,7 @@ exports.createComment = (req, res, next) => {
     };
     Comment.create(comment)
     .then(() => res.status(201).json({ message: 'Comment successfully created!' }))
-    .catch((error) => res.status(400).json({ error: "no"}));
+    .catch((error) => res.status(400).json({ error: 'here'}));
 }
 
 exports.getOneComment = (req, res, next) => {

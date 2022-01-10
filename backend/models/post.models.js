@@ -11,7 +11,11 @@ const Post = db.define('post', {
     },
     userId: {
         type: DataTypes.INTEGER,
-        allowNull: true
+        allowNull: false,
+        references: {
+            model: 'users', 
+            key: 'id'
+        }
     },
     date: {
         type: DataTypes.DATE,
@@ -27,11 +31,12 @@ const Post = db.define('post', {
     },
     likes: {
         type: DataTypes.INTEGER
-    }
+    },
+   
 });
 
-Post.hasMany(Comment, {foreignKey: 'postId', onDelete: 'cascade', onUpdate: 'cascade', hooks:'true'});
-Comment.belongsTo(Post, { foreignKey: 'postId' });
+Post.hasMany(Comment, {/*foreignKey: 'postId',*/ onDelete: 'cascade', onUpdate: 'cascade', hooks:'true'});
+//Comment.belongsTo(Post, { foreignKey: 'postId' });
 
 Post.sync();
 module.exports = Post;
