@@ -1,0 +1,130 @@
+.card {
+    max-width: 100%;
+    width: 540px;
+    background:white;
+    border-radius: 16px;
+    padding:32px;
+    box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
+}
+
+.card__title {
+    text-align:center;
+    font-size: 32px;
+}
+
+.card__subtitle {
+    text-align: center;
+    color:#666;
+    font-weight: 500;
+}
+
+.logo-container {
+    display: flex;
+    justify-content: center;
+}
+
+.logo {
+    height: 130px;
+}
+
+.card__action {
+    color:#1976D2;;
+    text-decoration: none;
+}
+
+.card__action:hover {
+    cursor:pointer;
+}
+
+.button:hover {
+    cursor:pointer;
+    background: #1976D2;
+}
+
+.button--disabled {
+    background:#cecece;
+    color:#ececec
+}
+
+.button--disabled:hover {
+    cursor:not-allowed;
+    background:#cecece;
+}
+
+.form-row {
+    display: flex;
+    margin: 16px 0px;
+    gap:16px;
+    flex-wrap: wrap;
+}
+
+.form-row__input {
+    padding: 8px;
+    border: none;
+    border-radius: 8px;
+    background:#f2f2f2;
+    font-weight: 500;
+    font-size: 16px;
+    flex:1;
+    min-width: 100px;
+    color: black;
+    box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
+}
+
+.form-row__input::placeholder {
+    color:#aaaaaa;
+}
+
+.card__action {
+    color:#2196F3;
+    text-decoration: underline;
+}
+
+.card__action:hover {
+    cursor:pointer;
+}
+
+.button--disabled {
+    background:#cecece;
+    color:#ececec
+}
+
+.button--disabled:hover {
+    cursor:not-allowed;
+    background:#cecece;
+}
+
+.button {
+    background: #FF5533;
+    color:white;
+    border-radius: 8px;
+    font-weight: 800;
+    font-size: 15px;
+    border: none;
+    width: 100%;
+    padding: 16px;
+    transition: .4s background-color;
+    box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
+}
+.button:hover {
+    cursor:pointer;
+    background: #1976D2;
+}
+
+/* MEDIA QUERIES */
+@media screen and (min-width: 1201px) and (max-width: 1500px) {
+
+}
+
+@media screen and (min-width: 993px) and (max-width: 1200px) {
+
+}
+
+@media screen and (min-width: 769px) and (max-width: 992px) {
+
+}
+
+@media screen and (min-width: 481px) and (max-width: 768px) {}
+
+
+
