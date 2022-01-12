@@ -3,6 +3,7 @@ const app = express();
 const helmet = require('helmet');
 const path = require('path');
 const db = require('./config/database');
+require('dotenv').config();
 
 // Routers
 const userRoutes = require('./routes/user.routes');
@@ -22,7 +23,7 @@ app.use(helmet());
 
 // Ajout des headers à l'objet réponse
 app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Origin', `${process.env.CLIENT_URL}`);
     res.setHeader(
       'Access-Control-Allow-Headers',
       'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization'
@@ -31,6 +32,7 @@ app.use((req, res, next) => {
       'Access-Control-Allow-Methods',
       'GET, POST, PUT, DELETE, PATCH, OPTIONS'
     );
+    res.setHeader("Access-Control-Allow-Credentials", "true");
     next();
   });
   
