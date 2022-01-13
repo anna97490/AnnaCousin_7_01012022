@@ -3,7 +3,7 @@ const app = express();
 const helmet = require('helmet');
 const path = require('path');
 const db = require('./config/database');
-require('dotenv').config();
+const cors = require('cors');
 
 // Routers
 const userRoutes = require('./routes/user.routes');
@@ -21,20 +21,17 @@ app.use(express.json());
 // Sécurisation des en-têtes HTTP
 app.use(helmet());
 
+// Pour éviter les erreurs CORS
+app.use(cors());
+
 // Ajout des headers à l'objet réponse
 app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', `${process.env.CLIENT_URL}`);
-    res.setHeader(
-      'Access-Control-Allow-Headers',
-      'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization'
-    );
-    res.setHeader(
-      'Access-Control-Allow-Methods',
-      'GET, POST, PUT, DELETE, PATCH, OPTIONS'
-    );
-    res.setHeader("Access-Control-Allow-Credentials", "true");
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Credentials', true);
+    res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
     next();
-  });
+});
   
 // Les images
 app.use('/images', express.static(path.join(__dirname, 'images')));

@@ -1,5 +1,6 @@
 const http = require('http');
 const app = require('./app');
+const cors = require('cors');
 require('dotenv').config();
 
 const normalizePort = (val) => {
@@ -16,9 +17,7 @@ const normalizePort = (val) => {
 const port = normalizePort(process.env.PORT || '4200');
 app.set('port', port);
 
-app.get("/", (req, res) => {
-  res.json({ message: "I marche ?" });
-});
+app.get("/", (req, res) => { res.status(200).send('HelloWorld')});
 
 const errorHandler = (error) => {
   if (error.syscall !== 'listen') {
