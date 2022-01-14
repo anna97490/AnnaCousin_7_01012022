@@ -1,32 +1,24 @@
 <template>
-  <div class="body">
-    <div class="card">
+  <div class="body" >
+    <div class="card" >
       <div class="card__container">
-        <img class="logo" src="../assets/icon-above-font.png">
+        <img class="card__container--logo" src="../assets/icon-left-font.png">
       </div>
-      <h1 class="card__title" v-if="mode == 'login'">Votre réseau social d'entreprise!</h1>
-      <router-link class="card__signup" to="/signup"><strong>S'enregistrer</strong></router-link>
-      <router-link class="card__signup" to="/posts" width="100%"><strong>Posts</strong></router-link>
-      <router-link class="card__signup" to="/profile" width="100%"><strong>Profile</strong></router-link>
-      <form>
-        <div class="card__form">
-          <input type="email" v-model="email" placeholder="Email" required aria-label="Email de connection">
-          <!--<label for="email-adress">Mot de passe</label>-->
-          <input type="password" v-model="password" placeholder="Password" required aria-label="Mot de passe de connection"> 
-        </div>
-      </form>
-      <button class="card__btn" @click="login()" type="submit" aria-label="Se connecter"><strong>Se connecter</strong></button>
+      <div class="card__links">
+        <router-link class="card__link" to="/posts"  @click="home"><strong>Publications</strong></router-link> |
+        <router-link class="card__link" to="/profile"  @click="profile"><strong>Profile</strong></router-link> 
+      </div> 
     </div>
-</div>
+  </div>
 </template>
 
 <script>
 import axios from "axios";
 export default {
-  name: 'Login',
+  name: 'Posts',
   data: function () {
     return {
-      mode: 'login',
+      mode: 'posts',
       email: '',
       password: '',
     }
@@ -58,40 +50,28 @@ export default {
 </script>
 
 <style scoped>
-.body {
+.card {
   display: flex;
   align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  padding: 32px;
-}
-
-.card {
-  height: auto;
-  width: 540px;
-  padding:32px;
-  display: flex;
-  justify-content: center;
-  align-content: center;
-  flex-wrap: wrap;
+  padding: 10px 45px;
   background:white;
-  border-radius: 16px;
-  box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
+  box-shadow: 0 2px 4px rgb(0 0 0 / 6%), 0 8px 16px rgb(0 0 0 / 3%);
 }
 
-.card__form {
-  width: 100%;
+.card__container {
+  width: 90%;
 }
 
-form {
-  width: 100%;
+.card__links {
+  width: 12%;
+  display: flex;
+  justify-content: space-between;
 }
 
-.card__form input {
-  width: 100%;
-  box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
+.card__link {
+  text-decoration: none;
+   color: #1976D2;
 }
-
 .card__title {
   width: 100%;
   margin: 6px 0 6px 0;
@@ -101,7 +81,6 @@ form {
 
 .card__signup {
   width: 100%;
-  margin: 2% 41%;
   font-size: 17px;
   text-decoration: none;
   color: #1976D2;
@@ -137,28 +116,8 @@ form {
   background-color: #1976D2;
 }
 
-.logo-container {
-    display: flex;
-    justify-content: center;
-}
-
-.logo {
-    height: 130px;
-}
-
-form input {
-  width: 100%;
-  padding: 12px;
-  margin: 12px 0 12px 0;
-  border: none;
-  border-radius: 8px;
-  font-weight: 500;
-  font-size: 16px;
-  flex:1;
-  min-width: 100px;
-  color: black;
-  background:#f2f2f2;
-  box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
+.card__container--logo {
+    height: 50px;
 }
 
 /* MEDIA QUERIES */

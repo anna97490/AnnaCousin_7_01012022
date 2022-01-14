@@ -5,9 +5,10 @@
         <div class="post">
           <div class="post__container">
             <p class="post__header">Nom du user</p>
-            <div class="post__img">
-              <img class="post__img--profile" src="../assets/icon-left-font.png" alt="Photo du profil" />
+            <div class="post__asset">
+              <img class="post__asset--img" src="../assets/icon-left-font.png" alt="Image publiée" />
             </div>
+            <label class="post__label" for="description">Parlez-nous de vous:</label>
             <textarea class="post__text" aria-label="Contenu du message" required></textarea>
             <div class="post__btn">
               <button  class="post__btn--update"><strong>Modifier</strong></button>
@@ -66,6 +67,7 @@ export default {
   width: 100%;
   height: 150px;
   padding: 12px;
+  margin-top: 15px;
   margin-bottom: 35px;
   border: none;
   border-radius: 8px;

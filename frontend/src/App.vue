@@ -14,11 +14,6 @@
 }
 
 body {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  padding: 32px;
   background-color: #f0f2f5;
 }
 </style>

@@ -1,21 +1,23 @@
 <template>
-  <div class="card">
-    <div class="card__container">
-      <img class="logo" src="../assets/icon-above-font.png">
-    </div>
-    <h1 class="card__title" v-if="mode == 'signup'">Votre réseau social d'entreprise!</h1>
-    <router-link class="card__signup" to="/" width="100%"><strong>Se connecter</strong></router-link>
-    <form>
-      <div class="card__form">
-        <input class="card__form--input1" type="email" v-model="email" placeholder="Email" required aria-label="Email de connection">
-        <div class="card__form--name">
-          <input  class="card__form--input2"  type="firstname" v-model="firstname" placeholder="Prénom" required aria-label="Prénom pour la connection">
-          <input  class="card__form--input2"  type="lastname" v-model="lastname" placeholder="Nom" required aria-label="Nom pour la connection">
-        </div>
-        <input  class="card__form--input1" type="password" v-model="password" placeholder="Password" required aria-label="Mot de passe de connection"> 
+  <div class="body">
+    <div class="card">
+      <div class="card__container">
+        <img class="logo" src="../assets/icon-above-font.png">
       </div>
-    </form>
-    <button class="card__btn" @click="signup()" type="submit" aria-label="Se connecter"><strong>Se connecter</strong></button>
+      <h1 class="card__title" v-if="mode == 'signup'">Votre réseau social d'entreprise!</h1>
+      <router-link class="card__signup" to="/" width="100%"><strong>Se connecter</strong></router-link>
+      <form>
+        <div class="card__form">
+          <input class="card__form--input1" type="email" v-model="email" placeholder="Email" required aria-label="Email de connection">
+          <div class="card__form--name">
+            <input  class="card__form--input2"  type="firstname" v-model="firstname" placeholder="Prénom" required aria-label="Prénom pour la connection">
+            <input  class="card__form--input2"  type="lastname" v-model="lastname" placeholder="Nom" required aria-label="Nom pour la connection">
+          </div>
+          <input  class="card__form--input1" type="password" v-model="password" placeholder="Password" required aria-label="Mot de passe de connection"> 
+        </div>
+      </form>
+      <button class="card__btn" @click="signup()" type="submit" aria-label="Se connecter"><strong>Se connecter</strong></button>
+    </div>
   </div>
 </template>
 
@@ -60,9 +62,17 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+.body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 32px;
+}
+
 .card {
-  height: 575px;
+  height: auto;
   width: 540px;
   padding: 32px;
   display: flex;
