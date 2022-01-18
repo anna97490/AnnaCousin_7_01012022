@@ -1,5 +1,5 @@
 <template>
-    <router-view></router-view>
+  <router-view></router-view>
 </template>
 
 <style>
@@ -7,7 +7,7 @@
 
 * {
   font-family: 'Roboto', sans-serif;
-  margin:0;
+  margin: 0;
   padding: 0;
   box-sizing: border-box;
   max-width: 100%;

@@ -17,7 +17,9 @@ const normalizePort = (val) => {
 const port = normalizePort(process.env.PORT || '4200');
 app.set('port', port);
 
-app.get("/", (req, res) => { res.status(200).send('HelloWorld')});
+app.get('/', (req, res) => {
+  res.status(200).send('HelloWorld');
+});
 
 const errorHandler = (error) => {
   if (error.syscall !== 'listen') {

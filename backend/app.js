@@ -12,8 +12,8 @@ const commentRoutes = require('./routes/comment.routes');
 
 // Connexion à la base de donnée
 db.sync()
-.then(console.log('Connected to the Database!'))
-.catch(error => console.log(error));
+  .then(console.log('Connected to the Database!'))
+  .catch((error) => console.log(error));
 
 // Accès au corps de la req
 app.use(express.json());
@@ -26,19 +26,25 @@ app.use(cors());
 
 // Ajout des headers à l'objet réponse
 app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Credentials', true);
-    res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
-    next();
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Credentials', true);
+  res.setHeader(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization'
+  );
+  res.setHeader(
+    'Access-Control-Allow-Methods',
+    'GET, POST, PUT, DELETE, PATCH, OPTIONS'
+  );
+  next();
 });
-  
+
 // Les images
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
 // Routes
 app.use('/api/auth', userRoutes);
-app.use('/api/post', postRoutes);
+app.use('/api/posts', postRoutes);
 app.use('/api/comment', commentRoutes);
 
 module.exports = app;

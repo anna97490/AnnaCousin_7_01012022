@@ -1,179 +1,224 @@
 <template>
-  <div>
+  <div class="profil">
     <Header />
-      <div class="body">
-        <div class="post">
-          <div class="post__container">
-            <p class="post__header">Nom du user</p>
-            <div class="post__asset">
-              <img class="post__asset--img" src="../assets/icon-left-font.png" alt="Image publiée" />
-            </div>
-            <label class="post__label" for="description">Parlez-nous de vous:</label>
-            <textarea class="post__text" aria-label="Contenu du message" required></textarea>
-            <div class="post__btn">
-              <button  class="post__btn--update"><strong>Modifier</strong></button>
-              <button  class="post__btn--delete"><strong>Supprimer</strong></button>
-            </div>
+    <div class="profile__container">
+      <div class="profile__fields">
+        <h1 class="profile__title">Mon profil</h1>
+        <div class="profile__container">
+          <div class="profile__file">
+            <input
+              style="display: none"
+              type="file"
+              @change="onFileSelected"
+              ref="fileInput"
+            />
+            <label class="file-label" for="file"></label>
+            <button @click="$refs.fileInput.click()">
+              Sélectionnez votre image
+            </button>
+            <button @click="onUpload">Télécharger</button>
           </div>
+          <div class="profile__container1">
+            <p class="profile__datas">
+              <strong>Prénom: </strong>{{ user.firstname }}
+            </p>
+            <p class="profile__datas">
+              <strong>Nom: </strong>{{ user.lastname }}
+            </p>
+            <p class="profile__datas">
+              <strong>Email: </strong>{{ user.email }}
+            </p>
+            <p class="profile__datas">
+              Inscrit depuis le {{ dateTime(user.createdAt) }}
+            </p>
+            <p class="profile__datas" v-if="user.isAdmin">
+              <strong>Rôle:</strong>Administrateur
+            </p>
+          </div>
+          <button
+            @click="updateProfile()"
+            type="button"
+            class="profile__delete"
+          >
+            Modifier
+          </button>
+          <button
+            @click="deleteProfile()"
+            type="button"
+            class="profile__delete"
+          >
+            Supprimer votre compte
+          </button>
         </div>
       </div>
+      <div></div>
+    </div>
   </div>
 </template>
 
-<script scoped>
-import Header from "../components/Header";
-//import axios from "axios";
+<script>
+import instance from '../axios';
+import Header from '../components/Header.vue';
+import user from '../user';
+import moment from 'moment';
+
 export default {
-  name: 'Profile',
-  components: {
-    Header
+  data() {
+    return {
+      userId: user.userId,
+      user: {},
+      selectedFile: null,
+    };
   },
-}
+  components: {
+    Header,
+  },
+
+  created() {
+    this.getProfile();
+  },
+
+  methods: {
+    getProfile: function () {
+      instance
+        .get(`http://localhost:3000/api/auth/${user.userId}`, {
+          headers: { Authorization: 'Bearer ' + user.token },
+        })
+        .then((res) => {
+          this.user = res.data;
+          console.log(res.data);
+        })
+        .catch(() => {
+          this.message = 'Requete non authentifiée!';
+        });
+    },
+    dateTime: function (value) {
+      return moment(value).format('DD.MM.YY');
+    },
+    onFileSelected(event) {
+      console.log(event);
+      this.selectedFile = event.target.files[0];
+    },
+    onUpload() {
+      const fd = new FormData();
+      fd.append('imageUrl', this.selectedFile, this.selectedFile.name);
+      instance
+        .post(`http://localhost:3000/api/auth/${user.userId}/update`, fd)
+        .then((res) => {
+          console.log(res);
+        });
+    },
+    deleteProfile: function () {
+      if (confirm('Souhaitez-vous vraiment supprimer votre compte?')) {
+        instance
+          .delete(`http://localhost:3000/api/auth/${user.userId}/delete`, {
+            headers: { Authorization: 'Bearer ' + user.token },
+          })
+          .then((res) => {
+            if (res.status === 200) {
+              alert('Le profil a bien été supprimé !');
+            }
+            localStorage.clear();
+            this.$router.push('/');
+          })
+          .catch((res) => {
+            if (res.response.status == 500) {
+              alert('Erreur serveur!');
+            }
+          });
+      }
+    },
+  },
+};
 </script>
 
 <style scoped>
-.post__container {
+.profile__container {
+  padding: 32px;
+}
+
+.profile__fields {
   height: auto;
   width: 540px;
   padding: 32px;
-  background:white;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  flex-wrap: wrap;
+  background: white;
   border-radius: 16px;
   box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
 }
 
-.post {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  padding: 32px;
-}
-
-.post__header {
+.profile__datas {
   width: 100%;
-  padding: 2%;
+  margin: 5px 0;
 }
 
-.post__asset {
-  height: 250px;
-  margin-bottom: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.post__text {
-  font-size: 10px;
+.profile__title {
   width: 100%;
+  margin: 6px 0 6px 0;
+  text-align: center;
+  font-size: 20px;
+}
+
+.profile__subtitle {
+  color: white;
   height: 150px;
-  padding: 12px;
-  margin-top: 15px;
-  margin-bottom: 35px;
-  border: none;
-  border-radius: 8px;
-  background:#f2f2f2;
-  font-weight: 500;
-  font-size: 15px;
-  flex:1;
-  min-width: 100px;
-  color: black;
-  box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
-}
-
-.post__btn {
+  width: 180px;
+  background-color: #2e405e;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
+  align-items: center;
+  font-size: 15px;
+  padding: 10px;
+  margin: auto;
 }
 
-.post__btn--update {
-  width: 25%;
-  padding: 13px;
-  font-size: 17px;
-  border: none;
-  border-radius: 8px;
-  color:white;
-  background-color: #FF5533;
-  transform: scale(0.9);
-  transition-property: transform;
-  transition-duration: 0.4s;
-  box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
+.profile__img--type {
+  margin: 5px 0;
+  font-size: 12px;
 }
 
-.post__btn--update:hover {
-  transform: scale(1);
-  cursor: pointer;
-  background-color: #fc7156;
+.profile__container1 {
+  margin-top: 40px;
+  margin-bottom: 40px;
+  display: flex;
+  flex-wrap: wrap;
 }
 
-.post__btn--delete {
-  width: 25%;
-  padding: 13px;
-  font-size: 17px;
-  border: none;
-  border-radius: 8px;
-  color:white;
-  background-color: #1976D2;
-  transform: scale(0.9);
-  transition-property: transform;
-  transition-duration: 0.4s;
-  box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
-}
-
-.post__btn--delete:hover {
-  transform: scale(1);
-  cursor: pointer;
-  background-color: #4295e9;
-}
-
-.card__signup {
-  width: 100%;
-  margin: 2% 41%;
-  font-size: 17px;
-  text-decoration: none;
-  color: #1976D2;
-  transform: scale(0.9);
-  transition-property: transform;
-  transition-duration: 0.4s;
-}
-
-
-.card__btn {
-  width: 100%;
+.profile__delete {
+  width: 52%;
   padding: 16px;
   margin-top: 15px;
-  font-size: 17px;
   border: none;
+  font-size: 17px;
   border-radius: 8px;
-  color:white;
-  background-color: #FF5533;
+  color: white;
+  background-color: #ff5533;
   transform: scale(0.9);
   transition-property: transform;
   transition-duration: 0.4s;
   box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
 }
 
-.card__btn:hover {
+.profile__delete:hover {
+  background-color: #fd6546;
   transform: scale(1);
   cursor: pointer;
-  background-color: #1976D2;
 }
-
-
 
 /* MEDIA QUERIES */
-@media screen and (min-width: 1201px) and (max-width: 1500px) {
-
-}
-
-@media screen and (min-width: 993px) and (max-width: 1200px) {
-
-}
-
 @media screen and (min-width: 769px) and (max-width: 992px) {
-
+  .card {
+    width: 93%;
+  }
 }
 
-@media screen and (min-width: 481px) and (max-width: 768px) {}
-
-
+@media screen and (min-width: 300px) and (max-width: 768px) {
+  .card {
+    width: 98%;
+  }
+}
 </style>

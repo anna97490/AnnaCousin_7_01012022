@@ -2,26 +2,52 @@
   <div class="body">
     <div class="card">
       <div class="card__container">
-        <img class="logo" src="../assets/icon-above-font.png">
+        <img class="logo" src="../assets/icon-above-font.png" />
       </div>
-      <h1 class="card__title" v-if="mode == 'login'">Votre réseau social d'entreprise!</h1>
-      <router-link class="card__signup" to="/signup"><strong>S'enregistrer</strong></router-link>
-      <router-link class="card__signup" to="/posts" width="100%"><strong>Posts</strong></router-link>
-      <router-link class="card__signup" to="/profile" width="100%"><strong>Profile</strong></router-link>
+      <h1 class="card__title" v-if="mode == 'login'">
+        Votre réseau social d'entreprise!
+      </h1>
+      <router-link class="card__signup" to="/signup"
+        ><strong>S'enregistrer</strong></router-link
+      >
+      <router-link class="card__signup" to="/profile" width="100%"
+        ><strong>Profile</strong></router-link
+      >
       <form>
         <div class="card__form">
-          <input type="email" v-model="email" placeholder="Email" required aria-label="Email de connection">
+          <input
+            v-model="email"
+            type="text"
+            placeholder="Email"
+            required
+            aria-label="Email de connection"
+          />
           <!--<label for="email-adress">Mot de passe</label>-->
-          <input type="password" v-model="password" placeholder="Password" required aria-label="Mot de passe de connection"> 
+          <input
+            v-model="password"
+            type="password"
+            placeholder="Password"
+            required
+            aria-label="Mot de passe de connection"
+          />
         </div>
       </form>
-      <button class="card__btn" @click="login()" type="submit" aria-label="Se connecter"><strong>Se connecter</strong></button>
+      <button
+        class="card__btn"
+        @click="login()"
+        type="submit"
+        aria-label="Se connecter"
+      >
+        <strong>Se connecter</strong>
+      </button>
     </div>
-</div>
+  </div>
 </template>
 
 <script>
-import axios from "axios";
+//import user from '../user'
+import instance from '../axios';
+
 export default {
   name: 'Login',
   data: function () {
@@ -29,32 +55,38 @@ export default {
       mode: 'login',
       email: '',
       password: '',
-    }
+      //implémenter les regexp
+    };
   },
+
+  /*created() {
+    this.userLogCheck()
+  },*/
+
   methods: {
     login: function () {
-      let newUser = {
+      let user = {
         email: this.email,
-        password: this.password
-      }
-      axios.post("http://localhost:3000/api/users/login", newUser)
-      .then((res) => {
-        if (res.status === 201) {
-          localStorage.setItem("logged", JSON.stringify(res.data));
-          this.$router.push("/");
-        }
-      })
-      .catch((err) => {
-        localStorage.clear();
-        if (err.response.status === 401) {
-          this.error = "Connexion au serveur impossible.";
-        } else {
-          this.error = "Vérifiez vos identifiants. ";
-        }
-      })
+        password: this.password,
+      };
+      instance
+        .post('http://localhost:3000/api/auth/login', user)
+        .then((res) => {
+          if (res.status === 200) {
+            localStorage.setItem('user', JSON.stringify(res.data));
+            this.$router.push('/posts');
+          }
+        })
+        .catch((res) => {
+          if (res.response.status == 401) {
+            this.message = "Cet utilisateur n'existe pas !";
+          } else if (res.response.status == 500) {
+            this.message = 'Erreur serveur!';
+          }
+        });
     },
-  }
-}
+  },
+};
 </script>
 
 <style scoped>
@@ -62,19 +94,18 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
   padding: 32px;
 }
 
 .card {
   height: auto;
   width: 540px;
-  padding:32px;
+  padding: 32px;
   display: flex;
   justify-content: center;
   align-content: center;
   flex-wrap: wrap;
-  background:white;
+  background: white;
   border-radius: 16px;
   box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
 }
@@ -103,15 +134,14 @@ form {
   width: 100%;
   margin: 2% 41%;
   font-size: 17px;
-  text-decoration: none;
-  color: #1976D2;
+  color: #1976d2;
   transform: scale(0.9);
   transition-property: transform;
   transition-duration: 0.4s;
 }
 
 .card__signup:hover {
-  color: #4A90FF;
+  color: #4a90ff;
   transform: scale(1);
   cursor: pointer;
 }
@@ -123,8 +153,8 @@ form {
   font-size: 17px;
   border: none;
   border-radius: 8px;
-  color:white;
-  background-color: #FF5533;
+  color: white;
+  background-color: #ff5533;
   transform: scale(0.9);
   transition-property: transform;
   transition-duration: 0.4s;
@@ -134,16 +164,16 @@ form {
 .card__btn:hover {
   transform: scale(1);
   cursor: pointer;
-  background-color: #1976D2;
+  background-color: #1976d2;
 }
 
 .logo-container {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 
 .logo {
-    height: 130px;
+  height: 130px;
 }
 
 form input {
@@ -154,27 +184,23 @@ form input {
   border-radius: 8px;
   font-weight: 500;
   font-size: 16px;
-  flex:1;
+  flex: 1;
   min-width: 100px;
   color: black;
-  background:#f2f2f2;
+  background: #f2f2f2;
   box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
 }
 
 /* MEDIA QUERIES */
-@media screen and (min-width: 1201px) and (max-width: 1500px) {
-
-}
-
-@media screen and (min-width: 993px) and (max-width: 1200px) {
-
-}
-
 @media screen and (min-width: 769px) and (max-width: 992px) {
-
+  .card {
+    width: 93%;
+  }
 }
 
-@media screen and (min-width: 481px) and (max-width: 768px) {}
-
-
+@media screen and (min-width: 300px) and (max-width: 768px) {
+  .card {
+    width: 98%;
+  }
+}
 </style>
