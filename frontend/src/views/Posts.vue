@@ -1,39 +1,28 @@
 <template>
   <div>
     <Header />
-    <div>
-      <div class="posts__creation">
-        <h1>Découvrez toutes les publications</h1>
-        <h2>Créez votre publication:</h2>
-        <div class="posts__content">
-          <label for="text"><span>Rédigez votre texte:</span></label>
-          <textarea
-            id="text"
-            class="posts__text"
-            v-model="text"
-            aria-label="Contenu du message"
-          >
-          </textarea>
+    <div class="container">
+      <div class="posts-creation">
+        <h1>Créez votre publication:</h1>
+        <div class="posts-content">
+          <form>
+            <label for="text"><span>Rédigez votre publication:</span></label>
+            <textarea id="text" v-model="text" aria-label="Contenu du message"></textarea>
+          </form>
         </div>
-        <div class="posts__img">
-          <input
-            style="display: none"
-            type="file"
-            @change="onFileSelected"
-            ref="fileInput"
-          />
-          <label class="file-label" for="file"></label>
-          <button @click="$refs.fileInput.click()">
-            Sélectionnez votre image
-          </button>
-        </div>
-        <div class="posts__publish">
-          <button class="posts__publish--btn" @click="createPost()">
-            Publier
-          </button>
+        <div class="posts-file">
+          <div class="posts-img">
+            <label for="file"><span>Ajouter une image:</span></label>
+            <input type="file" id="file-input" name="image" enctype="multipart/form-data" @change="onFileSelected" accept="image/png, image/jpeg, image/jpg"/>
+            <div class="posts-publish">
+              <button class="create-btn" @click="createPost()">Publier</button>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="posts">
+    </div>
+    <div class="posts">
+      <div class="posts-container">
         <Post />
       </div>
     </div>
@@ -44,7 +33,6 @@
 import Post from '../components/Post.vue';
 import Header from '../components/Header.vue';
 import instance from '../axios';
-import user from '../user';
 
 export default {
   name: 'Posts',
@@ -54,133 +42,140 @@ export default {
   },
   data() {
     return {
-      id: '',
+      selectedFile: null,
       text: '',
-      imageUrl: '',
       fullName: '',
+      Filelist: {},
+      user: JSON.parse(localStorage.getItem('user')),
     };
   },
   created() {
     this.getProfile();
   },
   methods: {
-    onFileSelected(event) {
-      this.imageUrl = event.target.files[0];
-    },
     getProfile: function () {
-      instance
-        .get(`http://localhost:3000/api/auth/${user.userId}`, {
+      let user = JSON.parse(localStorage.getItem('user'))
+      instance.get(`http://localhost:3000/api/auth/${user.userId}`, {
           headers: { Authorization: 'Bearer ' + user.token },
         })
         .then((res) => {
-          console.log(res.data.firstname);
           this.fullName = `${res.data.firstname} ${res.data.lastname}`;
         })
-        .catch(() => {
-          this.message = 'Requete non authentifiée!';
+        .catch((err) => {
+          console.log(err)
         });
     },
+    onFileSelected(event) {
+      this.selectedFile = event.target.files[0];
+      console.log(10, this.selectedFile)
+    },
     createPost: function () {
-      console.log(this.fullName);
-      if (this.text == '') {
-        this.message = 'Veuillez écrire votre message!';
-        return;
-      }
+      const user = JSON.parse(localStorage.getItem('user'))
       let fd = new FormData();
-      fd.append('text', this.text);
-      fd.append('imageUrl', this.imageUrl);
       fd.append('userId', user.userId);
       fd.append('authorFullName', this.fullName);
-      instance
-        .post('http://localhost:3000/api/posts', fd, {
+       if (this.text != "") {
+        fd.append("text", this.text);
+      }
+       if (this.selectedFile) {
+        fd.append("image", this.selectedFile);
+      }
+       if (this.text || this.selectedFile) {
+         instance.post('http://localhost:3000/api/posts', fd, {
           headers: {
+            'Content-Type': 'multipart/form-data',
             Authorization: 'Bearer ' + user.token,
           },
         })
-        .then(() => {
-          this.message = 'Post created!!';
+        .then((res) => {
+          console.log(10, res);
+          alert('Votre publication a bien été créée!');
+          //this.$router.go();
         })
-        .catch(() => {});
+        .catch((req) => {
+          console.log(req.file)
+        });
+       } 
     },
   },
 };
 </script>
 
 <style scoped>
-.posts__creation {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
+.container {
+  padding: 0 29%;
+  background-color: #ffe6e1
+}
+
+.posts-creation {
+  padding: 15px;
   background-color: #ffe6e1;
 }
-.posts {
+
+.posts-content {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.posts-file {
+  width: 100%;
 }
 
 h1 {
-  margin: 20px 0 10px 0;
   width: 100%;
+  margin: 20px 0 10px 0;
   text-align: center;
   font-size: 20px;
 }
 
-h2 {
+form {
   width: 100%;
-  margin-bottom: 15px;
-  text-align: center;
-  font-size: 18px;
 }
 
-.posts__content {
+.posts-content label {
   width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-}
-
-.posts__content label {
-  width: 100%;
-  text-align: center;
   margin-bottom: 8px;
+  text-align: center;
   font-size: 15px;
 }
 
-textarea {
-  height: 100px;
-  width: 410px;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  font-size: 15px;
+#text {
+  width: 100%;
   padding: 10px;
-  margin-bottom: 20px;
+  margin-top: 5px;
+  border-radius: 4px;
+  font-size: 12px;
 }
 
-.posts__img {
+.posts-img {
   display: flex;
-  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  height: 60px;
 }
 
-.posts__img label {
+#file-input {
+  width: 200px;
+  font-size: 12px;
+}
+
+.posts-img label {
   width: 100%;
-  font-size: 15px;
   margin-bottom: 8px;
+  font-size: 15px;
 }
 
-.posts__publish {
-  width: 100%;
+.posts-publish {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.posts__publish--btn {
-  margin: 35px 0;
+.create-btn {
   padding: 16px;
+  margin-left: 30px;
   border: none;
   font-size: 17px;
   border-radius: 8px;
@@ -192,9 +187,26 @@ textarea {
   box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
 }
 
-.posts__publish--btn:hover {
+.create-btn:hover {
   background-color: #fd6546;
   transform: scale(1);
   cursor: pointer;
+}
+
+.posts-container {
+    background-color: #ffe6e1;
+    margin-top: 15px;
+    border-radius: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    width: 630px;
+    justify-content: center
+}
+
+.posts {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  background-color: #f7d0c8;
 }
 </style>

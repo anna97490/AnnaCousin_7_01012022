@@ -57,8 +57,7 @@ exports.login = (req, res, next) => {
 };
 
 exports.getOneUser = (req, res, next) => {
-  const id = req.body.id;
-  User.findOne(id)
+  User.findOne({ where: { id: req.params.id } })
     .then((user) => {
       if (!user) return res.status(404).json({ error: 'User not found!' });
       res.status(200).json({

@@ -5,22 +5,14 @@
         <img class="logo" src="../assets/icon-above-font.png" alt="Logo de la société Groupomania" />
       </div>
       <h1 class="title">Votre réseau social d'entreprise!</h1>
-      <router-link class="login" to="/"><strong>Se connecter</strong></router-link>
+      <p class="subtitle">Pas encore de compte? <router-link class="signup" to="/signup"><strong>S'enregistrer</strong></router-link></p>
       <form>
-        <div>
-          <label for="email">Email:</label>
-          <input id="email" type="email" v-model="email" aria-label="Email pour l'inscription" maxlength="255" pattern="[A-Za-z0-9._+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$" required/>
-          <div class="name-container">
-            <label for="lastname">Nom:</label>
-            <input id="lastname" type="lastname" v-model="lastname" aria-label="Nom pour l'inscription" maxlength="255" pattern="[A-Za-z0-9._+-]}$" required />
-            <label for="firstname">Prénom:</label>
-            <input id="firstname" type="firstname" v-model="firstname" aria-label="Prénom pour l'inscription" pattern="[A-Za-z0-9._+-]}$" required />
-          </div>
-          <label for="password">Mot de passe:</label>
-          <input id="password" type="password" v-model="password" aria-label="Mot de passe pour l'inscription" pattern="[A-Za-z0-9._+-]}$" required />
-        </div>
+        <label for="email"><strong>Email:</strong></label>
+        <input id="email" v-model="email" type="text" aria-label="Email de connexion" maxlength="255" pattern="[A-Za-z0-9._+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$" required />
+        <label for="password"><strong>Mot de passe:</strong></label>
+        <input id="password" v-model="password" type="password" maxlength="50" aria-label="Mot de passe de connexion" pattern="[A-Za-z0-9]$" required />
       </form>
-      <button class="signup-btn" @click="signup()" aria-label="S'inscrire"><strong>Se connecter</strong></button>
+      <button class="login-btn" @click="login()" aria-label="Se connecter"><strong>Se connecter</strong></button>
     </div>
   </div>
 </template>
@@ -29,25 +21,23 @@
 import instance from '../axios';
 
 export default {
-  name: 'Signup',
+  name: "Login",
   data: function () {
     return {
       email: '',
-      lastname: '',
-      firstname: '',
       password: '',
+      emailRegex: /^[A-Za-z0-9._+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/,
+      passwordRegex: /^[A-Za-z0-9]{6,50}$/
     };
   },
   methods: {
-    // Fonction de Signup
-    signup: function () {
+    // Fonction de Login
+    login: function () {
       let user = {
         email: this.email,
-        firstname: this.firstname,
-        lastname: this.lastname,
         password: this.password,
       };
-      instance.post('http://localhost:3000/api/auth/signup', user)
+      instance.post('http://localhost:3000/api/auth/login', user)
       .then((res) => {
         localStorage.setItem('user', JSON.stringify(res.data));
         this.$router.push('/posts')
@@ -92,13 +82,6 @@ export default {
   font-size: 15px;
 }
 
-.login {
-  margin: 13px;
-  margin-left: 5px;
-  font-size: 15px;
-  color: #A22D16;
-}
-
 form {
   width: 100%;
 }
@@ -118,14 +101,24 @@ input {
   box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
 }
 
-.signup-btn {
+.subtitle {
+  margin: 13px;
+  font-size: 15px;
+}
+
+.signup {
+  margin-left: 5px;
+  color: #A22D16;
+}
+
+.login-btn {
   width: 100%;
   padding: 16px;
-  margin-top: 25px;
+  margin-top: 15px;
   font-size: 17px;
   border: none;
   border-radius: 8px;
-  color: white;
+  color: #fff;
   background-color: #A22D16;
   transform: scale(0.9);
   transition-property: transform;
@@ -133,7 +126,7 @@ input {
   box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
 }
 
-.signup-btn:hover {
+.login-btn:hover {
   transform: scale(1);
   cursor: pointer;
 }

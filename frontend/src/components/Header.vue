@@ -1,47 +1,38 @@
 <template>
-  <div class="body">
-    <div class="card">
-      <div class="card__container">
-        <img class="card__container--logo" src="../assets/icon-left-font.png" />
+  <div>
+    <div class="header">
+      <div class="header-container">
+        <img class="logo" src="../assets/icon-left-font.png" />
       </div>
-      <div class="card__links">
-        <router-link class="card__link" to="/posts"
-          ><strong>Publications</strong></router-link
-        >
-        |
-        <router-link class="card__link" to="/profile"
-          ><strong>Profil</strong></router-link
-        >
-        |
-        <router-link class="card__link" to="/" @click="logout()"
-          ><strong>Déconnexion</strong></router-link
-        >
+      <div class="header-links">
+        <router-link class="header-link" to="/posts"><font-awesome-icon icon="coffee" /><strong>Publications</strong></router-link> |
+        <router-link class="header-link" to="/profile"><strong>Profil</strong></router-link> |
+        <span class="header-link" @click="logout()"><strong>Déconnexion</strong></span>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import user from '../user';
+
 export default {
   name: 'Header',
   data: function () {
     return {
-      mode: 'header',
       component: {},
     };
   },
   methods: {
     logout: function () {
-      localStorage.clear(user);
-      this.$router.go();
+      localStorage.clear();
+      this.$router.push("/");
     },
   },
 };
 </script>
 
 <style scoped>
-.card {
+.header {
   display: flex;
   align-items: center;
   padding: 10px 45px;
@@ -49,66 +40,38 @@ export default {
   box-shadow: 0 2px 4px rgb(0 0 0 / 6%), 0 8px 16px rgb(0 0 0 / 3%);
 }
 
-.card__container {
+.header-container {
   width: 83%;
 }
 
-.card__links {
-  width: 21%;
+.logo {
+  height: 50px;
+}
+
+.header-links {
   display: flex;
   justify-content: space-between;
+  width: 21%;
 }
 
-.card__link {
-  text-decoration: none;
-  color: #1976d2;
-}
-.card__title {
-  width: 100%;
-  margin: 6px 0 6px 0;
-  text-align: center;
-  font-size: 13px;
+.header-link:hover {
+  color: #388ce1;
+  transform: scale(1);
+  cursor: pointer;
 }
 
-.card__signin {
-  width: 100%;
-  font-size: 17px;
+.header-link {
   text-decoration: none;
-  color: #1976d2;
+  color: #ff5533;
   transform: scale(0.9);
   transition-property: transform;
   transition-duration: 0.4s;
 }
 
-.card__signin:hover {
-  color: #4a90ff;
+.header-link:hover {
+  color: #fd6546;
   transform: scale(1);
   cursor: pointer;
-}
-
-.card__btn {
-  width: 100%;
-  padding: 16px;
-  margin-top: 15px;
-  font-size: 17px;
-  border: none;
-  border-radius: 8px;
-  color: white;
-  background-color: #ff5533;
-  transform: scale(0.9);
-  transition-property: transform;
-  transition-duration: 0.4s;
-  box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
-}
-
-.card__btn:hover {
-  transform: scale(1);
-  cursor: pointer;
-  background-color: #1976d2;
-}
-
-.card__container--logo {
-  height: 50px;
 }
 
 /* MEDIA QUERIES */
