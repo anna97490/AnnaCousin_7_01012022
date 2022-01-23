@@ -1,19 +1,19 @@
 <template>
-  <div>
-    <h1>Découvrez toutes les publications:</h1>
+  <div class="card-container">
+    <h1 class="title">Découvrez toutes les publications:</h1>
     <div class="card" :key="index" v-for="(post, index) in allPosts">
       <div>
-        <p><strong>Publié par :</strong> {{ post.authorFullName }}</p>
-        <br />
-        <p class="card-date">
+        <p><strong>Publié par :</strong> {{ post.authorFullName }}
+         <button v-if="post.userId == user.userId" @click="deletePost(post)" class="delete-btn">Supprimer<font-awesome-icon icon="trash" class="trash" /></button>
+        </p>
+        <p class="date">
           le {{ dateTime(post.createdAt) }} à {{ hour(post.createdAt) }}
         </p>
         <br />
         <div class="image-container">
           <img v-if="post.imageUrl" class="image" :src="post.imageUrl" alt="Image postée" />
         </div>
-        <p class="card-text">{{ post.text }}</p>
-        <button v-if="post.userId == user.userId" @click="deletePost(post)" class="delete-btn"></button>
+        <p class="text">{{ post.text }}</p>
       </div>
     </div>
   </div>
@@ -89,7 +89,7 @@ export default {
           },
         })
         .then(() => {
-          this.$router.push('/posts');
+          this.$router.go();
         })
         .catch(() => {
           this.error;
@@ -101,24 +101,45 @@ export default {
 </script>
 
 <style scoped>
-.card {
-  height: auto;
-  width: 585px;
-  padding: 35px;
-  margin: 15px 0;
-  border: 15px solid #ffe6e1;
-  background: white;
-  box-shadow: 0 10px 5px rgb(0 0 0 / 5%), 0 16px 39px rgb(0 0 0 / 4%);
-}
-
-h1 {
+.title {
   font-size: 20px;
   text-align: center;
   padding-top: 15px;
   margin-top: 15px;
 }
 
-.card-date {
+.card {
+  height: auto;
+  width: 585px;
+  padding: 35px;
+  margin: 20px 0;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 6px 9px rgb(0 0 0 / 5%), 0 18px 10px rgb(0 0 0 / 4%);
+}
+
+.delete-btn {
+  float: right;
+  border: none;
+  font-size: 17px;
+  border-radius: 8px;
+  color: #A22D16;
+  transform: scale(0.9);
+  transition-property: transform;
+  transition-duration: 0.4s;
+}
+
+.delete-btn:hover {
+  transform: scale(1);
+  cursor: pointer;
+}
+
+.trash {
+  margin-left: 10px;
+}
+
+.date {
+  margin-top: 5px;
   font-size: 12px;
 }
 
@@ -134,30 +155,33 @@ h1 {
   height: 70px;
 }
 
-.card-text {
+.text {
   padding: 10px;
   border-radius: 4px;
-  background-color: #EFEFEF;
+  background-color: #f3f3f3;
 }
 
-.delete-btn {
-  margin: 15px 0;
-  padding: 16px;
-  border: none;
-  font-size: 17px;
-  border-radius: 8px;
-  color: white;
-  background-color: #ff5533;
-  transform: scale(0.9);
-  transition-property: transform;
-  transition-duration: 0.4s;
-  box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
+/* MEDIA QUERIES */
+@media screen and (min-width: 769px) and (max-width: 992px) {
+  .card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .card {
+    width: 95%;
+  }
 }
 
-.delete-btn:hover {
-  background-color: #fd6546;
-  transform: scale(1);
-  cursor: pointer;
+@media screen and (min-width: 300px) and (max-width: 768px) {
+  .card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .card {
+    width: 95%;
+  }
 }
 
 </style>

@@ -69,7 +69,7 @@ exports.deletePost = (req, res, next) => {
       return res.status(404).json({ message: 'User not found!' })
     } else if(post.imageUrl != null) {
       const filename = post.imageUrl.split('/images/')[1];
-      fs.unlink({where: { id: req.params.id}}`images/${filename}`, () => {
+      fs.unlink(`images/${filename}`, () => {
       Post.destroy({ where: { id: req.params.id }})
       .then(() => {
         return res.status(200).json({message: 'Post successfully deleted!'});  

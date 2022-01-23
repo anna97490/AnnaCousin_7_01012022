@@ -1,6 +1,5 @@
 const sequelize = require('sequelize');
 const db = require('../config/database');
-const Comment = require('./comment.models');
 const { DataTypes } = sequelize;
 
 const Post = db.define('post', {
@@ -34,11 +33,7 @@ const Post = db.define('post', {
   },
 });
 
-Post.hasMany(Comment, {
-  /*foreignKey: 'postId',*/ onDelete: 'cascade',
-  onUpdate: 'cascade',
-  hooks: 'true',
-});
+
 //Comment.belongsTo(Post, { foreignKey: 'postId' });
 
 Post.sync();

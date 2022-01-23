@@ -8,7 +8,6 @@ const cors = require('cors');
 // Routers
 const userRoutes = require('./routes/user.routes');
 const postRoutes = require('./routes/post.routes');
-const commentRoutes = require('./routes/comment.routes');
 
 // Connexion à la base de donnée
 db.sync()
@@ -45,6 +44,5 @@ app.use('/images', express.static(path.join(__dirname, 'images')));
 // Routes
 app.use('/api/auth', userRoutes);
 app.use('/api/posts', postRoutes);
-app.use('/api/comment', commentRoutes);
 
 module.exports = app;

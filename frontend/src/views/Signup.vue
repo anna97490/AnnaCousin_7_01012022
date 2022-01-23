@@ -5,18 +5,18 @@
         <img class="logo" src="../assets/icon-above-font.png" alt="Logo de la société Groupomania" />
       </div>
       <h1 class="title">Votre réseau social d'entreprise!</h1>
-      <router-link class="login" to="/"><strong>Se connecter</strong></router-link>
+      <router-link class="login" to="/" aria-label="Lien vers la connexion"><strong>Se connecter</strong></router-link>
       <form>
         <div>
-          <label for="email">Email:</label>
+          <label for="email"><strong>Email:</strong></label>
           <input id="email" type="email" v-model="email" aria-label="Email pour l'inscription" maxlength="255" pattern="[A-Za-z0-9._+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$" required/>
           <div class="name-container">
-            <label for="lastname">Nom:</label>
+            <label for="lastname"><strong>Nom:</strong></label>
             <input id="lastname" type="lastname" v-model="lastname" aria-label="Nom pour l'inscription" maxlength="255" pattern="[A-Za-z0-9._+-]}$" required />
-            <label for="firstname">Prénom:</label>
+            <label for="firstname"><strong>Prénom:</strong></label>
             <input id="firstname" type="firstname" v-model="firstname" aria-label="Prénom pour l'inscription" pattern="[A-Za-z0-9._+-]}$" required />
           </div>
-          <label for="password">Mot de passe:</label>
+          <label for="password"><strong>Mot de passe:</strong></label>
           <input id="password" type="password" v-model="password" aria-label="Mot de passe pour l'inscription" pattern="[A-Za-z0-9._+-]}$" required />
         </div>
       </form>
@@ -36,6 +36,7 @@ export default {
       lastname: '',
       firstname: '',
       password: '',
+      imageUrl: ''
     };
   },
   methods: {
@@ -46,11 +47,13 @@ export default {
         firstname: this.firstname,
         lastname: this.lastname,
         password: this.password,
+        imageUrl: this.imageUrl
       };
       instance.post('http://localhost:3000/api/auth/signup', user)
       .then((res) => {
         localStorage.setItem('user', JSON.stringify(res.data));
         this.$router.push('/posts')
+        console.log(17,res.data)
       })
       .catch((err) => {
         alert(err)
@@ -76,7 +79,7 @@ export default {
   height: auto;
   width: 540px;
   padding: 32px;
-  background: white;
+  background: #fff;
   border-radius: 16px;
   box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
 }

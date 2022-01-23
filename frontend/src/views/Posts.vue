@@ -3,21 +3,20 @@
     <Header />
     <div class="container">
       <div class="posts-creation">
-        <h1>Créez votre publication:</h1>
+        <h1 class="title">Créez votre publication:</h1>
         <div class="posts-content">
           <form>
-            <label for="text"><span>Rédigez votre publication:</span></label>
+            <label for="text"><span>Rédigez votre texte:</span></label>
             <textarea id="text" v-model="text" aria-label="Contenu du message"></textarea>
           </form>
         </div>
         <div class="posts-file">
           <div class="posts-img">
-            <label for="file"><span>Ajouter une image:</span></label>
-            <input type="file" id="file-input" name="image" enctype="multipart/form-data" @change="onFileSelected" accept="image/png, image/jpeg, image/jpg"/>
-            <div class="posts-publish">
+            <input type="file" id="file" name="image" enctype="multipart/form-data" @change="onFileSelected" aria-label="Choisir une image" />
+          </div>
+          <div class="publish">
               <button class="create-btn" @click="createPost()">Publier</button>
             </div>
-          </div>
         </div>
       </div>
     </div>
@@ -103,13 +102,15 @@ export default {
 
 <style scoped>
 .container {
-  padding: 0 29%;
-  background-color: #ffe6e1
+  display: flex;
+  justify-content: center;
 }
 
 .posts-creation {
+  width: 636px;
   padding: 15px;
   background-color: #ffe6e1;
+  border-radius: 10px;
 }
 
 .posts-content {
@@ -119,11 +120,7 @@ export default {
   width: 100%;
 }
 
-.posts-file {
-  width: 100%;
-}
-
-h1 {
+.title {
   width: 100%;
   margin: 20px 0 10px 0;
   text-align: center;
@@ -143,44 +140,46 @@ form {
 
 #text {
   width: 100%;
-  padding: 10px;
-  margin-top: 5px;
-  border-radius: 4px;
+  padding: 8px;
+  margin: 5px 0 15px;
+  border-radius: 22px;
   font-size: 12px;
 }
 
-.posts-img {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 60px;
+.posts-file {
+  width: 100%;
 }
 
-#file-input {
+.posts-img {
+  height: 40px;
+}
+
+#file {
+  float: right;
   width: 200px;
   font-size: 12px;
 }
 
 .posts-img label {
-  width: 100%;
+  width: 140px;
   margin-bottom: 8px;
   font-size: 15px;
 }
 
-.posts-publish {
+.publish {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .create-btn {
-  padding: 16px;
-  margin-left: 30px;
-  border: none;
+  width: 74%;
+  padding: 12px;
   font-size: 17px;
+  border: none;
   border-radius: 8px;
   color: white;
-  background-color: #ff5533;
+  background-color: #A22D16;
   transform: scale(0.9);
   transition-property: transform;
   transition-duration: 0.4s;
@@ -188,18 +187,17 @@ form {
 }
 
 .create-btn:hover {
-  background-color: #fd6546;
   transform: scale(1);
   cursor: pointer;
 }
 
 .posts-container {
-    background-color: #ffe6e1;
-    margin-top: 15px;
+    background-color: #ffe6e1;;
+    margin-top: 20px;
     border-radius: 10px;
     display: flex;
     flex-wrap: wrap;
-    width: 630px;
+    width: 636px;
     justify-content: center
 }
 
@@ -207,6 +205,30 @@ form {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  background-color: #f7d0c8;
+  background-color: #f2f2f2;
+}
+
+/* MEDIA QUERIES */
+@media screen and (min-width: 769px) and (max-width: 992px) {
+  .posts-creation {
+    width: 100%;
+    padding: 20px;
+  }
+  .posts-container{
+    width: 100%;
+    display: block;
+  }
+}
+
+@media screen and (min-width: 300px) and (max-width: 768px) {
+    .posts-creation {
+    width: 100%;
+    padding: 20px;
+  }
+  .posts-container{
+    width: 100%;
+    display: block;
+  }
+  
 }
 </style>
