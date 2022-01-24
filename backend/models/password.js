@@ -8,7 +8,7 @@ passwordSchema
   .is()
   .min(6)
   .is()
-  .max(70)
+  .max(50)
   .has()
   .uppercase(1)
   .has()

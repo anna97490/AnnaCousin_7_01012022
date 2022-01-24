@@ -9,9 +9,16 @@
       <form>
         <label for="email"><strong>Email:</strong></label>
         <input id="email" v-model="email" type="text" aria-label="Email de connexion" maxlength="255" pattern="[A-Za-z0-9._+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$" required />
+        <div class="error">
+          <p class="error-message" v-if="this.email == false">{{ message }}</p>
+        </div>
         <label for="password"><strong>Mot de passe:</strong></label>
         <input id="password" v-model="password" type="password" maxlength="50" aria-label="Mot de passe de connexion" pattern="[A-Za-z0-9]$" required />
+        <div class="error">
+          <p class="error-message" v-if="this.password == false">{{ message }}</p>
+        </div>
       </form>
+      <p class="error-message" v-if="this.email == '' || this.password == ''">{{ message }}</p>
       <button class="login-btn" @click="login()" aria-label="Se connecter"><strong>Se connecter</strong></button>
     </div>
   </div>
@@ -26,25 +33,43 @@ export default {
     return {
       email: '',
       password: '',
-      emailRegex: /^[A-Za-z0-9._+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/,
-      passwordRegex: /^[A-Za-z0-9]{6,50}$/
+      message: '',
+      emailRegex: /^[a-z0-9._-]+@[a-z0-9.-]{2,}[.][a-z]{2,4}$/,
+      passwordRegex: /^((?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,50})$/
     };
+  },
+  computed: {
+    validation: function () {
+      if (this.email != "" && this.password != "") {
+          return true
+      } else {
+          return false
+      }  
+    }
   },
   methods: {
     // Fonction de Login
     login: function () {
+      let emailTest = this.emailRegex.test(this.email)
+      let passwordTest = this.passwordRegex.test(this.password)
       let user = {
         email: this.email,
         password: this.password,
       };
-      instance.post('http://localhost:3000/api/auth/login', user)
-      .then((res) => {
-        localStorage.setItem('user', JSON.stringify(res.data));
-        this.$router.push('/posts')
-      })
-      .catch((err) => {
-        alert(err)
-      });
+      if (emailTest == false || this.email == false) {
+        this.message = 'Email non valide'
+      } else if (passwordTest == false || this.password == false) {
+        this.message = 'Mot de passe non valide'
+      } else {
+        instance.post('http://localhost:3000/api/auth/login', user)
+        .then((res) => {
+          localStorage.setItem('user', JSON.stringify(res.data));
+          this.$router.push('/posts')
+        })
+        .catch((err) => {
+          alert(err)
+        });
+      }
     },
   },
 };
@@ -104,6 +129,11 @@ input {
 .subtitle {
   margin: 13px;
   font-size: 15px;
+}
+
+.error-message {
+  margin-bottom: 18px;
+  color: red;
 }
 
 .signup {

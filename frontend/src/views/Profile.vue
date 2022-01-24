@@ -6,13 +6,13 @@
         <h1 class="title">Bienvenue sur votre profil {{ userInfo.firstname }} !</h1>
         <div class="profile-container">
           <div class="picture-container">
-            <img v-if="this.selectedFile" :src="this.selectedFile" />
+            <img v-if="this.userInfo.imageUrl" :src="this.userInfo.imageUr" />
             <img v-else src="../assets/img-user-default.jpg" />
           </div>
           <div>
             <div class="posts-img">
               <label for="file">Choisir une nouvelle image de profil:</label>
-              <input type="file" id="file-input" name="image" enctype="multipart/form-data" @change="onFileSelected" /> 
+              <input type="file" id="file-input" name="image" enctype="multipart/form-data" @change="onFileSelected" aria-label="Choisir une image" /> 
             </div>
             <div class="btn-container">
               <button class="save-btn" @click="addPicture()">Sauvegarder</button>
@@ -35,11 +35,6 @@
               <strong>Rôle:</strong>Administrateur
             </p>
           </div>
-          <!--<button
-            class="profile__delete"
-            type="button"
-            @click="updateProfile()"
-          ></button>-->
           <button @click="deleteProfile()" type="button" class="delete-btn">Supprimer le compte</button>
         </div>
       </div>
@@ -65,25 +60,22 @@ export default {
   components: {
     Header,
   },
-  created() {
-    this.getProfile()
+  mounted() {
+    this.account = JSON.parse(localStorage.getItem('user'))
+    if (this.account?.userId) {
+      instance.get(`http://localhost:3000/api/auth/${this.account.userId}`, {
+        headers: { Authorization: 'Bearer ' + this.account.token },
+      })
+      .then((res) => {
+        this.userInfo = res.data;
+        this.isAdmin = this.account.isAdmin
+      })
+      .catch((err) => {
+        console.log(err)
+      });
+    }
   },
   methods: {
-    getProfile: function () {
-      this.account = JSON.parse(localStorage.getItem('user'))
-      if (this.account?.userId) {
-        instance.get(`http://localhost:3000/api/auth/${this.account.userId}`, {
-            headers: { Authorization: 'Bearer ' + this.account.token },
-          })
-        .then((res) => {
-          this.userInfo = res.data;
-          this.isAdmin = this.account.isAdmin
-        })
-        .catch(() => {
-          this.message = 'Requete non authentifiée!';
-        });
-      }
-    },
     dateTime: function (value) {
       return moment(value).format('DD.MM.YY');
     },
@@ -92,28 +84,23 @@ export default {
         console.log(10, this.selectedFile)
 			},
     addPicture() {
-     this.account = JSON.parse(localStorage.getItem('user'))
-				const fd = new FormData();
+      let user = JSON.parse(localStorage.getItem('user'))
+			const fd = new FormData();
 				fd.append("image", this.selectedFile);
-				instance.put(`http://localhost:3000/api/auth/${this.account.userId}/update`, fd, {
+				instance.put(`http://localhost:3000/api/auth/${user.userId}/update`, fd, {
 					headers: {
-						'Authorization': 'Bearer ' + this.account.token,
+						'Authorization': 'Bearer ' + user.token,
 						'Content-Type': 'multipart/form-data'
 					}
 				})
-				.then((res) => {
-					console.log(res)
-				})
-				.catch(err => {
-          console.log(err)
-				})
       .then((res) => {
-          console.log(10, res.data);
-          //this.$router.go();
-        })
-        .catch((req) => {
-          console.log(req.file)
-        });
+        this.$router.go();
+        console.log(10, res.data);
+        //this.$router.go();
+      })
+      .catch((req) => {
+        console.log(req.file)
+      });
     },
     deleteProfile: function () {
       if (confirm('Souhaitez-vous vraiment supprimer votre compte?')) {
@@ -216,6 +203,11 @@ img {
   box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
 }
 
+.save-btn:hover {
+  transform: scale(1);
+  cursor: pointer;
+}
+
 .datas-container {
   display: flex;
   flex-wrap: wrap;
@@ -238,7 +230,6 @@ img {
 }
 
 .delete-btn:hover {
-  background-color: #fd6546;
   transform: scale(1);
   cursor: pointer;
 }

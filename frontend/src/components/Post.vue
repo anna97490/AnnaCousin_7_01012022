@@ -3,15 +3,19 @@
     <h1 class="title">Découvrez toutes les publications:</h1>
     <div class="card" :key="index" v-for="(post, index) in allPosts">
       <div>
-        <p><strong>Publié par :</strong> {{ post.authorFullName }}
-         <button v-if="post.userId == user.userId" @click="deletePost(post)" class="delete-btn">Supprimer<font-awesome-icon icon="trash" class="trash" /></button>
+        <p class="user-infos">
+          <img class="profile-picture" :src="userInfo.imageUrl">
+          <strong>Publié par :</strong> {{ post.authorFullName }}
+          <button v-if="post.userId == user.userId" @click="deletePost(post)" class="delete-btn">Supprimer<font-awesome-icon icon="trash" class="trash" /></button>
         </p>
         <p class="date">
           le {{ dateTime(post.createdAt) }} à {{ hour(post.createdAt) }}
         </p>
         <br />
-        <div class="image-container">
+        <div class="image-container" v-if="post.imageUrl">
           <img v-if="post.imageUrl" class="image" :src="post.imageUrl" alt="Image postée" />
+        </div>
+         <div class="image-container1" v-if="post.imageUrl == null" style height="20">
         </div>
         <p class="text">{{ post.text }}</p>
       </div>
@@ -32,12 +36,13 @@ export default {
       post: {},
       userId: this.userId,
       isAdmin: this.isAdmin,
+      account: null,
+      userInfo: {}
     };
   },
-  //created(post) {
-    //console.log(2, this.user.userId)
-    //console.log(3,post)
-  //},
+  created() {
+    this.getProfile()
+  },
   mounted() {
     const user = JSON.parse(localStorage.getItem('user'))
     instance.get(`http://localhost:3000/api/posts`, {
@@ -56,6 +61,21 @@ export default {
     });
   },
   methods: {
+    getProfile: function() {
+      this.account = JSON.parse(localStorage.getItem('user'))
+      if (this.account?.userId) {
+        instance.get(`http://localhost:3000/api/auth/${this.account.userId}`, {
+          headers: { Authorization: 'Bearer ' + this.account.token },
+        })
+        .then((res) => {
+          this.userInfo = res.data;
+          this.isAdmin = this.account.isAdmin
+        })
+        .catch((err) => {
+          console.log(err)
+        });
+      }
+    },
     getOneUser: function (post) {
       const user = JSON.parse(localStorage.getItem('user'))
       let id = post.userId;
@@ -116,6 +136,15 @@ export default {
   background: white;
   border-radius: 10px;
   box-shadow: 0 6px 9px rgb(0 0 0 / 5%), 0 18px 10px rgb(0 0 0 / 4%);
+}
+
+.user-infos {
+  display: flex;
+}
+
+.profile-picture {
+  width: 20px;
+  height: 20px;
 }
 
 .delete-btn {

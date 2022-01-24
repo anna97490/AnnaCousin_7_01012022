@@ -15,8 +15,8 @@
             <input type="file" id="file" name="image" enctype="multipart/form-data" @change="onFileSelected" aria-label="Choisir une image" />
           </div>
           <div class="publish">
-              <button class="create-btn" @click="createPost()">Publier</button>
-            </div>
+            <button class="create-btn" @click="createPost()">Publier</button>
+          </div>
         </div>
       </div>
     </div>
@@ -45,31 +45,34 @@ export default {
       text: '',
       fullName: '',
       Filelist: {},
+      userInfo: {},
+      account: null,
       user: JSON.parse(localStorage.getItem('user')),
     };
   },
-  created() {
-    this.getProfile();
+  mounted() {
+    this.account = JSON.parse(localStorage.getItem('user'))
+    if (this.account?.userId) {
+      instance.get(`http://localhost:3000/api/auth/${this.account.userId}`, {
+        headers: { Authorization: 'Bearer ' + this.account.token },
+      })
+      .then((res) => {
+        this.userInfo = res.data;
+        this.fullName = `${res.data.firstname} ${res.data.lastname}`;
+        console.log(20, this.userInfo)
+      })
+      .catch((err) => {
+        console.log(err)
+      });
+    } 
   },
   methods: {
-    getProfile: function () {
-      let user = JSON.parse(localStorage.getItem('user'))
-      instance.get(`http://localhost:3000/api/auth/${user.userId}`, {
-          headers: { Authorization: 'Bearer ' + user.token },
-        })
-        .then((res) => {
-          this.fullName = `${res.data.firstname} ${res.data.lastname}`;
-        })
-        .catch((err) => {
-          console.log(err)
-        });
-    },
     onFileSelected(event) {
       this.selectedFile = event.target.files[0];
-      console.log(10, this.selectedFile)
+      console.log(1, this.selectedFile)
     },
     createPost: function () {
-      const user = JSON.parse(localStorage.getItem('user'))
+      let user = JSON.parse(localStorage.getItem('user'))
       let fd = new FormData();
       fd.append('userId', user.userId);
       fd.append('authorFullName', this.fullName);
@@ -79,7 +82,9 @@ export default {
        if (this.selectedFile) {
         fd.append("image", this.selectedFile);
       }
-       if (this.text || this.selectedFile) {
+      if (this.text == "" || this.selectedFile == "") {
+        alert('Veuillez écrire votre texte')
+      } else {
          instance.post('http://localhost:3000/api/posts', fd, {
           headers: {
             'Content-Type': 'multipart/form-data',
@@ -87,14 +92,15 @@ export default {
           },
         })
         .then((res) => {
-          console.log(10, res);
+          localStorage.setItem('post', JSON.stringify(res.data));
+          console.log(10, res.data);
           alert('Votre publication a bien été créée!');
-          //this.$router.go();
+          this.$router.go();
         })
-        .catch((req) => {
-          console.log(req.file)
+        .catch(() => {
+          alert('Veuillez écrire votre texte')
         });
-       } 
+      } 
     },
   },
 };

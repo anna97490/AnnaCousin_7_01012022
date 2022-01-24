@@ -75,14 +75,9 @@ exports.getOneUser = (req, res, next) => {
 
 // Modifier le profil
 exports.updateUser = (req, res, next) => {
-  const userObject = req.file
-    ? {
-        ...JSON.parse(req.body),
-        imageUrl: `${req.protocol}://${req.get('host')}/images/${
-          req.file.filename
-        }`,
-      }
-    : { ...req.body };
+  const userObject = {
+    imageUrl: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`
+  } 
   User.findOne({ where: { id: req.params.id } })
     .then((user) => {
       if (!user) {

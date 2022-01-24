@@ -10,14 +10,26 @@
         <div>
           <label for="email"><strong>Email:</strong></label>
           <input id="email" type="email" v-model="email" aria-label="Email pour l'inscription" maxlength="255" pattern="[A-Za-z0-9._+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$" required/>
+          <div class="error">
+            <p class="error-message" v-if="this.email == false">{{ message }}</p>
+          </div>
           <div class="name-container">
             <label for="lastname"><strong>Nom:</strong></label>
-            <input id="lastname" type="lastname" v-model="lastname" aria-label="Nom pour l'inscription" maxlength="255" pattern="[A-Za-z0-9._+-]}$" required />
+            <input id="lastname" type="lastname" v-model="lastname" aria-label="Nom pour l'inscription" maxlength="255" pattern="[A-Za-z0-9._+-]$" required />
+            <div class="error">
+              <p class="error-message"  v-if="this.lastname == false">{{ message }}</p>
+            </div>
             <label for="firstname"><strong>Prénom:</strong></label>
-            <input id="firstname" type="firstname" v-model="firstname" aria-label="Prénom pour l'inscription" pattern="[A-Za-z0-9._+-]}$" required />
+            <input id="firstname" type="firstname" v-model="firstname" aria-label="Prénom pour l'inscription" pattern="[A-Za-z0-9._+-]$" required />
+            <div class="error">
+              <p class="error-message"  v-if="this.firstname == false">{{ message }}</p>
+            </div>
           </div>
           <label for="password"><strong>Mot de passe:</strong></label>
-          <input id="password" type="password" v-model="password" aria-label="Mot de passe pour l'inscription" pattern="[A-Za-z0-9._+-]}$" required />
+          <input id="password" type="password" v-model="password" aria-label="Mot de passe pour l'inscription" pattern="[A-Za-z0-9._+-]$" required />
+          <div class="error">
+              <p class="error-message" v-if="this.password == false">{{ message }}</p>
+            </div>
         </div>
       </form>
       <button class="signup-btn" @click="signup()" aria-label="S'inscrire"><strong>Se connecter</strong></button>
@@ -36,12 +48,28 @@ export default {
       lastname: '',
       firstname: '',
       password: '',
-      imageUrl: ''
+      imageUrl: '',
+      message: '',
+      nameRegex: /^[A-Za-z0-9._+-]+$/,
+      emailRegex: /^[A-Za-z0-9._+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/,
+      passwordRegex: /^[A-Za-z0-9]{6,50}$/
     };
+  },
+  computed: {
+    validation: function () {
+      if (this.email != "" && this.password != "" && this.firstname != "" && this.lastname != "") {
+          return true
+      } else {
+          return false
+      }  
+    }
   },
   methods: {
     // Fonction de Signup
     signup: function () {
+      let nameTest = this.nameRegex.test(this.firstname && this.lastname)
+      let emailTest = this.emailRegex.test(this.email)
+      let passwordTest = this.passwordRegex.test(this.password)
       let user = {
         email: this.email,
         firstname: this.firstname,
@@ -49,15 +77,22 @@ export default {
         password: this.password,
         imageUrl: this.imageUrl
       };
-      instance.post('http://localhost:3000/api/auth/signup', user)
-      .then((res) => {
-        localStorage.setItem('user', JSON.stringify(res.data));
-        this.$router.push('/posts')
-        console.log(17,res.data)
-      })
-      .catch((err) => {
-        alert(err)
-      });
+      if (emailTest == false || this.email == false) {
+        this.message = 'Email non valide'
+      } else if (passwordTest == false || this.password == false) {
+        this.message = 'Mot de passe non valide'
+      } else if (nameTest == false || this.firstname == false || this.lastname == false) {
+        this.message = 'Veuillez taper uniquement des lettres'
+      } else  {
+        instance.post('http://localhost:3000/api/auth/signup', user)
+        .then(() => {
+          alert('Votre compte a bien été créé, veuillez vous connecter')
+          this.$router.push('/')
+        })
+        .catch((err) => {
+          alert(err)
+        });
+      }
     },
   },
 };
