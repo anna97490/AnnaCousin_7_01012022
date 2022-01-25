@@ -58,13 +58,13 @@ export default {
   text-decoration: none;
   font-size: 25px;
   color: #A22D16;
-  transform: scale(0.9);
+  transform: scale(1);
   transition-property: transform;
   transition-duration: 0.4s;
 }
 
 .header-link:hover {
-  transform: scale(1);
+  transform: scale(1.2);
   cursor: pointer;
 }
 

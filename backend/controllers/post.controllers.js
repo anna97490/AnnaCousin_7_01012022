@@ -10,7 +10,7 @@ exports.createPost = (req, res, next) => {
         date: req.body.date,
         imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
         userId: req.body.userId,
-        authorFullName: req.body.authorFullName
+        authorFullName: req.body.authorFullName,
     })
     .then(() => res.status(201).json({message: 'Post successfully created!'}))
     .catch( error => res.status(400).json({error}));
@@ -19,12 +19,30 @@ exports.createPost = (req, res, next) => {
         text: req.body.text,
         date: req.body.date,
         userId: req.body.userId,
-        authorFullName: req.body.authorFullName
+        authorFullName: req.body.authorFullName,
     })
     .then(() => res.status(201).json({message: 'Post successfully created!'}))
     .catch( error => res.status(500).json({error: 'Post pas posté'}));
+  }
 }
-}
+
+//exports.updateLike = (req, res, next) => {
+  //Post.update({like: +1}, { where: { id: req.params.id } })
+  //.then((post) => {
+    //if(!post) return res.status(404).json({ error: "Post not found!" });
+    //res.status(200).json(post);
+  //})
+  //.catch((error) => res.status(404).json({ error }));
+//}
+
+//exports.updateDislike = (req, res, next) => {
+ // Post.update({like: -1}, { where: { id: req.params.id } })
+ // .then((post) => {
+ //   if(!post) return res.status(404).json({ error: "Post not found!" });
+//    res.status(200).json(post);
+//  })
+ // .catch((error) => res.status(404).json({ error }));
+//}
 
 // Lire un post
 exports.getOnePost = (req, res, next) => {
@@ -38,16 +56,22 @@ exports.getOnePost = (req, res, next) => {
 
 // Lire tous les posts
 exports.getAllPost = (req, res, next) => {
-  Post.findAll()
-    .then((posts) => res.status(200).json(posts))
-    .catch((error) => res.status(400).json({ error}));
+  Post.findAll({
+    order: [
+      ['date', 'DESC']
+    ]
+  })
+  .then((posts) => res.status(200).json(posts))
+  .catch((error) => res.status(400).json({ error}));
 };
 
 // Modifier un post
 exports.updatePost = (req, res, next) => {
   const postObject = req.file ? {
-    ...JSON.parse(req.body),
-    imageUrl: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`
+    text: req.body.text,
+    imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
+    userId: req.body.userId,
+    authorFullName: req.body.authorFullName,
   } : { ...req.body}
   Post.findOne({where: { id: req.params.id }})
   .then(post => {
@@ -67,10 +91,11 @@ exports.deletePost = (req, res, next) => {
   .then((post) => {
     if (!post) {
       return res.status(404).json({ message: 'User not found!' })
-    } else if(post.imageUrl != null) {
+    } else if(post.imageUrl !== null) {
       const filename = post.imageUrl.split('/images/')[1];
-      fs.unlink(`images/${filename}`, () => {
-      Post.destroy({ where: { id: req.params.id }})
+      fs.unlink(`./images/${filename}`, (err) => {
+        if (err) throw err;
+        Post.destroy({ where: { id: req.params.id }})
       .then(() => {
         return res.status(200).json({message: 'Post successfully deleted!'});  
       })

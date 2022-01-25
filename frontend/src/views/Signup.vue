@@ -2,37 +2,38 @@
   <div class="body">
     <div class="card">
       <div>
-        <img class="logo" src="../assets/icon-above-font.png" alt="Logo de la société Groupomania" />
+        <img class="logo" src="../assets/icon-above-font.jpg" alt="Logo de la société Groupomania" />
       </div>
       <h1 class="title">Votre réseau social d'entreprise!</h1>
       <router-link class="login" to="/" aria-label="Lien vers la connexion"><strong>Se connecter</strong></router-link>
-      <form>
+      <form id="submit" method="post">
         <div>
           <label for="email"><strong>Email:</strong></label>
           <input id="email" type="email" v-model="email" aria-label="Email pour l'inscription" maxlength="255" pattern="[A-Za-z0-9._+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$" required/>
           <div class="error">
-            <p class="error-message" v-if="this.email == false">{{ message }}</p>
+            <p class="error-message" v-if="!emailError">{{ messageId }}</p>
           </div>
           <div class="name-container">
             <label for="lastname"><strong>Nom:</strong></label>
             <input id="lastname" type="lastname" v-model="lastname" aria-label="Nom pour l'inscription" maxlength="255" pattern="[A-Za-z0-9._+-]$" required />
             <div class="error">
-              <p class="error-message"  v-if="this.lastname == false">{{ message }}</p>
+              <p class="error-message"  v-if="!lastnameError">{{ messageLastname }}</p>
             </div>
             <label for="firstname"><strong>Prénom:</strong></label>
             <input id="firstname" type="firstname" v-model="firstname" aria-label="Prénom pour l'inscription" pattern="[A-Za-z0-9._+-]$" required />
             <div class="error">
-              <p class="error-message"  v-if="this.firstname == false">{{ message }}</p>
+              <p class="error-message" v-if="!firstnameError">{{ messageFirstname }}</p>
             </div>
           </div>
           <label for="password"><strong>Mot de passe:</strong></label>
           <input id="password" type="password" v-model="password" aria-label="Mot de passe pour l'inscription" pattern="[A-Za-z0-9._+-]$" required />
           <div class="error">
-              <p class="error-message" v-if="this.password == false">{{ message }}</p>
+              <p class="error-message" v-if="!passwordError">{{ messagePass }}</p>
             </div>
         </div>
       </form>
-      <button class="signup-btn" @click="signup()" aria-label="S'inscrire"><strong>Se connecter</strong></button>
+      <p class="error-message" v-if="!idError">{{ message }}</p>
+      <button class="signup-btn" @click="signup()" aria-label="S'inscrire"><strong>S'inscrire</strong></button>
     </div>
   </div>
 </template>
@@ -50,49 +51,65 @@ export default {
       password: '',
       imageUrl: '',
       message: '',
+      idError: false,
+      emailError: false,
+      firstnameError: false,
+      lastnameError: false,
+      passwordError: false,
+      messageFirstname: '',
+      messageLastname: '',
+      messageId: '',
+      messagePass: '',
+      account: '',
+      userInfo: {},
       nameRegex: /^[A-Za-z0-9._+-]+$/,
       emailRegex: /^[A-Za-z0-9._+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/,
       passwordRegex: /^[A-Za-z0-9]{6,50}$/
     };
   },
-  computed: {
-    validation: function () {
-      if (this.email != "" && this.password != "" && this.firstname != "" && this.lastname != "") {
-          return true
-      } else {
-          return false
-      }  
-    }
-  },
   methods: {
     // Fonction de Signup
     signup: function () {
-      let nameTest = this.nameRegex.test(this.firstname && this.lastname)
-      let emailTest = this.emailRegex.test(this.email)
-      let passwordTest = this.passwordRegex.test(this.password)
+      this.firstnameError = this.nameRegex.test(this.firstname)
+      this.lastnameError = this.nameRegex.test(this.lastname) 
+      this.emailError = this.emailRegex.test(this.email)
+      this.passwordError = this.passwordRegex.test(this.password)
       let user = {
         email: this.email,
         firstname: this.firstname,
         lastname: this.lastname,
         password: this.password,
         imageUrl: this.imageUrl
-      };
-      if (emailTest == false || this.email == false) {
-        this.message = 'Email non valide'
-      } else if (passwordTest == false || this.password == false) {
-        this.message = 'Mot de passe non valide'
-      } else if (nameTest == false || this.firstname == false || this.lastname == false) {
-        this.message = 'Veuillez taper uniquement des lettres'
-      } else  {
+      }
+      if (this.firstnameError === false) {
+        this.messageFirstname = this.firstname.length === 0 ? 'Veuillez remplir ce champ' : `Veuillez n'utiliser que des lettres`
+      } 
+      if (this.lastnameError === false) {
+          this.messageLastname = this.lastname.length === 0 ? 'Veuillez remplir ce champ' : `Veuillez n'utiliser que des lettres`
+      }
+      if (this.emailError === false) {
+        this.messageId = this.email.length === 0 ? 'Veuillez remplir ce champ' : 'Email non valide'
+      } 
+      if (this.passwordError === false) {
+        this.messagePass = this.password.length === 0 ? 'Veuillez remplir ce champ' : 'Mot de passe incorrect'
+      }
+      if (this.passwordError &&  this.emailError && this.firstnameError && this.lastnameError) {
         instance.post('http://localhost:3000/api/auth/signup', user)
         .then(() => {
-          alert('Votre compte a bien été créé, veuillez vous connecter')
-          this.$router.push('/')
+          delete user['firstname'];
+          delete user['lastname'];
+          delete user['imageUrl'];
+          setTimeout(instance.post('http://localhost:3000/api/auth/login', user)
+          .then((res) => {
+            localStorage.setItem('user', JSON.stringify(res.data));
+            this.$router.push('/posts')
+          }), 2000)
         })
-        .catch((err) => {
-          alert(err)
+        .catch(() => {
+          this.message = 'Vos saisies sont incorrectes'
+          this.idError = true
         });
-      }
+      } 
     },
   },
 };
@@ -100,10 +117,26 @@ export default {
 
 <style scoped>
 .body {
+  width: 100%;
+  height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 32px;
+  background-size: 100%;
+  background-image: linear-gradient(
+    -45deg, 
+    rgb(235, 156, 103) 0%, 
+    rgb(221, 87, 24) 25%, 
+    rgb(245, 165, 111) 51%, 
+    rgb(177, 51, 12) 100%
+  );  
+  animation: AnimateBG 20s ease infinite;
+}
+
+@keyframes AnimateBG { 
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
 }
 
 .card {
@@ -114,20 +147,23 @@ export default {
   height: auto;
   width: 540px;
   padding: 32px;
-  background: #fff;
+  background: rgb(247, 238, 232);
   border-radius: 16px;
   box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
 }
-
 .logo {
-  height: 130px;
+  width: 200px;
 }
-
 .title {
   width: 100%;
   margin: 6px 0 6px 0;
   text-align: center;
   font-size: 15px;
+}
+
+.error-message {
+  margin-bottom: 18px;
+  color: red;
 }
 
 .login {
@@ -144,7 +180,7 @@ form {
 input {
   width: 100%;
   padding: 12px;
-  margin: 5px 0 18px 0;
+  margin: 5px 0 10px 0;
   border: none;
   border-radius: 8px;
   font-weight: 500;
@@ -162,7 +198,7 @@ input {
   margin-top: 25px;
   font-size: 17px;
   border: none;
-  border-radius: 8px;
+  border-radius: 30px;
   color: white;
   background-color: #A22D16;
   transform: scale(0.9);

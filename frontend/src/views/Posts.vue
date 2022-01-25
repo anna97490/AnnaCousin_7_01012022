@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="body">
     <Header />
     <div class="container">
       <div class="posts-creation">
@@ -23,6 +23,7 @@
     <div class="posts">
       <div class="posts-container">
         <Post />
+        
       </div>
     </div>
   </div>
@@ -69,7 +70,6 @@ export default {
   methods: {
     onFileSelected(event) {
       this.selectedFile = event.target.files[0];
-      console.log(1, this.selectedFile)
     },
     createPost: function () {
       let user = JSON.parse(localStorage.getItem('user'))
@@ -107,6 +107,9 @@ export default {
 </script>
 
 <style scoped>
+.body {
+  background-color: #fff1ed;
+}
 .container {
   display: flex;
   justify-content: center;
@@ -115,7 +118,7 @@ export default {
 .posts-creation {
   width: 636px;
   padding: 15px;
-  background-color: #ffe6e1;
+  background-color: #fd846c4d;
   border-radius: 10px;
 }
 
@@ -128,7 +131,7 @@ export default {
 
 .title {
   width: 100%;
-  margin: 20px 0 10px 0;
+  margin: 5px 0 10px 0;
   text-align: center;
   font-size: 20px;
 }
@@ -146,10 +149,12 @@ form {
 
 #text {
   width: 100%;
-  padding: 8px;
+  padding: 2px 12px;
   margin: 5px 0 15px;
   border-radius: 22px;
-  font-size: 12px;
+  font-size: 13px;
+  max-height: 300px;
+  max-width: 100%;
 }
 
 .posts-file {
@@ -157,7 +162,7 @@ form {
 }
 
 .posts-img {
-  height: 40px;
+  height: 20px;
 }
 
 #file {
@@ -179,13 +184,13 @@ form {
 }
 
 .create-btn {
-  width: 74%;
+  width: 120px;
   padding: 12px;
   font-size: 17px;
   border: none;
   border-radius: 8px;
-  color: white;
-  background-color: #A22D16;
+  color: #fff;
+  background: linear-gradient(#d17979, #8d2608);
   transform: scale(0.9);
   transition-property: transform;
   transition-duration: 0.4s;
@@ -198,20 +203,20 @@ form {
 }
 
 .posts-container {
-    background-color: #ffe6e1;;
-    margin-top: 20px;
-    border-radius: 10px;
-    display: flex;
-    flex-wrap: wrap;
-    width: 636px;
-    justify-content: center
+  background-color: #fd846c4d;
+  margin-top: 20px;
+  border-radius: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  width: 636px;
+  justify-content: center
 }
 
 .posts {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  background-color: #f2f2f2;
+  background-color: #fff1ed;
 }
 
 /* MEDIA QUERIES */

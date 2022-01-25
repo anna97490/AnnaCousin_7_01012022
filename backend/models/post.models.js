@@ -1,5 +1,6 @@
 const sequelize = require('sequelize');
 const db = require('../config/database');
+// const Like = require('./like.models');
 const { DataTypes } = sequelize;
 
 const Post = db.define('post', {
@@ -32,9 +33,16 @@ const Post = db.define('post', {
     type: DataTypes.STRING,
     allowNull: true,
   },
+  //likes: {
+    //type: DataTypes.INTEGER,
+  //}
 });
 
-
+// Post.hasMany(Like, {
+//   onDelete: 'cascade',
+//   onUpdate: 'cascade',
+//   hooks: 'true',
+// });
 //Comment.belongsTo(Post, { foreignKey: 'postId' });
 
 Post.sync();

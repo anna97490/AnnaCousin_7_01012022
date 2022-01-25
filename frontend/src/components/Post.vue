@@ -5,19 +5,23 @@
       <div>
         <p class="user-infos">
           <img class="profile-picture" :src="userInfo.imageUrl">
-          <strong>Publié par :</strong> {{ post.authorFullName }}
-          <button v-if="post.userId == user.userId" @click="deletePost(post)" class="delete-btn">Supprimer<font-awesome-icon icon="trash" class="trash" /></button>
+          <span><strong>Publié par :</strong> {{ post.authorFullName }}</span>
+          <button class=" delete-btn profile" v-if="isAdmin == true"  @click="getOneUser(post)"><font-awesome-icon icon="user" /></button>
         </p>
         <p class="date">
           le {{ dateTime(post.createdAt) }} à {{ hour(post.createdAt) }}
         </p>
-        <br />
         <div class="image-container" v-if="post.imageUrl">
           <img v-if="post.imageUrl" class="image" :src="post.imageUrl" alt="Image postée" />
         </div>
-         <div class="image-container1" v-if="post.imageUrl == null" style height="20">
+         <div class="image-container1" v-if="post.imageUrl == null">
         </div>
         <p class="text">{{ post.text }}</p>
+        <div class="btn-container">
+          <modale :dataPost="currentPost" v-bind:toggleModale="displayModale" v-on:closeModal="receiveStateFromChild"></modale>
+          <span v-if="post.userId == user.userId || isAdmin == true" @click="toggleModale(post)" class="update-btn"><font-awesome-icon icon="edit" /></span>
+          <span v-if="post.userId == user.userId || isAdmin == true" @click="deletePost(post)" class="delete-btn"><font-awesome-icon icon="trash" /></span>
+        </div>
       </div>
     </div>
   </div>
@@ -26,9 +30,13 @@
 <script>
 import moment from 'moment';
 import instance from '../axios';
+import Modale from '../components/Modale.vue'
 
 export default {
   name: 'Post',
+  components: {
+    'modale': Modale
+  },
   data() {
     return {
       allPosts: [],
@@ -37,7 +45,9 @@ export default {
       userId: this.userId,
       isAdmin: this.isAdmin,
       account: null,
-      userInfo: {}
+      userInfo: {},
+      displayModale: false,
+      currentPost: {}
     };
   },
   created() {
@@ -53,7 +63,6 @@ export default {
     .then((res) => {
       for (const post of res.data) {
         this.allPosts.push(post);
-        //this.allPosts.sort();
       }
     })
     .catch((err) => {
@@ -76,6 +85,7 @@ export default {
         });
       }
     },
+    // Récupération du user pour rediriger l'admin sur son profil
     getOneUser: function (post) {
       const user = JSON.parse(localStorage.getItem('user'))
       let id = post.userId;
@@ -86,6 +96,7 @@ export default {
       })
       .then((res) => {
         console.log(2, res.data);
+        this.$router.push({ path: `/admin/${res.data.userId}`})
       })
       .catch((err) => {
         console.log(err)
@@ -111,11 +122,18 @@ export default {
         .then(() => {
           this.$router.go();
         })
-        .catch(() => {
-          this.error;
+        .catch((err) => {
+          console.log(err)
         });
       }
     },
+    toggleModale: function (post) {
+      this.currentPost = post
+      this.displayModale = true
+    },
+    receiveStateFromChild() {
+      this.displayModale = false
+    }
   },
 };
 </script>
@@ -129,38 +147,74 @@ export default {
 }
 
 .card {
-  height: auto;
-  width: 585px;
-  padding: 35px;
+  width: 636px;
+  padding: 25px;
   margin: 20px 0;
   background: white;
-  border-radius: 10px;
+  border-radius: 30px;
   box-shadow: 0 6px 9px rgb(0 0 0 / 5%), 0 18px 10px rgb(0 0 0 / 4%);
 }
 
-.user-infos {
-  display: flex;
+.profile-picture {
+  width: 40px;
+  height: 40px;
 }
 
-.profile-picture {
-  width: 20px;
-  height: 20px;
+.update-btn {
+  padding: 12px;
+  font-size: 17px;
+  border: none;
+  border-radius: 8px;
+  transform: scale(0.9);
+  transition-property: transform;
+  transition-duration: 0.4s;
+  color: #fff;
+  z-index: 1;
+  width: 120px;
+  margin-top: 15px;
+  box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
+  cursor: pointer;
+  background: linear-gradient(#f5a42a, #b55f04);
 }
 
 .delete-btn {
   float: right;
-  border: none;
+  padding: 12px;
   font-size: 17px;
+  border: none;
   border-radius: 8px;
-  color: #A22D16;
   transform: scale(0.9);
   transition-property: transform;
   transition-duration: 0.4s;
+  background: linear-gradient(#f52a2a, #7a0a0a);
+  color: #fff;
+  z-index: 1;
+  margin-top: 15px;
+  box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
+  cursor: pointer;
 }
 
-.delete-btn:hover {
+.delete-btn:after,
+.update-btn:after {
+  position: absolute;
+  content: "";
+  width: 0;
+  height: 100%;
+  top: 0;
+  right: 0;
+  z-index: -1;
+  background: #e0e5ec;
+  transition: all 0.3s ease;
+}
+
+.delete-btn:hover,
+.update-btn:hover {
   transform: scale(1);
   cursor: pointer;
+}
+
+.profile {
+  background: linear-gradient(#3af391, #053a2e);
 }
 
 .trash {
@@ -170,6 +224,7 @@ export default {
 .date {
   margin-top: 5px;
   font-size: 12px;
+  margin-bottom: 10px;
 }
 
 .image-container {
@@ -177,15 +232,18 @@ export default {
   height: 200px;
   display: flex;
   justify-content: center;
+  background-color: #f3f3f3;
 }
 
 .image {
-  width: 70px;
-  height: 70px;
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
 }
 
 .text {
   padding: 10px;
+  margin-top: 10px;
   border-radius: 4px;
   background-color: #f3f3f3;
 }

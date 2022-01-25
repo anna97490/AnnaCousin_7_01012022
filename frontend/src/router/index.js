@@ -4,6 +4,7 @@ import Login from '../views/Login.vue';
 import Signup from '../views/Signup.vue';
 import Posts from '../views/Posts.vue';
 import Profile from '../views/Profile.vue';
+import Admin from '../views/Admin.vue';
 
 
 Vue.use(VueRouter);
@@ -30,6 +31,12 @@ const routes = [
     name: 'Profile',
     component: Profile,
     meta: { requiresAuth: true }
+  },
+  {
+    path: '/admin/:id',
+    name: 'Admin',
+    component: Admin,
+    
   },
 ];
 

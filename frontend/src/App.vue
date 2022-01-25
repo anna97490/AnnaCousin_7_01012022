@@ -11,9 +11,6 @@
   padding: 0;
   box-sizing: border-box;
   max-width: 100%;
-}
-
-body {
-  background-color: #f0f2f5;
+  max-height: 100%;
 }
 </style>
