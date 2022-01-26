@@ -3,7 +3,6 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const fs = require('fs');
 require('dotenv').config();
-//ok
 
 // Inscription
 exports.signup = (req, res, next) => {
@@ -15,7 +14,7 @@ exports.signup = (req, res, next) => {
         lastname: req.body.lastname,
         email: req.body.email,
         password: hash,
-        isAdmin: req.body.isAdmin || 0, // 0?
+        isAdmin: req.body.isAdmin || 0
       };
       User.create(user)
         .then(() => res.status(201).json({ message: 'User created!' }))
@@ -56,6 +55,7 @@ exports.login = (req, res, next) => {
     .catch((error) => res.status(500).json({ error: req.body.id }));
 };
 
+// Récupérer un user
 exports.getOneUser = (req, res, next) => {
   User.findOne({ where: { id: req.params.id } })
     .then((user) => {
@@ -94,11 +94,10 @@ exports.updateUser = (req, res, next) => {
     });
 };
 
-// Suppression du profil
+// Supprimer le profil
 exports.deleteUser = (req, res, next) => {
   User.findOne({ where: { id: req.params.id } })
     .then((user) => {
-      console.log(req.params.id);
       if (!user) {
         return res.status(404).json({ message: 'User not found!' });
       } else {

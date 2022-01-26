@@ -35,13 +35,13 @@ const User = db.define('user', {
   },
 });
 
+// Lien avec la table posts
+// En cas de suppression du user, ses posts le seront aussi 
 User.hasMany(Post, {
-  /*foreignKey: 'userId',*/ onDelete: 'cascade',
+  onDelete: 'cascade',
   onUpdate: 'cascade',
   hooks: 'true',
 });
-//Post.belongsTo(User, { foreignKey: 'userId' });
-//Comment.belongsTo(User, { foreignKey: 'userId' });
 
 User.sync();
 module.exports = User;

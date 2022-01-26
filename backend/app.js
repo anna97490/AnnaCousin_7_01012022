@@ -5,10 +5,6 @@ const path = require('path');
 const db = require('./config/database');
 const cors = require('cors');
 
-// Routers
-const userRoutes = require('./routes/user.routes');
-const postRoutes = require('./routes/post.routes');
-
 // Connexion à la base de donnée
 db.sync()
   .then(console.log('Connected to the Database!'))
@@ -41,6 +37,10 @@ app.use((req, res, next) => {
 
 // Les images
 app.use('/images', express.static(path.join(__dirname, 'images')));
+
+// Routers
+const userRoutes = require('./routes/user.routes');
+const postRoutes = require('./routes/post.routes');
 
 // Routes
 app.use('/api/auth', userRoutes);

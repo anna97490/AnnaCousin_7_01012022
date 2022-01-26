@@ -1,7 +1,5 @@
-//Import
 const passwordValidator = require('password-validator');
 
-// Création du schéma
 const passwordSchema = new passwordValidator();
 
 passwordSchema
@@ -19,5 +17,4 @@ passwordSchema
   .not()
   .spaces();
 
-// Export
 module.exports = passwordSchema;
