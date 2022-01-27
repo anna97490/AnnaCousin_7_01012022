@@ -5,33 +5,32 @@
         <img
           class="logo"
           src="../assets/icon-left-font.png"
-          alt="Logo de la société Groupomania"
-        />
+          alt="Logo de la société Groupomania">
       </div>
       <div class="header-links">
         <router-link
           class="header-link"
           to="/posts"
           aria-label="Lien vers les publications"
-          role="link"
-          ><font-awesome-icon icon="comment"
-        /></router-link>
+          role="link">
+            <font-awesome-icon icon="comment" />
+        </router-link>
         |
         <router-link
           class="header-link"
           to="/profile"
           aria-label="Lien vers le profil"
-          role="link"
-          ><font-awesome-icon icon="user"
-        /></router-link>
+          role="link">
+          <font-awesome-icon icon="user" />
+        </router-link>
         |
         <span
           class="header-link"
           @click="logout()"
           aria-label="Lien vers la déconnexion"
-          role="link"
-          ><font-awesome-icon icon="arrow-alt-circle-right"
-        /></span>
+          role="link">
+          <font-awesome-icon icon="arrow-alt-circle-right" />
+        </span>
       </div>
     </div>
   </div>
@@ -59,7 +58,7 @@ export default {
   display: flex;
   align-items: center;
   padding: 10px 45px;
-  background: white;
+  background: #fff;
   box-shadow: 0 2px 6px rgb(0 0 0 / 6%), 0 8px 16px rgb(0 0 0 / 3%);
 }
 
@@ -94,16 +93,19 @@ export default {
 /* MEDIA QUERIES */
 @media screen and (min-width: 300px) and (max-width: 768px) {
   .header {
-    padding: 10px;
     display: flex;
     justify-content: space-between;
+    padding: 10px;
   }
+
   .header-links {
     width: 40%;
   }
+
   .header-link {
     font-size: 20px;
   }
+
   .logo {
     height: 36px;
   }

@@ -7,32 +7,37 @@
           Bienvenue sur votre profil {{ userInfo.firstname }} !
         </h1>
         <div class="profile-container">
-          <div class="picture-container">
-            <img
-              class="profile-picture"
-              v-if="this.userInfo.imageUrl"
-              :src="this.userInfo.imageUrl"
-              width="150"
-            />
-            <img
-              class="picture-default"
-              v-else
-              src="../assets/img-user-default.jpg"
-            />
+          <div class="justify">
+            <div class="picture-container">
+              <img
+                class="profile-picture"
+                v-if="this.userInfo.imageUrl"
+                :src="this.userInfo.imageUrl"
+                width="150">
+              <img
+                class="picture-default"
+                v-else
+                src="../assets/img-user-default.jpg">
+              <span
+                class="profile-datas"
+                data-aos="fade-right"
+                data-aos-delay="200">
+                <strong>{{ userInfo.firstname }} {{ userInfo.lastname }}</strong>
+              </span>
+            </div>
           </div>
           <div class="profile-file">
-            <form>
-              <label for="file"
-                ><strong>Choisir une nouvelle image de profil:</strong></label
-              >
+            <form class="form">
+              <label for="file">
+                <strong>Choisir une nouvelle image de profil:</strong>
+              </label>
               <input
                 type="file"
                 id="file-input"
                 name="image"
                 enctype="multipart/form-data"
                 @change="onFileSelected"
-                aria-label="Choisir une image"
-              />
+                aria-label="Choisir une image">
             </form>
           </div>
           <div class="btn-container">
@@ -46,43 +51,26 @@
               <span
                 class="profile-datas"
                 data-aos="fade-right"
-                data-aos-delay="200"
-              >
-                <strong>Prénom: </strong> {{ userInfo.firstname }}
-              </span>
-              <span
-                class="profile-datas"
-                data-aos="fade-right"
-                data-aos-delay="700"
-              >
-                <strong>Nom: </strong> {{ userInfo.lastname }}
-              </span>
-              <span
-                class="profile-datas"
-                data-aos="fade-right"
-                data-aos-delay="1200"
-              >
+                data-aos-delay="1200">
                 <strong>Email: </strong> {{ userInfo.email }}
               </span>
               <span
                 class="profile-datas"
                 data-aos="fade-right"
-                data-aos-delay="1700"
-              >
+                data-aos-delay="1700">
                 Inscrit depuis le {{ dateTime(userInfo.createdAt) }}
               </span>
               <span
                 class="profile-datas"
                 v-if="this.isAdmin === true"
                 data-aos="fade-right"
-                data-aos-delay="2100"
-              >
+                data-aos-delay="2100">
                 <strong>Rôle:</strong>Administrateur
               </span>
             </div>
           </div>
           <button @click="deleteProfile()" type="button" class="delete-btn">
-            Supprimer votre compte
+            <strong>Supprimer votre compte</strong>
           </button>
         </div>
       </div>
@@ -190,9 +178,9 @@ export default {
   width: 540px;
   padding: 32px;
   margin: auto;
-  background: white;
+  background: #fff;
   border-radius: 16px;
-  box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
+  box-shadow: 0 56px 31px rgb(0 0 0 / 33%), 0 8px 16px rgb(0 0 0 / 10%);
 }
 
 .title {
@@ -202,16 +190,25 @@ export default {
   font-size: 20px;
 }
 
-.picture-container {
+.justify {
   display: flex;
   justify-content: center;
 }
 
+.picture-container {
+  display: flex;
+  width: 200px;
+  flex-wrap: wrap;
+  border-radius: 8px;
+  background-color: #f3f3f3;
+  box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
+}
+
 .profile-datas {
-  width: 100%;
-  margin: 5px 0;
   display: flex;
   justify-content: center;
+  width: 100%;
+  margin: 5px 0;
   padding: 12px;
   font-size: 15px;
   border-radius: 6px;
@@ -221,17 +218,25 @@ export default {
   margin-right: 5px;
 }
 
+.profile-picture {
+  width: 200px;
+  height: 200px;
+  border-radius: 8px 8px 0 0;
+}
+
 .profile-file {
   margin-top: 15px;
-  font-size: 15px;
 }
 
 .profile-file label {
   font-size: 15px;
 }
 
+.form {
+  width: 60%;
+}
+
 #file-input {
-  width: 100%;
   margin-bottom: 10px;
   font-size: 12px;
 }
@@ -268,25 +273,29 @@ export default {
   box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
 }
 
-.border {
-  border-bottom: 1px solid #d5d5d58c;
-}
-
 .save-btn:hover {
   transform: scale(1);
   cursor: pointer;
+}
+
+.border {
+  border-bottom: 1px solid #d5d5d58c;
 }
 
 .datas-container {
   display: flex;
   justify-content: center;
   margin: 35px 0 2px 0;
-  border-radius: 22px;
   padding: 0 20px;
-  background-color: #fdc6ba;
+  flex-wrap: wrap;
+  border-radius: 4px;
+  background-color: #f3f3f3;
+  box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
 }
 
 .delete-btn {
+  width: 190px;
+  margin-top: 15px;
   padding: 12px;
   font-size: 15px;
   border: none;
@@ -297,8 +306,6 @@ export default {
   background: linear-gradient(#f52a2a, #7a0a0a);
   color: #fff;
   z-index: 1;
-  width: 190px;
-  margin-top: 15px;
   box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
   cursor: pointer;
 }
@@ -319,6 +326,7 @@ export default {
   .profile-fields {
     width: 99%;
   }
+  
   .delete-btn {
     word-break: break-word;
     float: none;

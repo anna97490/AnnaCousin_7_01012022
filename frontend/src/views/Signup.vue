@@ -5,7 +5,7 @@
         <img
           class="logo"
           src="../assets/icon-above-font.jpg"
-          alt="Logo de la société Groupomania" />
+          alt="Logo de la société Groupomania">
       </div>
       <h1 class="title">Votre réseau social d'entreprise!</h1>
       <router-link class="login" to="/" aria-label="Lien vers la connexion">
@@ -13,57 +13,71 @@
       </router-link>
       <form id="submit" method="post">
         <div>
-          <label for="email"><strong>Email:</strong></label>
+          <label for="email">
+            <strong>Email:</strong>
+          </label>
           <input
             id="email"
             type="email"
             v-model="email"
             aria-label="Email pour l'inscription"
             maxlength="255"
-            required />
+            required>
           <div class="error">
-            <p class="error-message" v-if="!emailError">{{ messageId }}</p>
+            <p class="error-message" v-if="!emailError">
+              {{ messageId }}
+            </p>
           </div>
           <div class="name-container">
-            <label for="lastname"><strong>Nom:</strong></label>
+            <label for="lastname">
+              <strong>Nom:</strong>
+            </label>
             <input
               id="lastname"
               type="lastname"
               v-model="lastname"
               aria-label="Nom pour l'inscription"
-              required />
+              required>
             <div class="error">
               <p class="error-message" v-if="!lastnameError">
                 {{ messageLastname }}
               </p>
             </div>
-            <label for="firstname"><strong>Prénom:</strong></label>
+            <label for="firstname">
+              <strong>Prénom:</strong>
+            </label>
             <input
               id="firstname"
               type="firstname"
               v-model="firstname"
               aria-label="Prénom pour l'inscription"
-              required />
+              required>
             <div class="error">
               <p class="error-message" v-if="!firstnameError">
                 {{ messageFirstname }}
               </p>
             </div>
           </div>
-          <label for="password"><strong>Mot de passe:</strong></label>
+          <label for="password">
+            <strong>Mot de passe:</strong>
+          </label>
           <input
             id="password"
             type="password"
             maxlength="50"
             v-model="password"
             aria-label="Mot de passe pour l'inscription"
-            required />
+            required>
           <div class="error">
-            <p class="error-message" v-if="!passwordError">{{ messagePass }}</p>
+            <p class="error-message" v-if="!passwordError">
+              {{ messagePass }}
+            </p>
           </div>
         </div>
       </form>
-      <p class="error-message" v-if="!idError">{{ message }}</p>
+      <p class="error-message" v-if="!idError">
+        {{ message }}
+      </p>
       <button class="signup-btn" @click="signup()" aria-label="S'inscrire">
         <strong>S'inscrire</strong>
       </button>

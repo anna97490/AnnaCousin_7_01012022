@@ -5,38 +5,50 @@
         <img
           class="logo"
           src="../assets/icon-above-font.jpg"
-          alt="Logo de la société Groupomania" />
+          alt="Logo de la société Groupomania">
       </div>
       <h1 class="title">Votre réseau social d'entreprise!</h1>
       <p class="subtitle">
         Pas encore de compte?
-        <router-link class="signup" to="/signup"><strong>S'enregistrer</strong></router-link>
+        <router-link class="signup" to="/signup">
+          <strong>S'enregistrer</strong>
+        </router-link>
       </p>
       <form id="submit" method="post">
-        <label for="email"><strong>Email:</strong></label>
+        <label for="email">
+          <strong>Email:</strong>
+        </label>
         <input
           id="email"
           v-model="email"
           type="email"
           maxlength="255"
           aria-label="Email de connexion"
-          required />
+          required>
         <div class="error">
-          <p class="error-message" v-if="!emailError">{{ messageId }}</p>
+          <p class="error-message" v-if="!emailError">
+            {{ messageId }}
+          </p>
         </div>
-        <label for="password"><strong>Mot de passe:</strong></label>
+        <label for="password">
+          <strong>Mot de passe:</strong>
+        </label>
         <input
           id="password"
           v-model="password"
           type="password"
           maxlength="50"
           aria-label="Mot de passe de connexion"
-          required />
+          required>
         <div class="error">
-          <p class="error-message" v-if="!passwordError">{{ messagePass }}</p>
+          <p class="error-message" v-if="!passwordError">
+            {{ messagePass }}
+          </p>
         </div>
       </form>
-      <p class="error-message" v-if="!idError">{{ message }}</p>
+      <p class="error-message" v-if="!idError">
+        {{ message }}
+      </p>
       <button class="login-btn" @click="login()" aria-label="Se connecter">
         <strong>Se connecter</strong>
       </button>

@@ -3,24 +3,23 @@
     class="bloc-modale"
     v-if="display"
     data-aos="fade-up"
-    data-aos-easing="ease-in-out"
-  >
+    data-aos-easing="ease-in-out">
     <div class="overlay">
       <div class="modale card">
         <div @click="sendStateModalToParent()" class="close-btn">
-          <font-awesome-icon icon="times-circle" />
+            <font-awesome-icon icon="times-circle" />
         </div>
         <form class="form">
-          <label for="text1" data-aos="fade-right" data-aos-delay="0"
-            ><strong>Rédigez votre nouveau texte:</strong></label
-          >
-          <textarea
-            id="text1"
-            v-model="dataPost.text"
-            data-aos="fade-right"
-            data-aos-delay="200"
-            aria-label="Contenu du message"
-          ></textarea>
+            <label for="text1" data-aos="fade-right" data-aos-delay="0">
+                <strong>Rédigez votre nouveau texte:</strong>
+            </label>
+            <textarea
+                id="text1"
+                v-model="dataPost.text"
+                data-aos="fade-right"
+                data-aos-delay="200"
+                aria-label="Contenu du message">
+            </textarea>
         </form>
         <div class="posts-img">
           <input
@@ -31,16 +30,14 @@
             @change="onFileSelected"
             data-aos="fade-right"
             data-aos-delay="700"
-            aria-label="Choisir une image"
-          />
+            aria-label="Choisir une image">
         </div>
         <div class="publish">
           <button
             class="update-btn"
             @click="updatePost(dataPost)"
             data-aos="fade-right"
-            data-aos-delay="1200"
-          >
+            data-aos-delay="1200">
             Enregistrer
           </button>
         </div>
@@ -144,125 +141,127 @@ export default {
 
 <style scoped>
 .bloc-modale {
-  position: fixed;
-  background-color: #d1d1d1d6;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 2;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 2;
+    background-color: #d1d1d1d6;
 }
 
 .overlay {
-  position: fixed;
-  top: 30%;
-
-  display: flex;
-
-  left: 29%;
+    display: flex;
+    position: fixed;
+    top: 30%;
+    left: 29%;
 }
 
 .form {
-  width: 100%;
-  display: flex;
-  flex-wrap: wrap;
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
 }
 
 .form label {
-  width: 100%;
+    width: 100%;
 }
 
 .form span {
-  font-size: 15px;
+    font-size: 15px;
 }
 
 .post-img input {
-  float: right;
+    float: right;
 }
 
 #text1 {
-  width: 100%;
-  padding: 6px 14px;
-  margin: 8px 0 15px;
-  border-radius: 22px;
-  font-size: 13px;
+    width: 100%;
+    padding: 6px 14px;
+    margin: 8px 0 15px;
+    border-radius: 22px;
+    font-size: 13px;
 }
 
 .modale {
-  width: 42%;
-  height: auto;
-  background: #fff;
-  color: #333;
-  border-radius: 20px;
-  padding: 23px;
-  position: fixed;
+    position: fixed;
+    width: 42%;
+    padding: 23px;
+    height: auto;
+    background: #fff;
+    color: #333;
+    border-radius: 20px;
 }
 
 .close-btn svg {
-  float: right;
-  margin-bottom: 5px;
-  font-size: 20px;
-  color: #8d2608;
-  cursor: pointer;
+    float: right;
+    margin-bottom: 5px;
+    font-size: 20px;
+    color: #8d2608;
+    cursor: pointer;
 }
 
 .btn-modale {
-  position: absolute;
-  top: 10px;
-  right: 10px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
 }
 
 .update-btn {
-  padding: 12px;
-  font-size: 15px;
-  border: none;
-  border-radius: 8px;
-  transform: scale(0.9);
-  transition-property: transform;
-  transition-duration: 0.4s;
-  color: #fff;
-  float: right;
-  z-index: 1;
-  width: 100px;
-  margin-top: 15px;
-  box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
-  cursor: pointer;
-  background: linear-gradient(#f5a42a, #b55f04);
+    width: 100px;
+    margin-top: 15px;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    transform: scale(0.9);
+    transition-property: transform;
+    transition-duration: 0.4s;
+    float: right;
+    z-index: 1;
+    font-size: 15px;
+    color: #fff;
+    box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
+    background: linear-gradient(#f5a42a, #b55f04);
+    cursor: pointer;
 }
 
 /* MEDIA QUERIES */
 @media screen and (min-width: 769px) and (max-width: 992px) {
-  .overlay {
-    left: 23%;
-  }
-  .modale {
-    width: 54%;
-  }
+    .overlay {
+        left: 23%;
+    }
+
+    .modale {
+        width: 54%;
+    }
 }
 
 @media screen and (min-width: 501px) and (max-width: 768px) {
-  .modale {
-    width: 65%;
-  }
-  .overlay {
-    left: 17%;
-  }
+    .overlay {
+        left: 17%;
+    }
+
+    .modale {
+        width: 65%;
+    } 
 }
 
 @media screen and (min-width: 300px) and (max-width: 500px) {
-  .modale {
-    width: 80%;
-  }
-  .overlay {
-    left: 10%;
-  }
+     .overlay {
+        left: 10%;
+    }
 
-  .form label {
-    font-size: 15px;
-  }
-  .update-btn {
-    padding: 7px;
-    font-size: 13px;
-  }
+    .modale {
+        width: 80%;
+    }
+
+    .form label {
+        font-size: 15px;
+    }
+
+    .update-btn {
+        padding: 7px;
+        font-size: 13px;
+    }
 }
 </style>

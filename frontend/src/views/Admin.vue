@@ -5,16 +5,13 @@
       <div class="profile-fields">
         <div class="picture-container">
           <img class="profile-picture" :src="profileInfos.imageUrl" />
+          <p class="profile-datas">
+            <strong>{{ profileInfos.firstname }} {{ profileInfos.lastname }}</strong>
+          </p>
         </div>
         <div class="datas-container">
           <p class="profile-datas">
-            <strong>Prénom: </strong>{{ profileInfos.firstname }}
-          </p>
-          <p class="profile-datas">
-            <strong>Nom: </strong>{{ profileInfos.lastname }}
-          </p>
-          <p class="profile-datas">
-            <strong>Email: </strong>{{ profileInfos.email }}
+            <strong>{{ profileInfos.email }}</strong>
           </p>
           <p class="profile-datas">
             Inscrit depuis le {{ dateTime(profileInfos.createdAt) }}
@@ -100,128 +97,159 @@ export default {
 
 <style scoped>
 .container {
-  padding: 22px;
-  background-color: #f36841;
-  height: 100%;
+    height: 100%;
+    padding: 22px;
+    background-color: #f36841;
+  
 }
 
 .profile-fields {
-  display: flex;
-  justify-content: center;
-  align-content: center;
-  flex-wrap: wrap;
-  height: auto;
-  width: 540px;
-  padding: 32px;
-  margin: auto;
-  background: white;
-  border-radius: 16px;
-  box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-wrap: wrap;
+    height: auto;
+    width: 540px;
+    padding: 32px;
+    margin: auto;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 56px 31px rgb(0 0 0 / 33%), 0 8px 16px rgb(0 0 0 / 10%);
 }
 
 .title {
-  width: 100%;
-  margin: 6px 0 6px 0;
-  text-align: center;
-  font-size: 20px;
+    width: 100%;
+    margin: 6px 0 6px 0;
+    text-align: center;
+    font-size: 20px;
 }
 
 .picture-container {
-  display: flex;
-  justify-content: center;
-}
-
-.posts-img {
-  width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 200px;
+    border-radius: 8px;background-color: #f3f3f3;
+    box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
 }
 
 .posts-img label {
-  font-size: 13px;
+    font-size: 13px;
 }
 
 #file-input {
-  width: 100%;
-  margin: 15px 0;
-  font-size: 12px;
+    width: 100%;
+    margin: 15px 0;
+    font-size: 12px;
 }
 
 .profile__img {
-  display: flex;
-  align-items: center;
+    display: flex;
+    align-items: center;
 }
 
 .profile-picture {
-  width: 155px;
-  height: 160px;
+    width: 200px;
+    height: 200px;
+    border-radius: 8px 8px 0 0;
 }
 
 .btn-container {
-  display: flex;
-  justify-content: center;
+    display: flex;
+    justify-content: center;
 }
 
 .save-btn {
-  width: 74%;
-  padding: 12px;
-  font-size: 17px;
-  border: none;
-  border-radius: 8px;
-  color: white;
-  background-color: #a22d16;
-  transform: scale(0.9);
-  transition-property: transform;
-  transition-duration: 0.4s;
-  box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
+    width: 74%;
+    padding: 12px;
+    font-size: 17px;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    background-color: #a22d16;
+    transform: scale(0.9);
+    transition-property: transform;
+    transition-duration: 0.4s;
+    box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
 }
 
 .save-btn:hover {
-  transform: scale(1);
-  cursor: pointer;
+    transform: scale(1);
+    cursor: pointer;
 }
 
 .datas-container {
-  display: flex;
-  justify-content: center;
-  margin: 35px 0 2px 0;
-  flex-wrap: wrap;
-  border-radius: 22px;
-  padding: 0 20px;
-  background-color: #fdc6ba;
+    display: flex;
+    justify-content: center;
+    margin: 35px 0 2px 0;
+    flex-wrap: wrap;
+    border-radius: 4px;
+    padding: 0 20px;
+    background-color: #f3f3f3;
+    box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
 }
 
 .profile-datas {
-  width: 100%;
-  margin: 5px 0;
-  display: flex;
-  justify-content: center;
-  padding: 12px;
-  font-size: 15px;
-  border-radius: 6px;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin: 5px 0;
+    padding: 10px;
+    font-size: 15px;
+    border-radius: 6px;
 }
 
 .profile-datas strong {
-  margin-right: 5px;
+    margin-right: 5px;
 }
 
 .delete-btn {
-  padding: 12px;
-  font-size: 15px;
-  border: none;
-  border-radius: 25px;
-  transform: scale(0.9);
-  transition-property: transform;
-  transition-duration: 0.4s;
-  background: linear-gradient(#f52a2a, #7a0a0a);
-  color: #fff;
-  z-index: 1;
-  width: 190px;
-  margin-top: 15px;
-  box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
-  cursor: pointer;
+    width: 190px;
+    margin-top: 15px;
+    padding: 12px;
+    font-size: 15px;
+    border: none;
+    border-radius: 25px;
+    transform: scale(0.9);
+    transition-property: transform;
+    transition-duration: 0.4s;
+    color: #fff;
+    background: linear-gradient(#f52a2a, #7a0a0a);
+    z-index: 1;
+    box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
+    cursor: pointer;
 }
 
 .delete-btn:hover {
-  transform: scale(1);
-  cursor: pointer;
+    transform: scale(1);
+    cursor: pointer;
+}
+
+/* MEDIA QUERIES */
+@media screen and (min-width: 769px) and (max-width: 992px) {
+    .profile-fields {
+        width: 95%;
+        padding: 50px
+    }
+
+    .datas-container {
+        width: 100%;
+    }
+}
+
+@media screen and (min-width: 300px) and (max-width: 768px) {
+    .profile-fields {
+        width: 99%;
+        padding: 50px
+    }
+
+    .datas-container {
+        width: 100%;
+    }
+    
+    .delete-btn {
+        word-break: break-word;
+        float: none;
+    }
 }
 </style>

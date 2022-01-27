@@ -7,7 +7,9 @@
         <div class="posts-content">
           <form>
             <label for="text">
-              <span><strong>Rédigez votre texte:</strong></span>
+              <span>
+                <strong>Rédigez votre texte:</strong>
+              </span>
             </label>
             <textarea id="text" v-model="text" aria-label="Contenu du message">
             </textarea>
@@ -15,7 +17,7 @@
         </div>
         <div class="posts-file">
           <div class="posts-img">
-            <form>
+            <form class="form">
               <label for="file">
                 <strong>Choisissez l'image de votre publication:</strong>
               </label>
@@ -25,8 +27,7 @@
                 name="image"
                 enctype="multipart/form-data"
                 @change="onFileSelected"
-                aria-label="Choisir une image"
-              />
+                aria-label="Choisir une image">
             </form>
           </div>
           <div class="publish">
@@ -35,8 +36,8 @@
         </div>
       </div>
     </div>
-    <div class="posts">
-      <div class="posts-container">
+    <div class="posts-container">
+      <div class="posts">
         <Post />
       </div>
     </div>
@@ -155,9 +156,6 @@ form {
 }
 
 .posts-content label {
-  width: 100%;
-  margin-bottom: 8px;
-  text-align: center;
   font-size: 15px;
 }
 
@@ -180,13 +178,15 @@ form {
   height: 20px;
 }
 
+.form {
+  width: 60%;
+}
+
 #file {
   font-size: 12px;
 }
 
 .posts-img label {
-  width: 140px;
-  margin-bottom: 8px;
   font-size: 15px;
 }
 
@@ -197,10 +197,10 @@ form {
   border: none;
   border-radius: 25px;
   color: #fff;
-  background: linear-gradient(#d17979, #8d2608);
   transform: scale(0.9);
   transition-property: transform;
   transition-duration: 0.4s;
+  background: linear-gradient(#d17979, #8d2608);
   box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
 }
 
@@ -213,18 +213,18 @@ form {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  width: 636px;
-  margin-top: 20px;
-  border-radius: 10px;
-  background-color: #fed0c6e8;
-  box-shadow: 0 10px 21px rgb(0 0 0 / 45%), 0 20px 30px rgb(0 0 0 / 30%);
+  background-color: #f36841;
 }
 
 .posts {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  background-color: #f36841;
+  width: 636px;
+  margin-top: 20px;
+  border-radius: 10px;
+  background-color: #fed0c6e8;
+  box-shadow: 0 10px 21px rgb(0 0 0 / 45%), 0 20px 30px rgb(0 0 0 / 30%);
 }
 
 /* MEDIA QUERIES */
@@ -233,15 +233,18 @@ form {
     width: 100%;
     padding: 20px;
   }
-  .posts-container {
-    width: 100%;
-    display: block;
-  }
+
   .posts-file {
     justify-content: space-between;
   }
+
   #file {
     width: 100%;
+  }
+
+  .posts {
+    width: 100%;
+    display: block;
   }
 }
 
@@ -250,17 +253,22 @@ form {
     width: 100%;
     padding: 20px;
   }
-  .posts-container {
-    width: 100%;
-    display: block;
-  }
-
+ 
   .posts-file {
     justify-content: space-between;
   }
 
+  .form {
+    width: 78%;
+  }
+
   #file {
     width: 100%;
+  }
+
+  .posts {
+    width: 100%;
+    display: block;
   }
 }
 
@@ -269,19 +277,27 @@ form {
     width: 100%;
     padding: 20px;
   }
-  .posts-container {
-    width: 100%;
-    display: block;
-  }
+
   .title {
     font-size: 17px;
   }
+
   .posts-file {
     flex-wrap: wrap;
     justify-content: center;
   }
+
+  .form {
+    width: 100%;
+  }
+
   .create-btn {
     margin-top: 30px;
+  }
+
+  .posts {
+    width: 100%;
+    display: block;
   }
 }
 </style>

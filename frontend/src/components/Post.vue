@@ -7,30 +7,27 @@
       v-for="(post, index) in allPosts"
       data-aos="fade-right"
       data-aos-easing="linear"
-      data-aos-duration="700"
-    >
+      data-aos-duration="700">
       <div>
         <p class="user-infos">
           <img
             class="profile-picture"
             v-if="userInfo.imageUrl"
             :src="userInfo.imageUrl"
-            alt="Photo de profil de l'auteur de la publication"
-          />
+            alt="Photo de profil de l'auteur de la publication">
           <img
             class="profile-picture"
             v-else
-            src="../assets/img-user-default.jpg"
-          />
-          <span class="name"
-            ><strong>Publié par :</strong> {{ post.authorFullName }}</span
-          >
+            src="../assets/img-user-default.jpg">
+          <span class="name">
+            <strong>Publié par :</strong> {{ post.authorFullName }}
+          </span>
           <span
             class="delete-btn profile"
             v-if="isAdmin == true"
             @click="getOneUser(post)"
-            ><font-awesome-icon icon="user"
-          /></span>
+            ><font-awesome-icon icon="user" />
+          </span>
         </p>
         <p class="date">
           le {{ dateTime(post.createdAt) }} à {{ hour(post.createdAt) }}
@@ -40,29 +37,28 @@
             v-if="post.imageUrl"
             class="image"
             :src="post.imageUrl"
-            alt="Image postée"
-          />
+            alt="Image postée">
         </div>
-        <div class="image-container1" v-if="post.imageUrl == null"></div>
+        <div class="image-container1" v-if="post.imageUrl === null"></div>
         <p class="text">{{ post.text }}</p>
         <div class="btn-container">
           <modale
             :dataPost="currentPost"
             v-bind:toggleModale="displayModale"
-            v-on:closeModal="receiveStateFromChild"
-          ></modale>
+            v-on:closeModal="receiveStateFromChild">
+          </modale>
           <span
-            v-if="post.userId == user.userId || isAdmin == true"
+            v-if="post.userId === user.userId || isAdmin === true"
             @click="toggleModale(post)"
-            class="update-btn"
-            ><font-awesome-icon icon="edit"
-          /></span>
+            class="update-btn">
+            <font-awesome-icon icon="edit" />
+          </span>
           <span
-            v-if="post.userId == user.userId || isAdmin == true"
+            v-if="post.userId === user.userId || isAdmin === true"
             @click="deletePost(post)"
-            class="delete-btn"
-            ><font-awesome-icon icon="trash"
-          /></span>
+            class="delete-btn">
+            <font-awesome-icon icon="trash" />
+          </span>
         </div>
       </div>
     </div>
@@ -196,7 +192,7 @@ export default {
   width: 636px;
   padding: 25px;
   margin: 20px 0;
-  background: white;
+  background: #fff;
   border-radius: 30px;
   box-shadow: 0 6px 9px rgb(0 0 0 / 5%), 0 18px 10px rgb(0 0 0 / 4%);
 }
@@ -238,9 +234,9 @@ export default {
   color: #fff;
   z-index: 1;
   margin-top: 15px;
+  background: linear-gradient(#f5a42a, #b55f04);
   box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
   cursor: pointer;
-  background: linear-gradient(#f5a42a, #b55f04);
 }
 
 .delete-btn {
@@ -252,10 +248,10 @@ export default {
   transform: scale(0.9);
   transition-property: transform;
   transition-duration: 0.4s;
-  background: linear-gradient(#f52a2a, #7a0a0a);
   color: #fff;
   z-index: 1;
   margin-top: 15px;
+  background: linear-gradient(#f52a2a, #7a0a0a);
   box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
   cursor: pointer;
 }
@@ -300,10 +296,10 @@ export default {
 }
 
 .image-container {
-  width: 100%;
-  height: 300px;
   display: flex;
   justify-content: center;
+  width: 100%;
+  height: 300px;
   background-color: #f3f3f3;
 }
 
@@ -326,6 +322,7 @@ export default {
     flex-wrap: wrap;
     justify-content: center;
   }
+
   .card {
     width: 95%;
   }
@@ -346,9 +343,11 @@ export default {
     flex-wrap: wrap;
     justify-content: center;
   }
+
   .card {
     width: 95%;
   }
+
   .svg-inline--fa {
     width: 16px;
     height: 16px;
@@ -365,10 +364,12 @@ export default {
     flex-wrap: wrap;
     justify-content: center;
   }
+
   .card {
     width: 95%;
     padding: 15px;
   }
+
   .svg-inline--fa {
     width: 16px;
     height: 16px;
