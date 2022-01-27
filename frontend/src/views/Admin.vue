@@ -93,7 +93,8 @@ export default {
 <style scoped>
     .container {
         padding: 22px;
-        background-color: #fff1ed;
+        background-color: #f36841;
+        height: 100%;
     }
 
     .profile-fields {
@@ -120,14 +121,6 @@ export default {
     .picture-container {
         display: flex;
         justify-content: center;
-    }
-
-    .profile-datas {
-        width: 100%;
-        margin: 5px 0;
-        padding: 12px;
-        font-size: 15px;
-        border-radius: 6px;
     }
 
     .posts-img {
@@ -180,8 +173,26 @@ export default {
 
     .datas-container {
         display: flex;
+        justify-content: center;
+        margin: 35px 0 2px 0;
         flex-wrap: wrap;
-        margin: 15px 0;
+        border-radius: 22px;
+        padding: 0 20px;
+        background-color: #fdc6ba;
+    }
+
+    .profile-datas {
+        width: 100%;
+        margin: 5px 0;
+        display: flex;
+        justify-content: center;
+        padding: 12px;
+        font-size: 15px;
+        border-radius: 6px;
+    }
+
+    .profile-datas strong {
+        margin-right: 5px;
     }
 
     .delete-btn {

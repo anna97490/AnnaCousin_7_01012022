@@ -1,17 +1,17 @@
 <template>
-    <div class="bloc-modale" v-if="display">
+    <div class="bloc-modale" v-if="display" data-aos="fade-up" data-aos-easing="ease-in-out">
         <div class="overlay">
             <div class="modale card">
-                <div @click="sendStateModalToParent()" class="close-btn">X</div>
+                <div @click="sendStateModalToParent()" class="close-btn"><font-awesome-icon icon="times-circle" /></div>
                  <form class="form">
-                    <label for="text"><span>Rédigez votre nouveau texte:</span></label>
-                    <textarea id="text" v-model="dataPost.text" aria-label="Contenu du message"></textarea>
+                    <label for="text1" data-aos="fade-right" data-aos-delay="0"><strong>Rédigez votre nouveau texte:</strong></label>
+                    <textarea id="text1" v-model="dataPost.text" data-aos="fade-right"  data-aos-delay="200" aria-label="Contenu du message"></textarea>
                 </form>
                 <div class="posts-img">
-                    <input type="file" id="file" name="image" enctype="multipart/form-data" @change="onFileSelected" aria-label="Choisir une image" />
+                    <input type="file" id="file" name="image" enctype="multipart/form-data" @change="onFileSelected" data-aos="fade-right"  data-aos-delay="700" aria-label="Choisir une image" />
                 </div>
                  <div class="publish">
-                    <button class="update-btn" @click="updatePost(dataPost)">Enregistrer les modifications</button>
+                    <button class="update-btn" @click="updatePost(dataPost)" data-aos="fade-right"  data-aos-delay="1200">Enregistrer</button>
                 </div>
             </div>
         </div>
@@ -85,7 +85,7 @@
             .then((res) => {
                 localStorage.setItem('post', JSON.stringify(res.data));
                 console.log(10, res.data);
-                alert('Votre publication a bien été créée!');
+                alert('Votre publication a bien été modifiée!');
                 this.$router.go();
             })
             .catch(() => {
@@ -115,12 +115,13 @@
 <style scoped>
 .bloc-modale {
     position: fixed;
-    background-color: #d1d1d191;
+    background-color: #d1d1d1d6;
     border: 1px solid black;
     top: 0;
     bottom: 0;
     left: 0;
     right: 0;
+    z-index: 2;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -130,40 +131,52 @@
     position: fixed;
     top: 30%;
     bottom: 50%;
-    left: 40%;
+    left: 32%;
     right: 50%;
 }
 
 .form {
- width: 100%;
- display: flex;
- flex-wrap: wrap;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
 }
 
 .form label {
     width: 100%;
 }
 
+.form span {
+    font-size: 15px;
+}
+
 .post-img input {
     float: right;
 }
 
-#text {
+#text1 {
     width: 100%;
-    padding: 2px 12px;
-    margin: 5px 0 15px;
+    padding: 6px 14px;;
+    margin: 8px 0 15px;
     border-radius: 22px;
     font-size: 13px;
 }
 
 .modale {
-    width: 470px;
+    width: 540px;
+    height: auto;
     background: #fff;
     color: #333;
     border-radius: 20px;
-    height: 225px;
-    padding: 35px;
+    padding: 23px;
     position: fixed;
+}
+
+.close-btn svg {
+    float: right;
+    margin-bottom: 5px;
+    font-size: 20px;
+    color: #8d2608;
+    cursor: pointer;
 }
 
 .btn-modale {
@@ -174,15 +187,16 @@
 
 .update-btn {
     padding: 12px;
-    font-size: 17px;
+    font-size: 15px;
     border: none;
     border-radius: 8px;
     transform: scale(0.9);
     transition-property: transform;
     transition-duration: 0.4s;
     color: #fff;
+    float: right;
     z-index: 1;
-    width: 120px;
+    width: 100px;
     margin-top: 15px;
     box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
     cursor: pointer;

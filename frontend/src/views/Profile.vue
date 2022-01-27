@@ -4,38 +4,38 @@
     <div class="container">
       <div class="profile-fields">
         <h1 class="title">Bienvenue sur votre profil {{ userInfo.firstname }} !</h1>
-        <p v-if="isAdmin === true">Votre profil administrateur</p>
         <div class="profile-container">
           <div class="picture-container">
-            <img class="profile-picture" v-if="this.userInfo.imageUrl" :src="this.userInfo.imageUrl" />
-            <img v-else src="../assets/img-user-default.jpg" />
+            <img class="profile-picture" v-if="this.userInfo.imageUrl" :src="this.userInfo.imageUrl" width="150" />
+            <img class="picture-default" v-else src="../assets/img-user-default.jpg" />
           </div>
-          <div>
-            <div class="posts-img">
-              <label for="file">Choisir une nouvelle image de profil:</label>
-              <input type="file" id="file-input" name="image" enctype="multipart/form-data" @change="onFileSelected" aria-label="Choisir une image" /> 
+            <div class="profile-file">
+              <form>
+                <label for="file"><strong>Choisir une nouvelle image de profil:</strong></label>
+                <input type="file" id="file-input" name="image" enctype="multipart/form-data" @change="onFileSelected" aria-label="Choisir une image" /> 
+              </form>
             </div>
-            <div class="btn-container">
-              <button class="save-btn" @click="addPicture()">Sauvegarder</button>
-            </div> 
-          </div>
+          <div class="btn-container">
+            <button class="save-btn" @click="addPicture()"><strong>Enregistrer l'image</strong></button>
+          </div> 
+          <div class="border"></div>
           <div class="datas-container">
             <div class="datas">
-              <p class="profile-datas">
-                <strong>Prénom: </strong> {{ userInfo.firstname }}
-              </p>
-              <p class="profile-datas">
+              <span class="profile-datas" data-aos="fade-right"  data-aos-delay="200">
+                <strong>Prénom:  </strong> {{ userInfo.firstname }}
+              </span>
+              <span class="profile-datas" data-aos="fade-right"  data-aos-delay="700">
                 <strong>Nom: </strong> {{ userInfo.lastname }}
-              </p>
-              <p class="profile-datas">
+              </span>
+              <span class="profile-datas" data-aos="fade-right"  data-aos-delay="1200">
                 <strong>Email: </strong> {{ userInfo.email }}
-              </p>
-              <p class="profile-datas">
+              </span>
+              <span class="profile-datas" data-aos="fade-right"  data-aos-delay="1700">
                 Inscrit depuis le {{ dateTime(userInfo.createdAt) }}
-              </p>
-              <p class="profile-datas" v-if="this.isAdmin">
-                <strong>Rôle:</strong>
-              </p>
+              </span>
+              <span class="profile-datas" v-if="this.isAdmin === true" data-aos="fade-right"  data-aos-delay="2100">
+                <strong>Rôle:</strong>Administrateur
+              </span>
             </div>
           </div>
           <button @click="deleteProfile()" type="button" class="delete-btn">Supprimer votre compte</button>
@@ -127,7 +127,7 @@ export default {
 <style scoped>
 .container {
   padding: 22px;
-  background-color: #fff1ed;
+  background-color: #f36841;
 }
 
 .profile-fields {
@@ -166,18 +166,22 @@ export default {
   border-radius: 6px;
 }
 
-.posts-img {
-  width: 100%;
-  margin-top: 15px;
+.profile-datas strong {
+  margin-right: 5px;
 }
 
-.posts-img label {
-  font-size: 13px;
+.profile-file {
+  margin-top: 15px;
+  font-size: 15px;
+}
+
+.profile-file label {
+  font-size: 15px;
 }
 
 #file-input {
   width: 100%;
-  margin: 10px 0;
+  margin-bottom: 10px;
   font-size: 12px;
 }
 
@@ -187,27 +191,38 @@ export default {
 }
 
 .profile-picture {
-  width: 155px;
-  height: 160px;
+  
+}
+
+.picture-default {
+  width: 100px;
+  height: 100px;
+  border: 2px solid #ff5618;
+  border-radius: 80px;
 }
 
 .btn-container {
   display: flex;
   justify-content: center;
+  margin-bottom: 10px;
 }
 
 .save-btn {
-  width: 120px;
+  width: 150px;
   padding: 12px;
-  font-size: 17px;
+  font-size: 14px;
   border: none;
-  border-radius: 8px;
+  border-radius: 25px;
   color: #fff;
   background: linear-gradient(#d17979, #8d2608);
   transform: scale(0.9);
   transition-property: transform;
   transition-duration: 0.4s;
   box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
+}
+
+.border {
+  border-bottom: 1px solid #d5d5d58c;
 }
 
 .save-btn:hover {
@@ -218,17 +233,17 @@ export default {
 .datas-container {
   display: flex;
   justify-content: center;
-  margin: 15px 0;
-  border-radius: 8px;
+  margin: 35px 0 2px 0;
+  border-radius: 22px;
   padding: 0 20px;
-  background-color: #db5b1729;
+  background-color: #fdc6ba;
 }
 
 .delete-btn {
   padding: 12px;
   font-size: 15px;
   border: none;
-  border-radius: 8px;
+  border-radius: 25px;
   transform: scale(0.9);
   transition-property: transform;
   transition-duration: 0.4s;

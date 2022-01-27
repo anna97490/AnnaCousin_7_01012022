@@ -37,7 +37,7 @@ export default {
   align-items: center;
   padding: 10px 45px;
   background: white;
-  box-shadow: 0 2px 4px rgb(0 0 0 / 6%), 0 8px 16px rgb(0 0 0 / 3%);
+  box-shadow: 0 2px 6px rgb(0 0 0 / 6%), 0 8px 16px rgb(0 0 0 / 3%);
 }
 
 .header-container {

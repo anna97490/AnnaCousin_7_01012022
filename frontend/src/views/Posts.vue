@@ -6,13 +6,16 @@
         <h1 class="title">Créez votre publication:</h1>
         <div class="posts-content">
           <form>
-            <label for="text"><span>Rédigez votre texte:</span></label>
+            <label for="text"><span><strong>Rédigez votre texte:</strong></span></label>
             <textarea id="text" v-model="text" aria-label="Contenu du message"></textarea>
           </form>
         </div>
         <div class="posts-file">
           <div class="posts-img">
-            <input type="file" id="file" name="image" enctype="multipart/form-data" @change="onFileSelected" aria-label="Choisir une image" />
+            <form>
+              <label for="file"><strong>Choisissez l'image de votre publication:</strong></label>
+              <input type="file" id="file" name="image" enctype="multipart/form-data" @change="onFileSelected" aria-label="Choisir une image" />
+            </form>
           </div>
           <div class="publish">
             <button class="create-btn" @click="createPost()">Publier</button>
@@ -113,6 +116,7 @@ export default {
 .container {
   display: flex;
   justify-content: center;
+  box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%)
 }
 
 .posts-creation {
@@ -120,6 +124,7 @@ export default {
   padding: 15px;
   background-color: #fd846c4d;
   border-radius: 10px;
+  box-shadow: 0 10px 22px rgb(0 0 0 / 36%), 0 8px 16px rgb(0 0 0 / 3%);
 }
 
 .posts-content {
@@ -158,6 +163,7 @@ form {
 }
 
 .posts-file {
+  display: flex;
   width: 100%;
 }
 
@@ -166,8 +172,7 @@ form {
 }
 
 #file {
-  float: right;
-  width: 200px;
+  
   font-size: 12px;
 }
 
@@ -177,18 +182,12 @@ form {
   font-size: 15px;
 }
 
-.publish {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 .create-btn {
   width: 120px;
   padding: 12px;
   font-size: 17px;
   border: none;
-  border-radius: 8px;
+  border-radius: 25px;;
   color: #fff;
   background: linear-gradient(#d17979, #8d2608);
   transform: scale(0.9);
@@ -203,20 +202,21 @@ form {
 }
 
 .posts-container {
-  background-color: #fd846c4d;
+  background-color: #fed0c6e8;
   margin-top: 20px;
   border-radius: 10px;
   display: flex;
   flex-wrap: wrap;
   width: 636px;
-  justify-content: center
+  justify-content: center;
+  box-shadow: 0 10px 21px rgb(0 0 0 / 45%), 0 20px 30px rgb(0 0 0 / 30%);
 }
 
 .posts {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  background-color: #fff1ed;
+  background-color: #f36841;
 }
 
 /* MEDIA QUERIES */

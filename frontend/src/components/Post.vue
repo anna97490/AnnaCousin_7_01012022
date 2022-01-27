@@ -1,12 +1,13 @@
 <template>
   <div class="card-container">
     <h1 class="title">Découvrez toutes les publications:</h1>
-    <div class="card" :key="index" v-for="(post, index) in allPosts">
+    <div class="card" :key="index" v-for="(post, index) in allPosts" data-aos="fade-right" data-aos-easing="linear" data-aos-duration="700">
       <div>
         <p class="user-infos">
-          <img class="profile-picture" :src="userInfo.imageUrl">
+          <img class="profile-picture" v-if="userInfo.imageUrl" :src="userInfo.imageUrl" alt="Photo de profil de l'auteur de la publication">
+          <img class="profile-picture" v-else src="../assets/img-user-default.jpg">
           <span><strong>Publié par :</strong> {{ post.authorFullName }}</span>
-          <button class=" delete-btn profile" v-if="isAdmin == true"  @click="getOneUser(post)"><font-awesome-icon icon="user" /></button>
+          <span class=" delete-btn profile" v-if="isAdmin == true"  @click="getOneUser(post)"><font-awesome-icon icon="user" /></span>
         </p>
         <p class="date">
           le {{ dateTime(post.createdAt) }} à {{ hour(post.createdAt) }}
@@ -155,9 +156,20 @@ export default {
   box-shadow: 0 6px 9px rgb(0 0 0 / 5%), 0 18px 10px rgb(0 0 0 / 4%);
 }
 
+.user-infos {
+  display: flex;
+  align-items: center;
+  border-radius: 22px;
+  padding: 4px 12px;
+  background-color: #fdc6ba;
+  box-shadow: 0 0 0 rgb(0 0 0 / 1%), 0 2px 5px rgb(0 0 0 / 30%);
+}
+
 .profile-picture {
-  width: 40px;
-  height: 40px;
+  width: 50px;
+  height: 50px;
+  margin-right: 12px;
+  border-radius: 25px;
 }
 
 .update-btn {
@@ -170,7 +182,6 @@ export default {
   transition-duration: 0.4s;
   color: #fff;
   z-index: 1;
-  width: 120px;
   margin-top: 15px;
   box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
   cursor: pointer;
@@ -214,7 +225,10 @@ export default {
 }
 
 .profile {
-  background: linear-gradient(#3af391, #053a2e);
+  margin-top: 0;
+  margin-left: 49%;
+  padding: 8px;
+  background: linear-gradient(#ff4f03, #bd6b18);
 }
 
 .trash {
@@ -229,16 +243,10 @@ export default {
 
 .image-container {
   width: 100%;
-  height: 200px;
+  height: 300px;
   display: flex;
   justify-content: center;
   background-color: #f3f3f3;
-}
-
-.image {
-  width: 200px;
-  height: 200px;
-  object-fit: cover;
 }
 
 .text {
@@ -246,6 +254,11 @@ export default {
   margin-top: 10px;
   border-radius: 4px;
   background-color: #f3f3f3;
+}
+
+.btn-container {
+  display: flex;
+  justify-content: space-between;
 }
 
 /* MEDIA QUERIES */
