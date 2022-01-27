@@ -97,16 +97,15 @@ export default {
             : 'Mot de passe incorrect';
       }
       if (this.passwordError && this.emailError) {
-        instance
-          .post('http://localhost:3000/api/auth/login', user)
-          .then((res) => {
-            localStorage.setItem('user', JSON.stringify(res.data));
-            this.$router.push('/posts');
-          })
-          .catch(() => {
-            this.message = 'Vos identifiants sont incorrects';
-            this.idError = true;
-          });
+        instance.post('http://localhost:3000/api/auth/login', user)
+        .then((res) => {
+          localStorage.setItem('user', JSON.stringify(res.data));
+          this.$router.push('/posts');
+        })
+        .catch(() => {
+          this.message = 'Vos identifiants sont incorrects';
+          this.idError = true;
+        });
       }
     },
   },

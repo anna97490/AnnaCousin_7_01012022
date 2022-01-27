@@ -159,27 +159,22 @@ export default {
         this.emailError &&
         this.firstnameError &&
         this.lastnameError
-      ) {
-        instance
-          .post('http://localhost:3000/api/auth/signup', user)
-          .then(() => {
-            delete user['firstname'];
-            delete user['lastname'];
-            delete user['imageUrl'];
-            setTimeout(
-              instance
-                .post('http://localhost:3000/api/auth/login', user)
-                .then((res) => {
-                  localStorage.setItem('user', JSON.stringify(res.data));
-                  this.$router.push('/posts');
-                }),
-              2000
-            );
-          })
-          .catch(() => {
-            this.message = 'Vos saisies sont incorrectes';
-            this.idError = true;
-          });
+        ) {
+        instance.post('http://localhost:3000/api/auth/signup', user)
+        .then(() => {
+          delete user['firstname'];
+          delete user['lastname'];
+          delete user['imageUrl'];
+          setTimeout(instance.post('http://localhost:3000/api/auth/login', user)
+          .then((res) => {
+              localStorage.setItem('user', JSON.stringify(res.data));
+              this.$router.push('/posts');
+            }), 2000);
+        })
+        .catch(() => {
+          this.message = 'Vos saisies sont incorrectes';
+          this.idError = true;
+        });
       }
     },
   },

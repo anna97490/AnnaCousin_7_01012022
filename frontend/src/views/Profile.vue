@@ -100,17 +100,16 @@ export default {
   mounted() {
     this.account = JSON.parse(localStorage.getItem('user'));
     if (this.account?.userId) {
-      instance
-        .get(`http://localhost:3000/api/auth/${this.account.userId}`, {
+      instance.get(`http://localhost:3000/api/auth/${this.account.userId}`, {
           headers: { Authorization: 'Bearer ' + this.account.token },
-        })
-        .then((res) => {
-          this.userInfo = res.data;
-          this.isAdmin = this.account.isAdmin;
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      })
+      .then((res) => {
+        this.userInfo = res.data;
+        this.isAdmin = this.account.isAdmin;
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     }
   },
   methods: {
@@ -125,38 +124,33 @@ export default {
       let user = JSON.parse(localStorage.getItem('user'));
       const fd = new FormData();
       fd.append('image', this.selectedFile);
-      instance
-        .put(`http://localhost:3000/api/auth/${user.userId}/update`, fd, {
-          headers: {
-            Authorization: 'Bearer ' + user.token,
-            'Content-Type': 'multipart/form-data',
-          },
-        })
-        .then((res) => {
-          this.$router.go();
-          console.log(10, res.data);
-        })
-        .catch((req) => {
-          console.log(req.file);
-        });
+      instance.put(`http://localhost:3000/api/auth/${user.userId}/update`, fd, {
+        headers: {
+          Authorization: 'Bearer ' + user.token,
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+      .then((res) => {
+        this.$router.go();
+        console.log(10, res.data);
+      })
+      .catch((req) => {
+        console.log(req.file);
+      });
     },
     deleteProfile: function () {
       if (confirm('Souhaitez-vous vraiment supprimer votre compte?')) {
-        instance
-          .delete(
-            `http://localhost:3000/api/auth/${this.account.userId}/delete`,
-            {
-              headers: { Authorization: 'Bearer ' + this.account.token },
-            }
-          )
-          .then(() => {
-            alert('Le profil a bien été supprimé !');
-            localStorage.clear();
-            this.$router.go();
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+        instance.delete(`http://localhost:3000/api/auth/${this.account.userId}/delete`, {
+          headers: { Authorization: 'Bearer ' + this.account.token },
+        })
+        .then(() => {
+          alert('Le profil a bien été supprimé !');
+          localStorage.clear();
+          this.$router.go();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
       }
     },
   },
@@ -326,7 +320,7 @@ export default {
   .profile-fields {
     width: 99%;
   }
-  
+
   .delete-btn {
     word-break: break-word;
     float: none;

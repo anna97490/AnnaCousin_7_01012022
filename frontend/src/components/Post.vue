@@ -93,55 +93,52 @@ export default {
   },
   mounted() {
     const user = JSON.parse(localStorage.getItem('user'));
-    instance
-      .get(`http://localhost:3000/api/posts`, {
-        headers: {
-          Authorization: 'Bearer ' + user.token,
-        },
-      })
-      .then((res) => {
-        for (const post of res.data) {
-          this.allPosts.push(post);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    instance.get(`http://localhost:3000/api/posts`, {
+      headers: {
+        Authorization: 'Bearer ' + user.token,
+      },
+    })
+    .then((res) => {
+      for (const post of res.data) {
+        this.allPosts.push(post);
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    });
   },
   methods: {
     getProfile: function () {
       this.account = JSON.parse(localStorage.getItem('user'));
       if (this.account?.userId) {
-        instance
-          .get(`http://localhost:3000/api/auth/${this.account.userId}`, {
-            headers: { Authorization: 'Bearer ' + this.account.token },
-          })
-          .then((res) => {
-            this.userInfo = res.data;
-            this.isAdmin = this.account.isAdmin;
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+        instance.get(`http://localhost:3000/api/auth/${this.account.userId}`, {
+          headers: { Authorization: 'Bearer ' + this.account.token },
+        })
+        .then((res) => {
+          this.userInfo = res.data;
+          this.isAdmin = this.account.isAdmin;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
       }
     },
     // Récupération du user pour rediriger l'admin sur son profil
     getOneUser: function (post) {
       const user = JSON.parse(localStorage.getItem('user'));
       let id = post.userId;
-      instance
-        .get(`http://localhost:3000/api/auth/${id}`, {
-          headers: {
-            Authorization: 'Bearer ' + user.token,
-          },
-        })
-        .then((res) => {
-          console.log(2, res.data);
-          this.$router.push({ path: `/admin/${res.data.userId}` });
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      instance.get(`http://localhost:3000/api/auth/${id}`, {
+        headers: {
+          Authorization: 'Bearer ' + user.token,
+        },
+      })
+      .then((res) => {
+        console.log(2, res.data);
+        this.$router.push({ path: `/admin/${res.data.userId}` });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     },
     // Date et heure du post
     dateTime: function (value) {
@@ -155,18 +152,17 @@ export default {
       const user = JSON.parse(localStorage.getItem('user'));
       const id = post.id;
       if (confirm('Souhaitez-vous vraiment supprimer ce post?')) {
-        instance
-          .delete(`http://localhost:3000/api/posts/${id}`, {
-            headers: {
-              Authorization: 'Bearer ' + user.token,
-            },
-          })
-          .then(() => {
-            this.$router.go();
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+        instance.delete(`http://localhost:3000/api/posts/${id}`, {
+          headers: {
+            Authorization: 'Bearer ' + user.token,
+          },
+        })
+        .then(() => {
+          this.$router.go();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
       }
     },
     toggleModale: function (post) {

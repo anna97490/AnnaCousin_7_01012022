@@ -67,17 +67,16 @@ export default {
   mounted() {
     this.account = JSON.parse(localStorage.getItem('user'));
     if (this.account?.userId) {
-      instance
-        .get(`http://localhost:3000/api/auth/${this.account.userId}`, {
-          headers: { Authorization: 'Bearer ' + this.account.token },
-        })
-        .then((res) => {
-          this.userInfo = res.data;
-          this.fullName = `${res.data.firstname} ${res.data.lastname}`;
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      instance.get(`http://localhost:3000/api/auth/${this.account.userId}`, {
+        headers: { Authorization: 'Bearer ' + this.account.token },
+      })
+      .then((res) => {
+        this.userInfo = res.data;
+        this.fullName = `${res.data.firstname} ${res.data.lastname}`;
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     }
   },
   methods: {
@@ -98,21 +97,20 @@ export default {
       if (this.text == '' || this.selectedFile == '') {
         alert('Veuillez écrire votre texte');
       } else {
-        instance
-          .post('http://localhost:3000/api/posts', fd, {
-            headers: {
-              'Content-Type': 'multipart/form-data',
-              Authorization: 'Bearer ' + user.token,
-            },
-          })
-          .then((res) => {
-            localStorage.setItem('post', JSON.stringify(res.data));
-            alert('Votre publication a bien été créée!');
-            this.$router.go();
-          })
-          .catch(() => {
-            alert('Veuillez écrire votre texte');
-          });
+        instance.post('http://localhost:3000/api/posts', fd, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            Authorization: 'Bearer ' + user.token,
+          },
+        })
+        .then((res) => {
+          localStorage.setItem('post', JSON.stringify(res.data));
+          alert('Votre publication a bien été créée!');
+          this.$router.go();
+        })
+        .catch(() => {
+          alert('Veuillez écrire votre texte');
+        });
       }
     },
   },

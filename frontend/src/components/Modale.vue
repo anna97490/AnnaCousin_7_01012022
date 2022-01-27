@@ -50,92 +50,90 @@
 import instance from '../axios';
 
 export default {
-  name: 'Modale',
-  props: ['toggleModale', 'dataPost'],
-  data() {
-    return {
-      display: false,
-      data: {},
-      selectedFile: null,
-      text: '',
-      fullName: '',
-      Filelist: {},
-      userInfo: {},
-      account: null,
-      user: JSON.parse(localStorage.getItem('user')),
-    };
-  },
-  mounted() {
-    this.account = JSON.parse(localStorage.getItem('user'));
-    if (this.account?.userId) {
-      instance
-        .get(`http://localhost:3000/api/auth/${this.account.userId}`, {
-          headers: { Authorization: 'Bearer ' + this.account.token },
-        })
-        .then((res) => {
-          this.userInfo = res.data;
-          this.fullName = `${res.data.firstname} ${res.data.lastname}`;
-          console.log(20, this.userInfo);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-  },
-  methods: {
-    onFileSelected(event) {
-      this.selectedFile = event.target.files[0];
+    name: 'Modale',
+    props: ['toggleModale', 'dataPost'],
+    data() {
+        return {
+        display: false,
+        data: {},
+        selectedFile: null,
+        text: '',
+        fullName: '',
+        Filelist: {},
+        userInfo: {},
+        account: null,
+        user: JSON.parse(localStorage.getItem('user')),
+        };
     },
-    updatePost: function (post) {
-      console.log(99, post);
-      const id = post.id;
-      let user = JSON.parse(localStorage.getItem('user'));
-      let fd = new FormData();
-      fd.append('userId', user.userId);
-      fd.append('authorFullName', post.authorFullName);
-      if (post.text != '') {
-        fd.append('text', post.text);
-      }
-      if (this.selectedFile) {
-        fd.append('image', this.selectedFile);
-      }
-      if (post.text == '' || this.selectedFile == '') {
-        alert('Veuillez écrire votre texte ou changer votre photo');
-      } else {
-        instance
-          .put(`http://localhost:3000/api/posts/${id}`, fd, {
-            headers: {
-              'Content-Type': 'multipart/form-data',
-              Authorization: 'Bearer ' + user.token,
-            },
-          })
-          .then((res) => {
-            localStorage.setItem('post', JSON.stringify(res.data));
-            console.log(10, res.data);
-            alert('Votre publication a bien été modifiée!');
-            this.$router.go();
-          })
-          .catch(() => {
-            alert('Veuillez écrire votre texte');
-          });
-      }
+    mounted() {
+        this.account = JSON.parse(localStorage.getItem('user'));
+        if (this.account?.userId) {
+            instance.get(`http://localhost:3000/api/auth/${this.account.userId}`, {
+                headers: { Authorization: 'Bearer ' + this.account.token },
+            })
+            .then((res) => {
+            this.userInfo = res.data;
+            this.fullName = `${res.data.firstname} ${res.data.lastname}`;
+            console.log(20, this.userInfo);
+            })
+            .catch((err) => {
+            console.log(err);
+            });
+        }
     },
-    close() {
-      this.display = false;
+    methods: {
+        onFileSelected(event) {
+            this.selectedFile = event.target.files[0];
+        },
+        updatePost: function (post) {
+            console.log(99, post);
+            const id = post.id;
+            let user = JSON.parse(localStorage.getItem('user'));
+            let fd = new FormData();
+            fd.append('userId', user.userId);
+            fd.append('authorFullName', post.authorFullName);
+            if (post.text != '') {
+                fd.append('text', post.text);
+            }
+            if (this.selectedFile) {
+                fd.append('image', this.selectedFile);
+            }
+            if (post.text == '' || this.selectedFile == '') {
+                alert('Veuillez écrire votre texte ou changer votre photo');
+            } else {
+                instance.put(`http://localhost:3000/api/posts/${id}`, fd, {
+                    headers: {
+                    'Content-Type': 'multipart/form-data',
+                    Authorization: 'Bearer ' + user.token,
+                    },
+                })
+                .then((res) => {
+                    localStorage.setItem('post', JSON.stringify(res.data));
+                    console.log(10, res.data);
+                    alert('Votre publication a bien été modifiée!');
+                    this.$router.go();
+                })
+                .catch(() => {
+                    alert('Veuillez écrire votre texte');
+                });
+            }
+        },
+        close() {
+            this.display = false;
+        },
+        sendStateModalToParent() {
+            this.$emit('closeModal');
+        },
     },
-    sendStateModalToParent() {
-      this.$emit('closeModal');
+    watch: {
+        toggleModale: function () {
+        this.display = this.toggleModale;
+        },
+        dataPost: function () {
+            console.log(6, this.dataPost);
+            this.data = this.dataPost;
+        },
     },
-  },
-  watch: {
-    toggleModale: function () {
-      this.display = this.toggleModale;
-    },
-    dataPost: function () {
-      console.log(6, this.dataPost);
-      this.data = this.dataPost;
-    },
-  },
 };
 </script>
 
