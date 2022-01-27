@@ -1,27 +1,68 @@
 <template>
   <div class="card-container">
     <h1 class="title">Découvrez toutes les publications:</h1>
-    <div class="card" :key="index" v-for="(post, index) in allPosts" data-aos="fade-right" data-aos-easing="linear" data-aos-duration="700">
+    <div
+      class="card"
+      :key="index"
+      v-for="(post, index) in allPosts"
+      data-aos="fade-right"
+      data-aos-easing="linear"
+      data-aos-duration="700"
+    >
       <div>
         <p class="user-infos">
-          <img class="profile-picture" v-if="userInfo.imageUrl" :src="userInfo.imageUrl" alt="Photo de profil de l'auteur de la publication">
-          <img class="profile-picture" v-else src="../assets/img-user-default.jpg">
-          <span><strong>Publié par :</strong> {{ post.authorFullName }}</span>
-          <span class=" delete-btn profile" v-if="isAdmin == true"  @click="getOneUser(post)"><font-awesome-icon icon="user" /></span>
+          <img
+            class="profile-picture"
+            v-if="userInfo.imageUrl"
+            :src="userInfo.imageUrl"
+            alt="Photo de profil de l'auteur de la publication"
+          />
+          <img
+            class="profile-picture"
+            v-else
+            src="../assets/img-user-default.jpg"
+          />
+          <span class="name"
+            ><strong>Publié par :</strong> {{ post.authorFullName }}</span
+          >
+          <span
+            class="delete-btn profile"
+            v-if="isAdmin == true"
+            @click="getOneUser(post)"
+            ><font-awesome-icon icon="user"
+          /></span>
         </p>
         <p class="date">
           le {{ dateTime(post.createdAt) }} à {{ hour(post.createdAt) }}
         </p>
         <div class="image-container" v-if="post.imageUrl">
-          <img v-if="post.imageUrl" class="image" :src="post.imageUrl" alt="Image postée" />
+          <img
+            v-if="post.imageUrl"
+            class="image"
+            :src="post.imageUrl"
+            alt="Image postée"
+          />
         </div>
-         <div class="image-container1" v-if="post.imageUrl == null">
-        </div>
+        <div class="image-container1" v-if="post.imageUrl == null"></div>
         <p class="text">{{ post.text }}</p>
         <div class="btn-container">
-          <modale :dataPost="currentPost" v-bind:toggleModale="displayModale" v-on:closeModal="receiveStateFromChild"></modale>
-          <span v-if="post.userId == user.userId || isAdmin == true" @click="toggleModale(post)" class="update-btn"><font-awesome-icon icon="edit" /></span>
-          <span v-if="post.userId == user.userId || isAdmin == true" @click="deletePost(post)" class="delete-btn"><font-awesome-icon icon="trash" /></span>
+          <modale
+            :dataPost="currentPost"
+            v-bind:toggleModale="displayModale"
+            v-on:closeModal="receiveStateFromChild"
+          ></modale>
+          <span
+            v-if="post.userId == user.userId || isAdmin == true"
+            @click="toggleModale(post)"
+            class="update-btn"
+            ><font-awesome-icon icon="edit"
+          /></span>
+          <span
+            v-if="post.userId == user.userId || isAdmin == true"
+            @click="deletePost(post)"
+            class="delete-btn"
+            ><font-awesome-icon icon="trash"
+          /></span>
         </div>
       </div>
     </div>
@@ -31,12 +72,12 @@
 <script>
 import moment from 'moment';
 import instance from '../axios';
-import Modale from '../components/Modale.vue'
+import Modale from '../components/Modale.vue';
 
 export default {
   name: 'Post',
   components: {
-    'modale': Modale
+    modale: Modale,
   },
   data() {
     return {
@@ -48,60 +89,63 @@ export default {
       account: null,
       userInfo: {},
       displayModale: false,
-      currentPost: {}
+      currentPost: {},
     };
   },
   created() {
-    this.getProfile()
+    this.getProfile();
   },
   mounted() {
-    const user = JSON.parse(localStorage.getItem('user'))
-    instance.get(`http://localhost:3000/api/posts`, {
-      headers: {
-        Authorization: 'Bearer ' + user.token,
-      },
-    })
-    .then((res) => {
-      for (const post of res.data) {
-        this.allPosts.push(post);
-      }
-    })
-    .catch((err) => {
-      console.log(err)
-    });
-  },
-  methods: {
-    getProfile: function() {
-      this.account = JSON.parse(localStorage.getItem('user'))
-      if (this.account?.userId) {
-        instance.get(`http://localhost:3000/api/auth/${this.account.userId}`, {
-          headers: { Authorization: 'Bearer ' + this.account.token },
-        })
-        .then((res) => {
-          this.userInfo = res.data;
-          this.isAdmin = this.account.isAdmin
-        })
-        .catch((err) => {
-          console.log(err)
-        });
-      }
-    },
-    // Récupération du user pour rediriger l'admin sur son profil
-    getOneUser: function (post) {
-      const user = JSON.parse(localStorage.getItem('user'))
-      let id = post.userId;
-      instance.get(`http://localhost:3000/api/auth/${id}`, {
+    const user = JSON.parse(localStorage.getItem('user'));
+    instance
+      .get(`http://localhost:3000/api/posts`, {
         headers: {
           Authorization: 'Bearer ' + user.token,
         },
       })
       .then((res) => {
-        console.log(2, res.data);
-        this.$router.push({ path: `/admin/${res.data.userId}`})
+        for (const post of res.data) {
+          this.allPosts.push(post);
+        }
       })
       .catch((err) => {
-        console.log(err)
+        console.log(err);
       });
+  },
+  methods: {
+    getProfile: function () {
+      this.account = JSON.parse(localStorage.getItem('user'));
+      if (this.account?.userId) {
+        instance
+          .get(`http://localhost:3000/api/auth/${this.account.userId}`, {
+            headers: { Authorization: 'Bearer ' + this.account.token },
+          })
+          .then((res) => {
+            this.userInfo = res.data;
+            this.isAdmin = this.account.isAdmin;
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    },
+    // Récupération du user pour rediriger l'admin sur son profil
+    getOneUser: function (post) {
+      const user = JSON.parse(localStorage.getItem('user'));
+      let id = post.userId;
+      instance
+        .get(`http://localhost:3000/api/auth/${id}`, {
+          headers: {
+            Authorization: 'Bearer ' + user.token,
+          },
+        })
+        .then((res) => {
+          console.log(2, res.data);
+          this.$router.push({ path: `/admin/${res.data.userId}` });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
     // Date et heure du post
     dateTime: function (value) {
@@ -112,36 +156,37 @@ export default {
     },
     // Supprimer un post
     deletePost: function (post) {
-      const user = JSON.parse(localStorage.getItem('user'))
+      const user = JSON.parse(localStorage.getItem('user'));
       const id = post.id;
       if (confirm('Souhaitez-vous vraiment supprimer ce post?')) {
-        instance.delete(`http://localhost:3000/api/posts/${id}`, {
-          headers: {
-            Authorization: 'Bearer ' + user.token,
-          },
-        })
-        .then(() => {
-          this.$router.go();
-        })
-        .catch((err) => {
-          console.log(err)
-        });
+        instance
+          .delete(`http://localhost:3000/api/posts/${id}`, {
+            headers: {
+              Authorization: 'Bearer ' + user.token,
+            },
+          })
+          .then(() => {
+            this.$router.go();
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       }
     },
     toggleModale: function (post) {
-      this.currentPost = post
-      this.displayModale = true
+      this.currentPost = post;
+      this.displayModale = true;
     },
     receiveStateFromChild() {
-      this.displayModale = false
-    }
+      this.displayModale = false;
+    },
   },
 };
 </script>
 
 <style scoped>
 .title {
-  font-size: 20px;
+  font-size: 18px;
   text-align: center;
   padding-top: 15px;
   margin-top: 15px;
@@ -159,10 +204,20 @@ export default {
 .user-infos {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   border-radius: 22px;
   padding: 4px 12px;
   background-color: #fdc6ba;
   box-shadow: 0 0 0 rgb(0 0 0 / 1%), 0 2px 5px rgb(0 0 0 / 30%);
+}
+
+.name {
+  margin-right: 50%;
+}
+
+.svg-inline--fa {
+  width: 16px;
+  height: 16px;
 }
 
 .profile-picture {
@@ -208,7 +263,7 @@ export default {
 .delete-btn:after,
 .update-btn:after {
   position: absolute;
-  content: "";
+  content: '';
   width: 0;
   height: 100%;
   top: 0;
@@ -225,10 +280,13 @@ export default {
 }
 
 .profile {
-  margin-top: 0;
-  margin-left: 49%;
+  margin: 0;
   padding: 8px;
   background: linear-gradient(#ff4f03, #bd6b18);
+}
+
+.svg-inline--fa {
+  font-size: 17px;
 }
 
 .trash {
@@ -271,9 +329,18 @@ export default {
   .card {
     width: 95%;
   }
+
+  .name {
+    margin-right: 57%;
+  }
+
+  .svg-inline--fa {
+    width: 16px;
+    height: 16px;
+  }
 }
 
-@media screen and (min-width: 300px) and (max-width: 768px) {
+@media screen and (min-width: 501px) and (max-width: 768px) {
   .card-container {
     display: flex;
     flex-wrap: wrap;
@@ -282,6 +349,37 @@ export default {
   .card {
     width: 95%;
   }
+  .svg-inline--fa {
+    width: 16px;
+    height: 16px;
+  }
+
+  .name {
+    margin-right: 30%;
+  }
 }
 
+@media screen and (min-width: 300px) and (max-width: 500px) {
+  .card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .card {
+    width: 95%;
+    padding: 15px;
+  }
+  .svg-inline--fa {
+    width: 16px;
+    height: 16px;
+  }
+
+  .name {
+    margin-right: 0%;
+  }
+
+  .user-infos {
+    font-size: 14px;
+  }
+}
 </style>

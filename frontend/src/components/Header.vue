@@ -2,19 +2,42 @@
   <div>
     <div class="header">
       <div class="header-container">
-        <img class="logo" src="../assets/icon-left-font.png" alt="Logo de la société Groupomania" />
+        <img
+          class="logo"
+          src="../assets/icon-left-font.png"
+          alt="Logo de la société Groupomania"
+        />
       </div>
       <div class="header-links">
-        <router-link class="header-link" to="/posts" aria-label="Lien vers les publications" role="link"><font-awesome-icon icon="comment" /></router-link> |
-        <router-link class="header-link" to="/profile" aria-label="Lien vers le profil" role="link"><font-awesome-icon icon="user" /></router-link> |
-        <span class="header-link" @click="logout()" aria-label="Lien vers la déconnexion" role="link"><font-awesome-icon icon="arrow-alt-circle-right" /></span>
+        <router-link
+          class="header-link"
+          to="/posts"
+          aria-label="Lien vers les publications"
+          role="link"
+          ><font-awesome-icon icon="comment"
+        /></router-link>
+        |
+        <router-link
+          class="header-link"
+          to="/profile"
+          aria-label="Lien vers le profil"
+          role="link"
+          ><font-awesome-icon icon="user"
+        /></router-link>
+        |
+        <span
+          class="header-link"
+          @click="logout()"
+          aria-label="Lien vers la déconnexion"
+          role="link"
+          ><font-awesome-icon icon="arrow-alt-circle-right"
+        /></span>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-
 export default {
   name: 'Header',
   data: function () {
@@ -25,7 +48,7 @@ export default {
   methods: {
     logout: function () {
       localStorage.clear();
-      this.$router.push("/");
+      this.$router.push('/');
     },
   },
 };
@@ -57,7 +80,7 @@ export default {
 .header-link {
   text-decoration: none;
   font-size: 25px;
-  color: #A22D16;
+  color: #a22d16;
   transform: scale(1);
   transition-property: transform;
   transition-duration: 0.4s;
@@ -72,12 +95,17 @@ export default {
 @media screen and (min-width: 300px) and (max-width: 768px) {
   .header {
     padding: 10px;
+    display: flex;
+    justify-content: space-between;
   }
   .header-links {
     width: 40%;
   }
- .logo {
-   height: 40px;
- }
+  .header-link {
+    font-size: 20px;
+  }
+  .logo {
+    height: 36px;
+  }
 }
 </style>

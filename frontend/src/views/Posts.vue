@@ -6,15 +6,27 @@
         <h1 class="title">Créez votre publication:</h1>
         <div class="posts-content">
           <form>
-            <label for="text"><span><strong>Rédigez votre texte:</strong></span></label>
-            <textarea id="text" v-model="text" aria-label="Contenu du message"></textarea>
+            <label for="text">
+              <span><strong>Rédigez votre texte:</strong></span>
+            </label>
+            <textarea id="text" v-model="text" aria-label="Contenu du message">
+            </textarea>
           </form>
         </div>
         <div class="posts-file">
           <div class="posts-img">
             <form>
-              <label for="file"><strong>Choisissez l'image de votre publication:</strong></label>
-              <input type="file" id="file" name="image" enctype="multipart/form-data" @change="onFileSelected" aria-label="Choisir une image" />
+              <label for="file">
+                <strong>Choisissez l'image de votre publication:</strong>
+              </label>
+              <input
+                type="file"
+                id="file"
+                name="image"
+                enctype="multipart/form-data"
+                @change="onFileSelected"
+                aria-label="Choisir une image"
+              />
             </form>
           </div>
           <div class="publish">
@@ -26,7 +38,6 @@
     <div class="posts">
       <div class="posts-container">
         <Post />
-        
       </div>
     </div>
   </div>
@@ -48,62 +59,60 @@ export default {
       selectedFile: null,
       text: '',
       fullName: '',
-      Filelist: {},
       userInfo: {},
       account: null,
-      user: JSON.parse(localStorage.getItem('user')),
     };
   },
   mounted() {
-    this.account = JSON.parse(localStorage.getItem('user'))
+    this.account = JSON.parse(localStorage.getItem('user'));
     if (this.account?.userId) {
-      instance.get(`http://localhost:3000/api/auth/${this.account.userId}`, {
-        headers: { Authorization: 'Bearer ' + this.account.token },
-      })
-      .then((res) => {
-        this.userInfo = res.data;
-        this.fullName = `${res.data.firstname} ${res.data.lastname}`;
-        console.log(20, this.userInfo)
-      })
-      .catch((err) => {
-        console.log(err)
-      });
-    } 
+      instance
+        .get(`http://localhost:3000/api/auth/${this.account.userId}`, {
+          headers: { Authorization: 'Bearer ' + this.account.token },
+        })
+        .then((res) => {
+          this.userInfo = res.data;
+          this.fullName = `${res.data.firstname} ${res.data.lastname}`;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   },
   methods: {
     onFileSelected(event) {
       this.selectedFile = event.target.files[0];
     },
     createPost: function () {
-      let user = JSON.parse(localStorage.getItem('user'))
+      let user = JSON.parse(localStorage.getItem('user'));
       let fd = new FormData();
       fd.append('userId', user.userId);
       fd.append('authorFullName', this.fullName);
-       if (this.text != "") {
-        fd.append("text", this.text);
+      if (this.text != '') {
+        fd.append('text', this.text);
       }
-       if (this.selectedFile) {
-        fd.append("image", this.selectedFile);
+      if (this.selectedFile) {
+        fd.append('image', this.selectedFile);
       }
-      if (this.text == "" || this.selectedFile == "") {
-        alert('Veuillez écrire votre texte')
+      if (this.text == '' || this.selectedFile == '') {
+        alert('Veuillez écrire votre texte');
       } else {
-         instance.post('http://localhost:3000/api/posts', fd, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-            Authorization: 'Bearer ' + user.token,
-          },
-        })
-        .then((res) => {
-          localStorage.setItem('post', JSON.stringify(res.data));
-          console.log(10, res.data);
-          alert('Votre publication a bien été créée!');
-          this.$router.go();
-        })
-        .catch(() => {
-          alert('Veuillez écrire votre texte')
-        });
-      } 
+        instance
+          .post('http://localhost:3000/api/posts', fd, {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+              Authorization: 'Bearer ' + user.token,
+            },
+          })
+          .then((res) => {
+            localStorage.setItem('post', JSON.stringify(res.data));
+            alert('Votre publication a bien été créée!');
+            this.$router.go();
+          })
+          .catch(() => {
+            alert('Veuillez écrire votre texte');
+          });
+      }
     },
   },
 };
@@ -116,7 +125,7 @@ export default {
 .container {
   display: flex;
   justify-content: center;
-  box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%)
+  box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
 }
 
 .posts-creation {
@@ -138,7 +147,7 @@ export default {
   width: 100%;
   margin: 5px 0 10px 0;
   text-align: center;
-  font-size: 20px;
+  font-size: 18px;
 }
 
 form {
@@ -153,13 +162,13 @@ form {
 }
 
 #text {
+  max-height: 300px;
+  max-width: 100%;
   width: 100%;
   padding: 2px 12px;
   margin: 5px 0 15px;
   border-radius: 22px;
   font-size: 13px;
-  max-height: 300px;
-  max-width: 100%;
 }
 
 .posts-file {
@@ -172,7 +181,6 @@ form {
 }
 
 #file {
-  
   font-size: 12px;
 }
 
@@ -187,7 +195,7 @@ form {
   padding: 12px;
   font-size: 17px;
   border: none;
-  border-radius: 25px;;
+  border-radius: 25px;
   color: #fff;
   background: linear-gradient(#d17979, #8d2608);
   transform: scale(0.9);
@@ -202,13 +210,13 @@ form {
 }
 
 .posts-container {
-  background-color: #fed0c6e8;
-  margin-top: 20px;
-  border-radius: 10px;
   display: flex;
   flex-wrap: wrap;
-  width: 636px;
   justify-content: center;
+  width: 636px;
+  margin-top: 20px;
+  border-radius: 10px;
+  background-color: #fed0c6e8;
   box-shadow: 0 10px 21px rgb(0 0 0 / 45%), 0 20px 30px rgb(0 0 0 / 30%);
 }
 
@@ -225,21 +233,55 @@ form {
     width: 100%;
     padding: 20px;
   }
-  .posts-container{
+  .posts-container {
     width: 100%;
     display: block;
+  }
+  .posts-file {
+    justify-content: space-between;
+  }
+  #file {
+    width: 100%;
   }
 }
 
-@media screen and (min-width: 300px) and (max-width: 768px) {
-    .posts-creation {
+@media screen and (min-width: 501px) and (max-width: 768px) {
+  .posts-creation {
     width: 100%;
     padding: 20px;
   }
-  .posts-container{
+  .posts-container {
     width: 100%;
     display: block;
   }
-  
+
+  .posts-file {
+    justify-content: space-between;
+  }
+
+  #file {
+    width: 100%;
+  }
+}
+
+@media screen and (min-width: 300px) and (max-width: 500px) {
+  .posts-creation {
+    width: 100%;
+    padding: 20px;
+  }
+  .posts-container {
+    width: 100%;
+    display: block;
+  }
+  .title {
+    font-size: 17px;
+  }
+  .posts-file {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .create-btn {
+    margin-top: 30px;
+  }
 }
 </style>

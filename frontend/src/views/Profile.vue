@@ -3,42 +3,87 @@
     <Header />
     <div class="container">
       <div class="profile-fields">
-        <h1 class="title">Bienvenue sur votre profil {{ userInfo.firstname }} !</h1>
+        <h1 class="title">
+          Bienvenue sur votre profil {{ userInfo.firstname }} !
+        </h1>
         <div class="profile-container">
           <div class="picture-container">
-            <img class="profile-picture" v-if="this.userInfo.imageUrl" :src="this.userInfo.imageUrl" width="150" />
-            <img class="picture-default" v-else src="../assets/img-user-default.jpg" />
+            <img
+              class="profile-picture"
+              v-if="this.userInfo.imageUrl"
+              :src="this.userInfo.imageUrl"
+              width="150"
+            />
+            <img
+              class="picture-default"
+              v-else
+              src="../assets/img-user-default.jpg"
+            />
           </div>
-            <div class="profile-file">
-              <form>
-                <label for="file"><strong>Choisir une nouvelle image de profil:</strong></label>
-                <input type="file" id="file-input" name="image" enctype="multipart/form-data" @change="onFileSelected" aria-label="Choisir une image" /> 
-              </form>
-            </div>
+          <div class="profile-file">
+            <form>
+              <label for="file"
+                ><strong>Choisir une nouvelle image de profil:</strong></label
+              >
+              <input
+                type="file"
+                id="file-input"
+                name="image"
+                enctype="multipart/form-data"
+                @change="onFileSelected"
+                aria-label="Choisir une image"
+              />
+            </form>
+          </div>
           <div class="btn-container">
-            <button class="save-btn" @click="addPicture()"><strong>Enregistrer l'image</strong></button>
-          </div> 
+            <button class="save-btn" @click="addPicture()">
+              <strong>Enregistrer l'image</strong>
+            </button>
+          </div>
           <div class="border"></div>
           <div class="datas-container">
             <div class="datas">
-              <span class="profile-datas" data-aos="fade-right"  data-aos-delay="200">
-                <strong>Prénom:  </strong> {{ userInfo.firstname }}
+              <span
+                class="profile-datas"
+                data-aos="fade-right"
+                data-aos-delay="200"
+              >
+                <strong>Prénom: </strong> {{ userInfo.firstname }}
               </span>
-              <span class="profile-datas" data-aos="fade-right"  data-aos-delay="700">
+              <span
+                class="profile-datas"
+                data-aos="fade-right"
+                data-aos-delay="700"
+              >
                 <strong>Nom: </strong> {{ userInfo.lastname }}
               </span>
-              <span class="profile-datas" data-aos="fade-right"  data-aos-delay="1200">
+              <span
+                class="profile-datas"
+                data-aos="fade-right"
+                data-aos-delay="1200"
+              >
                 <strong>Email: </strong> {{ userInfo.email }}
               </span>
-              <span class="profile-datas" data-aos="fade-right"  data-aos-delay="1700">
+              <span
+                class="profile-datas"
+                data-aos="fade-right"
+                data-aos-delay="1700"
+              >
                 Inscrit depuis le {{ dateTime(userInfo.createdAt) }}
               </span>
-              <span class="profile-datas" v-if="this.isAdmin === true" data-aos="fade-right"  data-aos-delay="2100">
+              <span
+                class="profile-datas"
+                v-if="this.isAdmin === true"
+                data-aos="fade-right"
+                data-aos-delay="2100"
+              >
                 <strong>Rôle:</strong>Administrateur
               </span>
             </div>
           </div>
-          <button @click="deleteProfile()" type="button" class="delete-btn">Supprimer votre compte</button>
+          <button @click="deleteProfile()" type="button" class="delete-btn">
+            Supprimer votre compte
+          </button>
         </div>
       </div>
     </div>
@@ -53,7 +98,7 @@ import moment from 'moment';
 export default {
   name: 'Posts',
   components: {
-  Header,
+    Header,
   },
   data() {
     return {
@@ -61,22 +106,23 @@ export default {
       userInfo: {},
       selectedFile: null,
       account: null,
-      isAdmin: false
+      isAdmin: false,
     };
   },
   mounted() {
-    this.account = JSON.parse(localStorage.getItem('user'))
+    this.account = JSON.parse(localStorage.getItem('user'));
     if (this.account?.userId) {
-      instance.get(`http://localhost:3000/api/auth/${this.account.userId}`, {
-        headers: { Authorization: 'Bearer ' + this.account.token },
-      })
-      .then((res) => {
-        this.userInfo = res.data;
-        this.isAdmin = this.account.isAdmin
-      })
-      .catch((err) => {
-        console.log(err)
-      });
+      instance
+        .get(`http://localhost:3000/api/auth/${this.account.userId}`, {
+          headers: { Authorization: 'Bearer ' + this.account.token },
+        })
+        .then((res) => {
+          this.userInfo = res.data;
+          this.isAdmin = this.account.isAdmin;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
   },
   methods: {
@@ -84,40 +130,45 @@ export default {
       return moment(value).format('DD.MM.YY');
     },
     onFileSelected(event) {
-				this.selectedFile = event.target.files[0]
-        console.log(10, this.selectedFile)
-			},
+      this.selectedFile = event.target.files[0];
+      console.log(10, this.selectedFile);
+    },
     addPicture() {
-      let user = JSON.parse(localStorage.getItem('user'))
-			const fd = new FormData();
-				fd.append("image", this.selectedFile);
-				instance.put(`http://localhost:3000/api/auth/${user.userId}/update`, fd, {
-					headers: {
-						'Authorization': 'Bearer ' + user.token,
-						'Content-Type': 'multipart/form-data'
-					}
-				})
-      .then((res) => {
-        this.$router.go();
-        console.log(10, res.data);
-      })
-      .catch((req) => {
-        console.log(req.file)
-      });
+      let user = JSON.parse(localStorage.getItem('user'));
+      const fd = new FormData();
+      fd.append('image', this.selectedFile);
+      instance
+        .put(`http://localhost:3000/api/auth/${user.userId}/update`, fd, {
+          headers: {
+            Authorization: 'Bearer ' + user.token,
+            'Content-Type': 'multipart/form-data',
+          },
+        })
+        .then((res) => {
+          this.$router.go();
+          console.log(10, res.data);
+        })
+        .catch((req) => {
+          console.log(req.file);
+        });
     },
     deleteProfile: function () {
       if (confirm('Souhaitez-vous vraiment supprimer votre compte?')) {
-        instance.delete(`http://localhost:3000/api/auth/${this.account.userId}/delete`, {
-            headers: { Authorization: 'Bearer ' + this.account.token },
-        })
-        .then(() => {
-          alert('Le profil a bien été supprimé !');
-          localStorage.clear();
-          this.$router.go();
-        })
-        .catch((err) => {
-          console.log(err)
-        });
+        instance
+          .delete(
+            `http://localhost:3000/api/auth/${this.account.userId}/delete`,
+            {
+              headers: { Authorization: 'Bearer ' + this.account.token },
+            }
+          )
+          .then(() => {
+            alert('Le profil a bien été supprimé !');
+            localStorage.clear();
+            this.$router.go();
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       }
     },
   },
@@ -188,10 +239,6 @@ export default {
 .profile__img {
   display: flex;
   align-items: center;
-}
-
-.profile-picture {
-  
 }
 
 .picture-default {
@@ -272,7 +319,7 @@ export default {
   .profile-fields {
     width: 99%;
   }
-  .delete-btn{
+  .delete-btn {
     word-break: break-word;
     float: none;
   }

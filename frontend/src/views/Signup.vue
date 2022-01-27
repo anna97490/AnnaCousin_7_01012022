@@ -5,13 +5,12 @@
         <img
           class="logo"
           src="../assets/icon-above-font.jpg"
-          alt="Logo de la société Groupomania"
-        />
+          alt="Logo de la société Groupomania" />
       </div>
       <h1 class="title">Votre réseau social d'entreprise!</h1>
-      <router-link class="login" to="/" aria-label="Lien vers la connexion"
-        ><strong>Se connecter</strong></router-link
-      >
+      <router-link class="login" to="/" aria-label="Lien vers la connexion">
+        <strong>Se connecter</strong>
+      </router-link>
       <form id="submit" method="post">
         <div>
           <label for="email"><strong>Email:</strong></label>
@@ -21,8 +20,7 @@
             v-model="email"
             aria-label="Email pour l'inscription"
             maxlength="255"
-            required
-          />
+            required />
           <div class="error">
             <p class="error-message" v-if="!emailError">{{ messageId }}</p>
           </div>
@@ -33,8 +31,7 @@
               type="lastname"
               v-model="lastname"
               aria-label="Nom pour l'inscription"
-              required
-            />
+              required />
             <div class="error">
               <p class="error-message" v-if="!lastnameError">
                 {{ messageLastname }}
@@ -46,8 +43,7 @@
               type="firstname"
               v-model="firstname"
               aria-label="Prénom pour l'inscription"
-              required
-            />
+              required />
             <div class="error">
               <p class="error-message" v-if="!firstnameError">
                 {{ messageFirstname }}
@@ -61,8 +57,7 @@
             maxlength="50"
             v-model="password"
             aria-label="Mot de passe pour l'inscription"
-            required
-          />
+            required />
           <div class="error">
             <p class="error-message" v-if="!passwordError">{{ messagePass }}</p>
           </div>

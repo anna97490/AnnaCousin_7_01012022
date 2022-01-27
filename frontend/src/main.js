@@ -2,12 +2,13 @@ import Vue from 'vue';
 import App from './App.vue';
 import router from './router';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faCoffee, faComment, faUser, faArrowAltCircleRight, faPaperPlane, faTrash, faTimesCircle, faEdit} from '@fortawesome/free-solid-svg-icons';
+import { faCoffee, faComment, faUser, faArrowAltCircleRight, faPaperPlane, faTrash, faTimesCircle, faEdit, faFileUpload} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import AOS from 'aos';
 import 'aos/dist/aos.css'
 
-library.add(faCoffee, faComment, faUser, faArrowAltCircleRight, faPaperPlane, faTrash, faTimesCircle, faEdit);
+// Icones FontAwesome
+library.add(faCoffee, faComment, faUser, faArrowAltCircleRight, faPaperPlane, faTrash, faTimesCircle, faEdit, faFileUpload);
 
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 
