@@ -72,7 +72,7 @@ export default {
       messageId: '',
       messagePass: '',
       emailRegex: /^[a-z0-9._-]+@[a-z0-9.-]{2,10}[.][a-z]{2,4}$/,
-      passwordRegex: /^[a-zA-Z0-9]{6,50}$/,
+      passwordRegex: /^[a-zA-Z0-9]{6,50}$/
     };
   },
   methods: {
@@ -121,12 +121,11 @@ export default {
   height: 100vh;
   background-image: linear-gradient(
     -45deg,
-    rgb(235, 156, 103) 0%,
-    rgb(221, 87, 24) 25%,
-    rgb(245, 165, 111) 51%,
-    rgb(177, 51, 12) 100%
+    rgb(18 38 139) 0%, 
+    rgb(97 141 241) 25%, 
+    rgb(169 206 235) 51%, 
+    rgb(23 46 131) 100% 
   );
-  animation: AnimateBG 20s ease infinite;
 }
 
 @keyframes AnimateBG {
@@ -149,7 +148,7 @@ export default {
   height: auto;
   width: 540px;
   padding: 32px;
-  background: rgb(247, 238, 232);
+  background-color: #e9edf1;
   border-radius: 16px;
   box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
 }
@@ -208,7 +207,7 @@ input {
   border: none;
   border-radius: 30px;
   color: #fff;
-  background: linear-gradient(#d17979, #8d2608);
+  background: linear-gradient(#f99655, #bd3007);
   transform: scale(0.9);
   transition-property: transform;
   transition-duration: 0.4s;
@@ -218,19 +217,6 @@ input {
 .login-btn:hover {
   transform: scale(1);
   cursor: pointer;
-}
-
-@keyframes animate {
-  0% {
-    transform: translateY(0) rotate(0deg);
-    opacity: 1;
-    border-radius: 0;
-  }
-  100% {
-    transform: translateY(-1000px) rotate(720deg);
-    opacity: 0;
-    border-radius: 50%;
-  }
 }
 
 /* MEDIA QUERIES */

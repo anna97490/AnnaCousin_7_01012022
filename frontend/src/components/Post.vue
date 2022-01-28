@@ -5,6 +5,7 @@
       class="card"
       :key="index"
       v-for="(post, index) in allPosts"
+      v-bind:id="'+ postId +'"
       data-aos="fade-right"
       data-aos-easing="linear"
       data-aos-duration="700">
@@ -12,25 +13,26 @@
         <p class="user-infos">
           <img
             class="profile-picture"
-            v-if="userInfo.imageUrl"
-            :src="userInfo.imageUrl"
+            v-if="post.user.imageUrl"
+            :src="post.user.imageUrl"
             alt="Photo de profil de l'auteur de la publication">
           <img
             class="profile-picture"
             v-else
-            src="../assets/img-user-default.jpg">
+            src="../assets/img-user-default.jpg"
+            alt="Photo de profil par défaut">
           <span class="name">
             <strong>Publié par :</strong> {{ post.authorFullName }}
+          <p class="date">
+            {{ dateTime(post.createdAt) }} 
+          </p>
           </span>
           <span
-            class="delete-btn profile"
+            class="profile"
             v-if="isAdmin == true"
             @click="getOneUser(post)"
             ><font-awesome-icon icon="user" />
           </span>
-        </p>
-        <p class="date">
-          le {{ dateTime(post.createdAt) }} à {{ hour(post.createdAt) }}
         </p>
         <div class="image-container" v-if="post.imageUrl">
           <img
@@ -90,37 +92,38 @@ export default {
   },
   created() {
     this.getProfile();
+    console.log(33, this.$route)
   },
   mounted() {
     const user = JSON.parse(localStorage.getItem('user'));
     instance.get(`http://localhost:3000/api/posts`, {
-      headers: {
-        Authorization: 'Bearer ' + user.token,
-      },
-    })
-    .then((res) => {
-      for (const post of res.data) {
-        this.allPosts.push(post);
-      }
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+        headers: {
+          Authorization: 'Bearer ' + user.token,
+        },
+      })
+      .then((res) => {
+        for (const post of res.data) {
+          this.allPosts.push(post);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   },
   methods: {
     getProfile: function () {
       this.account = JSON.parse(localStorage.getItem('user'));
       if (this.account?.userId) {
         instance.get(`http://localhost:3000/api/auth/${this.account.userId}`, {
-          headers: { Authorization: 'Bearer ' + this.account.token },
-        })
-        .then((res) => {
-          this.userInfo = res.data;
-          this.isAdmin = this.account.isAdmin;
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+            headers: { Authorization: 'Bearer ' + this.account.token },
+          })
+          .then((res) => {
+            this.userInfo = res.data;
+            this.isAdmin = this.account.isAdmin;
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       }
     },
     // Récupération du user pour rediriger l'admin sur son profil
@@ -142,27 +145,30 @@ export default {
     },
     // Date et heure du post
     dateTime: function (value) {
-      return moment(value).format('DD.MM.YY');
+      //return moment(value).format('DD.MM.YY');
+      moment.locale('fr');
+      return moment(value).fromNow()
     },
-    hour: function (value) {
-      return moment(value).format('HH:mm');
-    },
+    // hour: function (value) {
+    //   return moment(value).format('HH:mm');
+    // },
     // Supprimer un post
     deletePost: function (post) {
       const user = JSON.parse(localStorage.getItem('user'));
       const id = post.id;
       if (confirm('Souhaitez-vous vraiment supprimer ce post?')) {
-        instance.delete(`http://localhost:3000/api/posts/${id}`, {
-          headers: {
-            Authorization: 'Bearer ' + user.token,
-          },
-        })
-        .then(() => {
-          this.$router.go();
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+        instance
+          .delete(`http://localhost:3000/api/posts/${id}`, {
+            headers: {
+              Authorization: 'Bearer ' + user.token,
+            },
+          })
+          .then(() => {
+            this.$router.go();
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       }
     },
     toggleModale: function (post) {
@@ -186,10 +192,10 @@ export default {
 
 .card {
   width: 636px;
-  padding: 25px;
+  padding: 17px;
   margin: 20px 0;
   background: #fff;
-  border-radius: 30px;
+  border-radius: 8px;
   box-shadow: 0 6px 9px rgb(0 0 0 / 5%), 0 18px 10px rgb(0 0 0 / 4%);
 }
 
@@ -198,18 +204,14 @@ export default {
   align-items: center;
   justify-content: space-between;
   border-radius: 22px;
-  padding: 4px 12px;
-  background-color: #fdc6ba;
+  padding: 5px 15px;
+  margin-bottom: 10px;
+  background-color: #ebeae9;
   box-shadow: 0 0 0 rgb(0 0 0 / 1%), 0 2px 5px rgb(0 0 0 / 30%);
 }
 
 .name {
   margin-right: 50%;
-}
-
-.svg-inline--fa {
-  width: 16px;
-  height: 16px;
 }
 
 .profile-picture {
@@ -220,49 +222,27 @@ export default {
 }
 
 .update-btn {
-  padding: 12px;
   font-size: 17px;
-  border: none;
-  border-radius: 8px;
   transform: scale(0.9);
   transition-property: transform;
   transition-duration: 0.4s;
   color: #fff;
   z-index: 1;
   margin-top: 15px;
-  background: linear-gradient(#f5a42a, #b55f04);
-  box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
+  color: #b55f04;
   cursor: pointer;
 }
 
 .delete-btn {
   float: right;
-  padding: 12px;
   font-size: 17px;
-  border: none;
-  border-radius: 8px;
   transform: scale(0.9);
   transition-property: transform;
   transition-duration: 0.4s;
-  color: #fff;
+  color: #df500c;
   z-index: 1;
   margin-top: 15px;
-  background: linear-gradient(#f52a2a, #7a0a0a);
-  box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
   cursor: pointer;
-}
-
-.delete-btn:after,
-.update-btn:after {
-  position: absolute;
-  content: '';
-  width: 0;
-  height: 100%;
-  top: 0;
-  right: 0;
-  z-index: -1;
-  background: #e0e5ec;
-  transition: all 0.3s ease;
 }
 
 .delete-btn:hover,
@@ -273,12 +253,12 @@ export default {
 
 .profile {
   margin: 0;
-  padding: 8px;
-  background: linear-gradient(#ff4f03, #bd6b18);
+  color: grey;
+  cursor: pointer;
 }
 
 .svg-inline--fa {
-  font-size: 17px;
+  font-size: 20px;
 }
 
 .trash {
@@ -287,8 +267,7 @@ export default {
 
 .date {
   margin-top: 5px;
-  font-size: 12px;
-  margin-bottom: 10px;
+  font-size: 13px;
 }
 
 .image-container {
@@ -301,7 +280,7 @@ export default {
 
 .text {
   padding: 10px;
-  margin-top: 10px;
+  margin: 10px 0 13px 0;
   border-radius: 4px;
   background-color: #f3f3f3;
 }
@@ -309,6 +288,8 @@ export default {
 .btn-container {
   display: flex;
   justify-content: space-between;
+  padding: 0 13px;
+  border-top: 1px solid #d5d5d58c;
 }
 
 /* MEDIA QUERIES */

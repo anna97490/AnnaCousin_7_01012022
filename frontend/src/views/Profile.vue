@@ -9,15 +9,15 @@
         <div class="profile-container">
           <div class="justify">
             <div class="picture-container">
-              <img
+              <img 
                 class="profile-picture"
                 v-if="this.userInfo.imageUrl"
                 :src="this.userInfo.imageUrl"
-                width="150">
+                alt="Photo de profil de l'utilisateur connecté">
               <img
-                class="picture-default"
-                v-else
-                src="../assets/img-user-default.jpg">
+                class="profile-picture"
+                v-else src="../assets/img-user-default.jpg"
+                alt="Photo de profil par défaut">
               <span
                 class="profile-datas"
                 data-aos="fade-right"
@@ -28,7 +28,7 @@
           </div>
           <div class="profile-file">
             <form class="form">
-              <label for="file">
+              <label for="file-input">
                 <strong>Choisir une nouvelle image de profil:</strong>
               </label>
               <input
@@ -160,7 +160,6 @@ export default {
 <style scoped>
 .container {
   padding: 22px;
-  background-color: #f36841;
 }
 
 .profile-fields {
@@ -174,7 +173,7 @@ export default {
   margin: auto;
   background: #fff;
   border-radius: 16px;
-  box-shadow: 0 56px 31px rgb(0 0 0 / 33%), 0 8px 16px rgb(0 0 0 / 10%);
+  box-shadow: 0 15px 29px rgb(0 0 0 / 20%), 0 8px 16px rgb(0 0 0 / 5%);;
 }
 
 .title {
@@ -191,11 +190,11 @@ export default {
 
 .picture-container {
   display: flex;
-  width: 200px;
+  width: 180px;
   flex-wrap: wrap;
   border-radius: 8px;
   background-color: #f3f3f3;
-  box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
+  box-shadow: 0 2px 13px rgb(0 0 0 / 30%), 0 8px 16px rgb(0 0 0 / 10%);;
 }
 
 .profile-datas {
@@ -214,9 +213,10 @@ export default {
 
 .profile-picture {
   width: 200px;
-  height: 200px;
+  height: 160px;
   border-radius: 8px 8px 0 0;
 }
+
 
 .profile-file {
   margin-top: 15px;
@@ -260,11 +260,11 @@ export default {
   border: none;
   border-radius: 25px;
   color: #fff;
-  background: linear-gradient(#d17979, #8d2608);
+  background: linear-gradient(#f99655, #bd3007);
   transform: scale(0.9);
   transition-property: transform;
   transition-duration: 0.4s;
-  box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
+  box-shadow: 0 10px 13px rgb(0 0 0 / 30%), 0 8px 16px rgb(0 0 0 / 10%);
 }
 
 .save-btn:hover {
@@ -284,7 +284,7 @@ export default {
   flex-wrap: wrap;
   border-radius: 4px;
   background-color: #f3f3f3;
-  box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
+  box-shadow: 0 2px 13px rgb(0 0 0 / 30%), 0 8px 16px rgb(0 0 0 / 10%);;
 }
 
 .delete-btn {
@@ -297,10 +297,10 @@ export default {
   transform: scale(0.9);
   transition-property: transform;
   transition-duration: 0.4s;
-  background: linear-gradient(#f52a2a, #7a0a0a);
+  background: linear-gradient(#ef660d, #971508);
   color: #fff;
   z-index: 1;
-  box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
+  box-shadow: 0 10px 13px rgb(0 0 0 / 30%), 0 8px 16px rgb(0 0 0 / 10%);
   cursor: pointer;
 }
 

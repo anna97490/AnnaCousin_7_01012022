@@ -13,7 +13,6 @@ exports.signup = (req, res, next) => {
       lastname: req.body.lastname,
       email: req.body.email,
       password: hash,
-      imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
       isAdmin: req.body.isAdmin || 0
     };
     User.create(user)
@@ -38,6 +37,7 @@ exports.login = (req, res, next) => {
       res.status(200).json({
         userId: user.id,
         isAdmin: user.isAdmin,
+        imageUrl: user.imageUrl,
         token: jwt.sign(
           { userId: user.id, isAdmin: user.isAdmin },
             process.env.SECRET_TOKEN,

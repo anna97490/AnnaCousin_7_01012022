@@ -62,6 +62,7 @@ export default {
       fullName: '',
       userInfo: {},
       account: null,
+      postId: Post.id
     };
   },
   mounted() {
@@ -119,7 +120,7 @@ export default {
 
 <style scoped>
 .body {
-  background-color: #fff1ed;
+  background-color: #e9edf1;
 }
 .container {
   display: flex;
@@ -130,7 +131,7 @@ export default {
 .posts-creation {
   width: 636px;
   padding: 15px;
-  background-color: #fd846c4d;
+  background-color: #ebeae9;
   border-radius: 10px;
   box-shadow: 0 10px 22px rgb(0 0 0 / 36%), 0 8px 16px rgb(0 0 0 / 3%);
 }
@@ -198,7 +199,7 @@ form {
   transform: scale(0.9);
   transition-property: transform;
   transition-duration: 0.4s;
-  background: linear-gradient(#d17979, #8d2608);
+  background: linear-gradient(#f99655, #bd3007);
   box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
 }
 
@@ -211,7 +212,7 @@ form {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  background-color: #f36841;
+  background-color: #e9edf1;
 }
 
 .posts {
@@ -220,8 +221,9 @@ form {
   justify-content: center;
   width: 636px;
   margin-top: 20px;
+  padding: 0 12px;
   border-radius: 10px;
-  background-color: #fed0c6e8;
+  background-color: #6D95F3;
   box-shadow: 0 10px 21px rgb(0 0 0 / 45%), 0 20px 30px rgb(0 0 0 / 30%);
 }
 

@@ -33,6 +33,8 @@ const User = db.define('user', {
   isAdmin: {
     type: DataTypes.BOOLEAN,
   },
+}, {
+  freezeTableName: true
 });
 
 // Lien avec la table posts
@@ -41,7 +43,8 @@ User.hasMany(Post, {
   onDelete: 'cascade',
   onUpdate: 'cascade',
   hooks: 'true',
+  foreignKey: 'userId'
 });
-
+Post.belongsTo(User, {foreignKey: 'userId'})
 User.sync();
 module.exports = User;

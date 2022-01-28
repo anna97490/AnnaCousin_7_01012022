@@ -13,4 +13,16 @@
   max-width: 100%;
   max-height: 100%;
 }
+
+body {
+  background-color: #e9edf1;
+}
+
+p, 
+h1,
+span,
+input,
+label {
+  color: rgb(0, 0, 0);
+}
 </style>

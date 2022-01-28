@@ -108,8 +108,7 @@ export default {
       messageId: '',
       messagePass: '',
       account: '',
-      userInfo: {},
-      nameRegex: /^[A-Za-z-àâäéèêëïîôöùûüç ]*$/,
+      nameRegex: /^[A-Za-z-éèç ]+$/,
       emailRegex: /^[A-Za-z0-9._+-]{2,40}@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/,
       passwordRegex: /^[A-Za-z0-9]{6,50}$/
     };
@@ -127,8 +126,8 @@ export default {
         firstname: this.firstname,
         lastname: this.lastname,
         password: this.password,
-        imageUrl: this.imageUrl,
-      };
+        imageUrl: this.imageUrl
+      }
       // Les différents cas d'erreurs de saisie
       if (this.firstnameError === false) {
         this.messageFirstname =
@@ -164,7 +163,6 @@ export default {
         .then(() => {
           delete user['firstname'];
           delete user['lastname'];
-          delete user['imageUrl'];
           setTimeout(instance.post('http://localhost:3000/api/auth/login', user)
           .then((res) => {
               localStorage.setItem('user', JSON.stringify(res.data));
@@ -188,15 +186,13 @@ export default {
   justify-content: center;
   width: 100%;
   height: 100vh;
-  background-size: 100%;
   background-image: linear-gradient(
     -45deg,
-    rgb(235, 156, 103) 0%,
-    rgb(221, 87, 24) 25%,
-    rgb(245, 165, 111) 51%,
-    rgb(177, 51, 12) 100%
-  );
-  animation: AnimateBG 20s ease infinite;
+    rgb(18 38 139) 0%, 
+    rgb(97 141 241) 25%, 
+    rgb(169 206 235) 51%, 
+    rgb(23 46 131) 100% 
+  )
 }
 
 .card {
@@ -207,10 +203,11 @@ export default {
   height: auto;
   width: 540px;
   padding: 32px;
-  background: rgb(247, 238, 232);
+  background-color: #e9edf1;
   border-radius: 16px;
   box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
 }
+
 .logo {
   width: 200px;
 }
@@ -224,6 +221,7 @@ export default {
 
 .error-message {
   margin-bottom: 18px;
+  font-size: 13px;
   color: red;
 }
 
@@ -268,7 +266,7 @@ input {
   border: none;
   border-radius: 30px;
   color: #fff;
-  background: linear-gradient(#d17979, #8d2608);
+  background: linear-gradient(#f99655, #bd3007);
   transform: scale(0.9);
   transition-property: transform;
   transition-duration: 0.4s;
@@ -278,18 +276,6 @@ input {
 .signup-btn:hover {
   transform: scale(1);
   cursor: pointer;
-}
-
-@keyframes AnimateBG {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
 }
 
 /* MEDIA QUERIES */

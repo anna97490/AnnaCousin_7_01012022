@@ -1,5 +1,6 @@
 const sequelize = require('sequelize');
 const db = require('../config/database');
+const User = require('./user.models');
 const { DataTypes } = sequelize;
 
 const Post = db.define('post', {
@@ -33,6 +34,8 @@ const Post = db.define('post', {
     type: DataTypes.STRING,
     allowNull: true,
   },
+}, {
+  freezeTableName: true
 });
 
 Post.sync();

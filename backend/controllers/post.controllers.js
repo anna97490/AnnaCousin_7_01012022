@@ -1,5 +1,6 @@
 const Post = require('../models/post.models');
 const fs = require('fs');
+const User = require('../models/user.models');
 
 // Créer un post
 exports.createPost = (req, res, next) => {
@@ -38,13 +39,20 @@ exports.getOnePost = (req, res, next) => {
 // Récupérer tous les posts
 exports.getAllPost = (req, res, next) => {
   Post.findAll({
+    include: [
+      {
+        model: User,
+        required: true,
+        attributes: ['imageUrl']
+      }
+    ],
     // Afficher les posts dans l'ordre croissant des dates
     order: [
       ['date', 'DESC']
     ]
   })
   .then((posts) => res.status(200).json(posts))
-  .catch((error) => res.status(400).json({ error: 'Incorrect request!' }));
+  .catch((error) => res.status(400).json({ error: 'Incorrect request!' +error }));
 };
 
 // Modifier un post

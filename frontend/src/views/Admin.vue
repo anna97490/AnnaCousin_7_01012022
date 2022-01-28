@@ -4,11 +4,14 @@
     <div class="container">
       <div class="profile-fields">
         <div class="picture-container">
-          <img class="profile-picture" :src="profileInfos.imageUrl" />
+          <img class="profile-picture" 
+          :src="profileInfos.imageUrl"
+          alt="Photo de profil de l'auteur de la publication">
           <p class="profile-datas">
             <strong>{{ profileInfos.firstname }} {{ profileInfos.lastname }}</strong>
           </p>
         </div>
+        <div class="border"></div>
         <div class="datas-container">
           <p class="profile-datas">
             <strong>{{ profileInfos.email }}</strong>
@@ -18,7 +21,7 @@
           </p>
         </div>
         <button @click="deleteProfile(id)" type="button" class="delete-btn">
-          <span>Supprimer cet utilisateur</span>
+          <strong>Supprimer cet utilisateur</strong>
         </button>
       </div>
     </div>
@@ -37,8 +40,8 @@ export default {
     },
     data() {
         return {
-        profileInfos: {},
-        user: JSON.parse(localStorage.getItem('user')),
+            profileInfos: {},
+            user: JSON.parse(localStorage.getItem('user')),
         };
     },
     props: {
@@ -47,18 +50,15 @@ export default {
     created() {
         let id = this.$route.params.id;
         this.getInfos(id);
-        console.log(20, id);
         this.currentId = this.getInfos(id);
     },
     methods: {
         getInfos: function (id) {
             this.user = JSON.parse(localStorage.getItem('user'));
-            instance
-            .get(`http://localhost:3000/api/auth/${id}`, {
+            instance.get(`http://localhost:3000/api/auth/${id}`, {
                 headers: { Authorization: 'Bearer ' + this.user.token }
             })
             .then((res) => {
-                console.log(30, res.data);
                 this.profileInfos = res.data;
             })
             .catch((err) => {
@@ -71,7 +71,6 @@ export default {
         deleteProfile: function () {
             this.user = JSON.parse(localStorage.getItem('user'));
             let id = this.$route.params.id;
-            console.log(25, id);
             if (confirm('Souhaitez-vous vraiment supprimer le compte de cet utilisateur?')) {
                 instance.delete(`http://localhost:3000/api/auth/${id}/delete`, {
                     headers: { Authorization: 'Bearer ' + this.user.token },
@@ -94,8 +93,6 @@ export default {
 .container {
     height: 100%;
     padding: 22px;
-    background-color: #f36841;
-  
 }
 
 .profile-fields {
@@ -109,7 +106,7 @@ export default {
     margin: auto;
     background: white;
     border-radius: 16px;
-    box-shadow: 0 56px 31px rgb(0 0 0 / 33%), 0 8px 16px rgb(0 0 0 / 10%);
+    box-shadow: 0 15px 29px rgb(0 0 0 / 20%), 0 8px 16px rgb(0 0 0 / 5%);;
 }
 
 .title {
@@ -123,9 +120,9 @@ export default {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    width: 200px;
+    width: 180px;
     border-radius: 8px;background-color: #f3f3f3;
-    box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
+    box-shadow: 0 10px 13px rgb(0 0 0 / 30%), 0 8px 16px rgb(0 0 0 / 10%);
 }
 
 .posts-img label {
@@ -144,33 +141,13 @@ export default {
 }
 
 .profile-picture {
-    width: 200px;
-    height: 200px;
+    width: 180pxpx;
+    height: 160px;
     border-radius: 8px 8px 0 0;
 }
 
-.btn-container {
-    display: flex;
-    justify-content: center;
-}
-
-.save-btn {
-    width: 74%;
-    padding: 12px;
-    font-size: 17px;
-    border: none;
-    border-radius: 8px;
-    color: white;
-    background-color: #a22d16;
-    transform: scale(0.9);
-    transition-property: transform;
-    transition-duration: 0.4s;
-    box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
-}
-
-.save-btn:hover {
-    transform: scale(1);
-    cursor: pointer;
+.border {
+  border-bottom: 1px solid #d5d5d58c;
 }
 
 .datas-container {
@@ -181,7 +158,7 @@ export default {
     border-radius: 4px;
     padding: 0 20px;
     background-color: #f3f3f3;
-    box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
+    box-shadow: 0 10px 13px rgb(0 0 0 / 30%), 0 8px 16px rgb(0 0 0 / 10%);
 }
 
 .profile-datas {
@@ -209,9 +186,9 @@ export default {
     transition-property: transform;
     transition-duration: 0.4s;
     color: #fff;
-    background: linear-gradient(#f52a2a, #7a0a0a);
+    background: linear-gradient(#ef660d, #971508);
     z-index: 1;
-    box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
+    box-shadow: 0 10px 13px rgb(0 0 0 / 30%), 0 8px 16px rgb(0 0 0 / 10%);
     cursor: pointer;
 }
 

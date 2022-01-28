@@ -74,7 +74,6 @@ export default {
             .then((res) => {
             this.userInfo = res.data;
             this.fullName = `${res.data.firstname} ${res.data.lastname}`;
-            console.log(20, this.userInfo);
             })
             .catch((err) => {
             console.log(err);
