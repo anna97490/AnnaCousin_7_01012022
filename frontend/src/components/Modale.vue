@@ -88,7 +88,7 @@ export default {
             const id = post.id;
             let user = JSON.parse(localStorage.getItem('user'))
             let fd = new FormData()
-            fd.append('userId', user.userId);
+            fd.append('userId', post.userId);
             fd.append('authorFullName', post.authorFullName)
             if (post.text != '') {
                 fd.append('text', post.text)

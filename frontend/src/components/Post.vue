@@ -205,7 +205,7 @@ export default {
 }
 
 .name {
-  margin-right: 50%;
+  margin-right: 45%;
 }
 
 .profile-picture {
