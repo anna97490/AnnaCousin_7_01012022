@@ -97,7 +97,6 @@ export default {
       firstname: '',
       password: '',
       imageUrl: '',
-      idError: false,
       emailError: false,
       firstnameError: false,
       lastnameError: false,
@@ -111,16 +110,16 @@ export default {
       nameRegex: /^[A-Za-z-éèç ]+$/,
       emailRegex: /^[A-Za-z0-9._+-]{2,40}@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/,
       passwordRegex: /^[A-Za-z0-9]{6,50}$/
-    };
+    }
   },
   methods: {
     // Fonction de Signup
     signup: function () {
       // Tests des champs du formulaire
-      this.firstnameError = this.nameRegex.test(this.firstname);
-      this.lastnameError = this.nameRegex.test(this.lastname);
-      this.emailError = this.emailRegex.test(this.email);
-      this.passwordError = this.passwordRegex.test(this.password);
+      this.firstnameError = this.nameRegex.test(this.firstname)
+      this.lastnameError = this.nameRegex.test(this.lastname)
+      this.emailError = this.emailRegex.test(this.email)
+      this.passwordError = this.passwordRegex.test(this.password)
       let user = {
         email: this.email,
         firstname: this.firstname,
@@ -130,53 +129,52 @@ export default {
       }
       // Les différents cas d'erreurs de saisie
       if (this.firstnameError === false) {
-        this.messageFirstname =
-          this.firstname.length === 0
-            ? 'Veuillez remplir ce champ'
-            : `Veuillez n'utiliser que des lettres`;
+        this.messageFirstname = this.firstname.length === 0
+          ? 'Veuillez remplir ce champ'
+          : `Veuillez n'utiliser que des lettres`
       }
       if (this.lastnameError === false) {
-        this.messageLastname =
-          this.lastname.length === 0
-            ? 'Veuillez remplir ce champ'
-            : `Veuillez n'utiliser que des lettres`;
+        this.messageLastname = this.lastname.length === 0
+          ? 'Veuillez remplir ce champ'
+          : `Veuillez n'utiliser que des lettres`
       }
       if (this.emailError === false) {
-        this.messageId =
-          this.email.length === 0
-            ? 'Veuillez remplir ce champ'
-            : 'Email non valide';
+        this.messageId = this.email.length === 0
+          ? 'Veuillez remplir ce champ'
+          : 'Email non valide'
       }
       if (this.passwordError === false) {
-        this.messagePass =
-          this.password.length === 0
-            ? 'Veuillez remplir ce champ'
-            : 'Mot de passe incorrect';
+        this.messagePass = this.password.length === 0
+          ? 'Veuillez remplir ce champ'
+          : 'Mot de passe incorrect'
       }
       if (
         this.passwordError &&
         this.emailError &&
         this.firstnameError &&
-        this.lastnameError
-        ) {
+        this.lastnameError) {
         instance.post('http://localhost:3000/api/auth/signup', user)
         .then(() => {
-          delete user['firstname'];
-          delete user['lastname'];
+          delete user['firstname']
+          delete user['lastname']
           setTimeout(instance.post('http://localhost:3000/api/auth/login', user)
           .then((res) => {
-              localStorage.setItem('user', JSON.stringify(res.data));
-              this.$router.push('/posts');
-            }), 2000);
+              localStorage.setItem('user', JSON.stringify(res.data))
+              this.$router.push('/posts')
+            }), 2000)
         })
-        .catch(() => {
-          this.message = 'Vos saisies sont incorrectes';
-          this.idError = true;
-        });
+        .catch((res) => {
+          if (res.response.status === 400) {
+            this.idError === true
+            this.message = 'Identifiants incorrects ou déjà utilisés!'
+          } else {
+            alert('Le serveur a rencontré une erreur inattendue!')
+          }
+        })
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>
 
 <style scoped>
@@ -203,8 +201,8 @@ export default {
   height: auto;
   width: 540px;
   padding: 32px;
-  background-color: #e9edf1;
   border-radius: 16px;
+  background-color: #e9edf1;
   box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
 }
 
@@ -251,9 +249,8 @@ input {
   border-radius: 8px;
   font-weight: 500;
   font-size: 16px;
-  flex: 1;
   min-width: 100px;
-  color: black;
+  color: rgb(3, 3, 3);
   background-color: #f2f2f2;
   box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
 }
@@ -266,10 +263,10 @@ input {
   border: none;
   border-radius: 30px;
   color: #fff;
-  background: linear-gradient(#f99655, #bd3007);
   transform: scale(0.9);
   transition-property: transform;
   transition-duration: 0.4s;
+  background: linear-gradient(#f99655, #bd3007);
   box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
 }
 

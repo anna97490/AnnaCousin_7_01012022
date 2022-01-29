@@ -2,26 +2,37 @@
   <div>
     <div class="header">
       <div class="header-container">
-        <img
-          class="logo"
-          src="../assets/icon-left-font.png"
-          alt="Logo de la société Groupomania">
+        <router-link
+          class="header-link"
+          to="/posts"
+          aria-label="Lien vers les publications"
+          role="link">
+            <img
+              class="logo"
+              src="../assets/icon-left-font.png"
+              alt="Logo de la société Groupomania">
+        </router-link> 
       </div>
-      <div class="card-user">
-        <img
-          class="profile-picture"
-          v-if="this.userInfo.imageUrl"
-          :src="this.userInfo.imageUrl"
-          alt="Photo de profil de l'utilisateur connecté">
-        <img
-          class="profile-picture"
-          v-else src="../assets/img-user-default.jpg"
-          alt="Photo de profil par défaut">
-        <p>
-          {{ userInfo.firstname }}
-        </p>
-        <font-awesome-icon icon="check-square" />
-      </div>
+      <router-link to="/profile" 
+        class="profile-link"
+        role="link"
+        aria-label="Lien vers le profil">
+        <div class="card-user">
+          <img
+            class="profile-picture"
+            v-if="this.userInfo.imageUrl"
+            :src="this.userInfo.imageUrl"
+            alt="Photo de profil de l'utilisateur connecté">
+          <img
+            class="profile-picture"
+            v-else src="../assets/img-user-default.jpg"
+            alt="Photo de profil par défaut">
+          <p>
+            {{ userInfo.firstname }}
+          </p>
+          <font-awesome-icon icon="check-square" />
+        </div>
+      </router-link>
       <div class="header-links">
         <router-link
           class="header-link"
@@ -104,34 +115,46 @@ export default {
   height: 50px;
 }
 
+.profile-link {
+  text-decoration: none;
+}
+
 .card-user {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 160px;
+  width: 130px;
   margin-right: 90px;
-  padding: 4px;
+  padding: 3px;
   border-radius: 25px;
   background-color: #ebeae9;
+  transform: scale(1);
+  transition-property: transform;
+  transition-duration: 0.4s;
+  cursor: pointer;
   box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
 }
 
+.card-user:hover {
+  transform: scale(1.1);
+}
+
 .profile-picture {
-  width: 28px;
-  height: 28px;
-  border-radius: 15px;
+  width: 33px;
+  height: 33px;
+  border-radius: 17px;
 }
 
 .card-user svg {
   margin-right: 5px;
   font-size: 18px;
-  color: #148000;
+  color: #148000;  
 }
 
 .header-links {
   display: flex;
   justify-content: space-between;
-  width: 21%;
+  width: 24%;
 }
 
 .header-link {
@@ -149,11 +172,33 @@ export default {
 }
 
 /* MEDIA QUERIES */
-@media screen and (min-width: 300px) and (max-width: 768px) {
+@media screen and (min-width: 769px) and (max-width: 992px) {
+  .header-links {
+    width: 37%;
+  }
+}
+
+@media screen and (min-width: 501px) and (max-width: 768px) {
   .header {
     display: flex;
     justify-content: space-between;
     padding: 10px;
+  }
+
+  .card-user {
+    width: 108px;
+    padding: 3px;
+    margin-right: 40px;
+  }
+
+  .card-user p {
+    font-size: 14px;
+  }
+
+  .profile-picture {
+    width: 27px;
+    height: 27px;
+    border-radius: 20px;
   }
 
   .header-links {
@@ -167,15 +212,29 @@ export default {
   .logo {
     height: 36px;
   }
-
-  .card-user {
-    width: 220px;
-  }
 }
 
-@media screen and (min-width: 300px) and (max-width: 768px) {
-   .card-user {
-    width: 220px;
+@media screen and (min-width: 300px) and (max-width: 500px) {
+  .header {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+  }
+
+  .card-user {
+   display: none;
+  }
+
+  .header-links {
+    width: 42%;
+  }
+
+  .header-link {
+    font-size: 20px;
+  }
+
+  .logo {
+    height: 35px;
   }
 }
 </style>

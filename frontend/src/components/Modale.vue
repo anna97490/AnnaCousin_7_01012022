@@ -54,29 +54,29 @@ export default {
     props: ['toggleModale', 'dataPost'],
     data() {
         return {
-        display: false,
-        data: {},
-        selectedFile: null,
-        text: '',
-        fullName: '',
-        Filelist: {},
-        userInfo: {},
-        account: null,
-        user: JSON.parse(localStorage.getItem('user')),
-        };
+            display: false,
+            data: {},
+            selectedFile: null,
+            text: '',
+            fullName: '',
+            Filelist: {},
+            userInfo: {},
+            account: null,
+            user: JSON.parse(localStorage.getItem('user'))
+        }
     },
     mounted() {
-        this.account = JSON.parse(localStorage.getItem('user'));
+        this.account = JSON.parse(localStorage.getItem('user'))
         if (this.account?.userId) {
             instance.get(`http://localhost:3000/api/auth/${this.account.userId}`, {
                 headers: { Authorization: 'Bearer ' + this.account.token },
             })
             .then((res) => {
             this.userInfo = res.data;
-            this.fullName = `${res.data.firstname} ${res.data.lastname}`;
+            this.fullName = `${res.data.firstname} ${res.data.lastname}`
             })
             .catch((err) => {
-            console.log(err);
+            console.log(err)
             });
         }
     },
@@ -85,17 +85,16 @@ export default {
             this.selectedFile = event.target.files[0];
         },
         updatePost: function (post) {
-            console.log(99, post);
             const id = post.id;
-            let user = JSON.parse(localStorage.getItem('user'));
-            let fd = new FormData();
+            let user = JSON.parse(localStorage.getItem('user'))
+            let fd = new FormData()
             fd.append('userId', user.userId);
-            fd.append('authorFullName', post.authorFullName);
+            fd.append('authorFullName', post.authorFullName)
             if (post.text != '') {
-                fd.append('text', post.text);
+                fd.append('text', post.text)
             }
             if (this.selectedFile) {
-                fd.append('image', this.selectedFile);
+                fd.append('image', this.selectedFile)
             }
             if (post.text == '' || this.selectedFile == '') {
                 alert('Veuillez écrire votre texte ou changer votre photo');
@@ -103,34 +102,32 @@ export default {
                 instance.put(`http://localhost:3000/api/posts/${id}`, fd, {
                     headers: {
                     'Content-Type': 'multipart/form-data',
-                    Authorization: 'Bearer ' + user.token,
+                    Authorization: 'Bearer ' + user.token
                     },
                 })
                 .then((res) => {
-                    localStorage.setItem('post', JSON.stringify(res.data));
-                    console.log(10, res.data);
-                    alert('Votre publication a bien été modifiée!');
-                    this.$router.go();
+                    localStorage.setItem('post', JSON.stringify(res.data))
+                    alert('Votre publication a bien été modifiée!')
+                    this.$router.go()
                 })
                 .catch(() => {
-                    alert('Veuillez écrire votre texte');
-                });
+                    alert('Veuillez écrire votre texte')
+                })
             }
         },
         close() {
-            this.display = false;
+            this.display = false
         },
         sendStateModalToParent() {
-            this.$emit('closeModal');
-        },
+            this.$emit('closeModal')
+        }
     },
     watch: {
         toggleModale: function () {
-        this.display = this.toggleModale;
+        this.display = this.toggleModale
         },
         dataPost: function () {
-            console.log(6, this.dataPost);
-            this.data = this.dataPost;
+            this.data = this.dataPost
         },
     },
 };
@@ -173,6 +170,8 @@ export default {
 }
 
 #text1 {
+    max-height: 300px;
+    max-width: 100%;
     width: 100%;
     padding: 6px 14px;
     margin: 8px 0 15px;
@@ -210,16 +209,19 @@ export default {
     padding: 12px;
     border: none;
     border-radius: 8px;
-    transform: scale(0.9);
-    transition-property: transform;
-    transition-duration: 0.4s;
     float: right;
-    z-index: 1;
     font-size: 15px;
     color: #fff;
     box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
     background: linear-gradient(#f5a42a, #b55f04);
-    cursor: pointer;
+    transform: scale(0.9);
+    transition-property: transform;
+    transition-duration: 0.4s;
+}
+
+.update-btn:hover {
+  transform: scale(1);
+  cursor: pointer;
 }
 
 /* MEDIA QUERIES */

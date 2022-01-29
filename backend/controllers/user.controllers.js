@@ -45,7 +45,7 @@ exports.login = (req, res, next) => {
         )
       });
     })
-    .catch((error) => res.status(400).json({ error: 'Incorrect request!' }));
+    .catch((error) => res.status(401).json({ error: 'Unauthorized request!' }));
   })
   .catch((error) => res.status(500).json({ error: 'Server error!' }));
 };

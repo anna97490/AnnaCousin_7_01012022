@@ -29,9 +29,9 @@
 </template>
 
 <script>
-import instance from '../axios';
-import Header from '../components/Header.vue';
-import moment from 'moment';
+import instance from '../axios'
+import Header from '../components/Header.vue'
+import moment from 'moment'
 
 export default {
     name: 'Admin',
@@ -48,18 +48,18 @@ export default {
         id: String,
     },
     created() {
-        let id = this.$route.params.id;
-        this.getInfos(id);
-        this.currentId = this.getInfos(id);
+        let id = this.$route.params.id
+        this.getInfos(id)
+        this.currentId = this.getInfos(id)
     },
     methods: {
         getInfos: function (id) {
-            this.user = JSON.parse(localStorage.getItem('user'));
+            this.user = JSON.parse(localStorage.getItem('user'))
             instance.get(`http://localhost:3000/api/auth/${id}`, {
                 headers: { Authorization: 'Bearer ' + this.user.token }
             })
             .then((res) => {
-                this.profileInfos = res.data;
+                this.profileInfos = res.data
             })
             .catch((err) => {
                 console.log(err);
@@ -69,24 +69,24 @@ export default {
             return moment(value).format('DD.MM.YY');
         },
         deleteProfile: function () {
-            this.user = JSON.parse(localStorage.getItem('user'));
-            let id = this.$route.params.id;
+            this.user = JSON.parse(localStorage.getItem('user'))
+            let id = this.$route.params.id
             if (confirm('Souhaitez-vous vraiment supprimer le compte de cet utilisateur?')) {
                 instance.delete(`http://localhost:3000/api/auth/${id}/delete`, {
                     headers: { Authorization: 'Bearer ' + this.user.token },
                 })
                 .then(() => {
-                    alert('Le profil a bien été supprimé !');
-                    this.$router.push('/posts');
+                    alert('Le profil a bien été supprimé !')
+                    this.$router.push('/posts')
                 })
                 .catch((err) => {
-                    console.log(err);
-                    console.log(25, id);
-                });
+                    console.log(err)
+                     alert('Une erreur est survenue !')
+                })
             }
-        },
-    },
-};
+        }
+    }
+}
 </script>
 
 <style scoped>

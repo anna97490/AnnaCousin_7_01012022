@@ -57,7 +57,7 @@
 </template>
 
 <script>
-import instance from '../axios';
+import instance from '../axios'
 
 export default {
   name: 'Login',
@@ -73,43 +73,45 @@ export default {
       messagePass: '',
       emailRegex: /^[a-z0-9._-]+@[a-z0-9.-]{2,10}[.][a-z]{2,4}$/,
       passwordRegex: /^[a-zA-Z0-9]{6,50}$/
-    };
+    }
   },
   methods: {
     // Fonction de Login
     login: function () {
-      this.emailError = this.emailRegex.test(this.email);
-      this.passwordError = this.passwordRegex.test(this.password);
+      this.emailError = this.emailRegex.test(this.email)
+      this.passwordError = this.passwordRegex.test(this.password)
       let user = {
         email: this.email,
-        password: this.password,
-      };
+        password: this.password
+      }
       if (this.emailError === false) {
-        this.messageId =
-          this.email.length === 0
-            ? 'Veuillez remplir ce champ'
-            : 'Email non valide';
+        this.messageId = this.email.length === 0
+          ? 'Veuillez remplir ce champ'
+          : 'Email non valide'
       }
       if (this.passwordError === false) {
-        this.messagePass =
-          this.password.length === 0
-            ? 'Veuillez remplir ce champ'
-            : 'Mot de passe incorrect';
+        this.messagePass = this.password.length === 0
+          ? 'Veuillez remplir ce champ'
+          : 'Mot de passe incorrect'
       }
       if (this.passwordError && this.emailError) {
         instance.post('http://localhost:3000/api/auth/login', user)
         .then((res) => {
-          localStorage.setItem('user', JSON.stringify(res.data));
-          this.$router.push('/posts');
+          localStorage.setItem('user', JSON.stringify(res.data))
+          this.$router.push('/posts')
         })
-        .catch(() => {
-          this.message = 'Vos identifiants sont incorrects';
-          this.idError = true;
-        });
+        .catch((res) => {
+          if (res.response.status === 401) {
+            this.idError === true
+            this.message = 'Vos identifiants sont incorrects!'
+          } else {
+            alert('Le serveur a rencontré une erreur inattendue!')
+          }
+        })
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>
 
 <style scoped>
@@ -128,18 +130,6 @@ export default {
   );
 }
 
-@keyframes AnimateBG {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
-
 .card {
   display: flex;
   justify-content: center;
@@ -148,8 +138,8 @@ export default {
   height: auto;
   width: 540px;
   padding: 32px;
-  background-color: #e9edf1;
   border-radius: 16px;
+  background-color: #e9edf1;
   box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
 }
 
@@ -178,7 +168,7 @@ input {
   font-size: 16px;
   flex: 1;
   min-width: 100px;
-  color: black;
+  color: rgb(3, 3, 3);
   background-color: #f2f2f2;
   box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
 }
@@ -207,10 +197,10 @@ input {
   border: none;
   border-radius: 30px;
   color: #fff;
-  background: linear-gradient(#f99655, #bd3007);
   transform: scale(0.9);
   transition-property: transform;
   transition-duration: 0.4s;
+   background: linear-gradient(#f99655, #bd3007);
   box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
 }
 

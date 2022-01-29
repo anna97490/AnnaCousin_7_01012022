@@ -45,15 +45,15 @@
 </template>
 
 <script>
-import Post from '../components/Post.vue';
-import Header from '../components/Header.vue';
-import instance from '../axios';
+import Post from '../components/Post.vue'
+import Header from '../components/Header.vue'
+import instance from '../axios'
 
 export default {
   name: 'Posts',
   components: {
     Header,
-    Post,
+    Post
   },
   data() {
     return {
@@ -61,39 +61,39 @@ export default {
       text: '',
       fullName: '',
       userInfo: {},
-      account: null,
-      postId: Post.id
-    };
+      account: null
+    }
   },
   mounted() {
-    this.account = JSON.parse(localStorage.getItem('user'));
+    this.account = JSON.parse(localStorage.getItem('user'))
     if (this.account?.userId) {
       instance.get(`http://localhost:3000/api/auth/${this.account.userId}`, {
-        headers: { Authorization: 'Bearer ' + this.account.token },
+        headers: { Authorization: 'Bearer ' + this.account.token }
       })
       .then((res) => {
-        this.userInfo = res.data;
-        this.fullName = `${res.data.firstname} ${res.data.lastname}`;
+        this.userInfo = res.data
+        this.fullName = `${res.data.firstname} ${res.data.lastname}`
       })
       .catch((err) => {
-        console.log(err);
-      });
+        console.log(err)
+      })
     }
   },
   methods: {
     onFileSelected(event) {
-      this.selectedFile = event.target.files[0];
+      this.selectedFile = event.target.files[0]
     },
+    // Créer un post
     createPost: function () {
-      let user = JSON.parse(localStorage.getItem('user'));
-      let fd = new FormData();
-      fd.append('userId', user.userId);
-      fd.append('authorFullName', this.fullName);
+      let user = JSON.parse(localStorage.getItem('user'))
+      let fd = new FormData()
+      fd.append('userId', user.userId)
+      fd.append('authorFullName', this.fullName)
       if (this.text != '') {
-        fd.append('text', this.text);
+        fd.append('text', this.text)
       }
       if (this.selectedFile) {
-        fd.append('image', this.selectedFile);
+        fd.append('image', this.selectedFile)
       }
       if (this.text == '' || this.selectedFile == '') {
         alert('Veuillez écrire votre texte');
@@ -101,31 +101,32 @@ export default {
         instance.post('http://localhost:3000/api/posts', fd, {
           headers: {
             'Content-Type': 'multipart/form-data',
-            Authorization: 'Bearer ' + user.token,
-          },
+            Authorization: 'Bearer ' + user.token
+          }
         })
         .then((res) => {
-          localStorage.setItem('post', JSON.stringify(res.data));
-          alert('Votre publication a bien été créée!');
-          this.$router.go();
+          localStorage.setItem('post', JSON.stringify(res.data))
+          alert('Votre publication a bien été créée!')
+          this.$router.go()
         })
         .catch(() => {
-          alert('Veuillez écrire votre texte');
-        });
+          alert('Veuillez écrire votre texte')
+        })
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>
 
 <style scoped>
 .body {
   background-color: #e9edf1;
 }
+
 .container {
   display: flex;
   justify-content: center;
-  box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
+  margin-top: 15px;
 }
 
 .posts-creation {
@@ -223,7 +224,7 @@ form {
   margin-top: 20px;
   padding: 0 12px;
   border-radius: 10px;
-  background-color: #6D95F3;
+  background-color: #1877f2;
   box-shadow: 0 10px 21px rgb(0 0 0 / 45%), 0 20px 30px rgb(0 0 0 / 30%);
 }
 
@@ -292,12 +293,13 @@ form {
   }
 
   .create-btn {
-    margin-top: 30px;
+    margin-top: 50px;
   }
 
   .posts {
-    width: 100%;
     display: block;
+    width: 100%;
+    padding: 0;
   }
 }
 </style>

@@ -95,20 +95,20 @@ export default {
       selectedFile: null,
       account: null,
       isAdmin: false,
-    };
+    }
   },
   mounted() {
-    this.account = JSON.parse(localStorage.getItem('user'));
+    this.account = JSON.parse(localStorage.getItem('user'))
     if (this.account?.userId) {
       instance.get(`http://localhost:3000/api/auth/${this.account.userId}`, {
           headers: { Authorization: 'Bearer ' + this.account.token },
       })
       .then((res) => {
-        this.userInfo = res.data;
-        this.isAdmin = this.account.isAdmin;
+        this.userInfo = res.data
+        this.isAdmin = this.account.isAdmin
       })
       .catch((err) => {
-        console.log(err);
+        console.log(err)
       });
     }
   },
@@ -118,25 +118,23 @@ export default {
     },
     onFileSelected(event) {
       this.selectedFile = event.target.files[0];
-      console.log(10, this.selectedFile);
     },
     addPicture() {
-      let user = JSON.parse(localStorage.getItem('user'));
-      const fd = new FormData();
-      fd.append('image', this.selectedFile);
+      let user = JSON.parse(localStorage.getItem('user'))
+      const fd = new FormData()
+      fd.append('image', this.selectedFile)
       instance.put(`http://localhost:3000/api/auth/${user.userId}/update`, fd, {
         headers: {
           Authorization: 'Bearer ' + user.token,
           'Content-Type': 'multipart/form-data',
         },
       })
-      .then((res) => {
-        this.$router.go();
-        console.log(10, res.data);
+      .then(() => {
+        this.$router.go()
       })
       .catch((req) => {
-        console.log(req.file);
-      });
+        console.log(req.file)
+      })
     },
     deleteProfile: function () {
       if (confirm('Souhaitez-vous vraiment supprimer votre compte?')) {
@@ -144,17 +142,18 @@ export default {
           headers: { Authorization: 'Bearer ' + this.account.token },
         })
         .then(() => {
-          alert('Le profil a bien été supprimé !');
-          localStorage.clear();
-          this.$router.go();
+          alert('Le profil a bien été supprimé !')
+          localStorage.clear()
+          this.$router.go()
         })
         .catch((err) => {
-          console.log(err);
-        });
+          console.log(err)
+          alert('Une erreur est survenue lors de la suppression de votre profil!')
+        })
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>
 
 <style scoped>

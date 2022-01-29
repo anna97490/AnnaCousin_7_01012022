@@ -5,7 +5,6 @@
       class="card"
       :key="index"
       v-for="(post, index) in allPosts"
-      v-bind:id="'+ postId +'"
       data-aos="fade-right"
       data-aos-easing="linear"
       data-aos-duration="700">
@@ -68,9 +67,9 @@
 </template>
 
 <script>
-import moment from 'moment';
-import instance from '../axios';
-import Modale from '../components/Modale.vue';
+import moment from 'moment'
+import instance from '../axios'
+import Modale from '../components/Modale.vue'
 
 export default {
   name: 'Post',
@@ -87,12 +86,11 @@ export default {
       account: null,
       userInfo: {},
       displayModale: false,
-      currentPost: {},
-    };
+      currentPost: {}
+    }
   },
   created() {
     this.getProfile();
-    console.log(33, this.$route)
   },
   mounted() {
     const user = JSON.parse(localStorage.getItem('user'));
@@ -112,21 +110,21 @@ export default {
   },
   methods: {
     getProfile: function () {
-      this.account = JSON.parse(localStorage.getItem('user'));
+      this.account = JSON.parse(localStorage.getItem('user'))
       if (this.account?.userId) {
         instance.get(`http://localhost:3000/api/auth/${this.account.userId}`, {
             headers: { Authorization: 'Bearer ' + this.account.token },
           })
           .then((res) => {
-            this.userInfo = res.data;
-            this.isAdmin = this.account.isAdmin;
+            this.userInfo = res.data
+            this.isAdmin = this.account.isAdmin
           })
           .catch((err) => {
-            console.log(err);
+            console.log(err)
           });
       }
     },
-    // Récupération du user pour rediriger l'admin sur son profil
+    // Récupération du user pour rediriger l'admin sur le profil de  créateur du post
     getOneUser: function (post) {
       const user = JSON.parse(localStorage.getItem('user'));
       let id = post.userId;
@@ -136,50 +134,46 @@ export default {
         },
       })
       .then((res) => {
-        console.log(2, res.data);
-        this.$router.push({ path: `/admin/${res.data.userId}` });
+        this.$router.push({ path: `/admin/${res.data.userId}`})
       })
       .catch((err) => {
-        console.log(err);
-      });
+        console.log(err)
+        alert('Une erreur est survenue!')
+      })
     },
     // Date et heure du post
     dateTime: function (value) {
-      //return moment(value).format('DD.MM.YY');
-      moment.locale('fr');
+      moment.locale('fr')
       return moment(value).fromNow()
     },
-    // hour: function (value) {
-    //   return moment(value).format('HH:mm');
-    // },
     // Supprimer un post
     deletePost: function (post) {
-      const user = JSON.parse(localStorage.getItem('user'));
-      const id = post.id;
+      const user = JSON.parse(localStorage.getItem('user'))
+      const id = post.id
       if (confirm('Souhaitez-vous vraiment supprimer ce post?')) {
-        instance
-          .delete(`http://localhost:3000/api/posts/${id}`, {
-            headers: {
-              Authorization: 'Bearer ' + user.token,
-            },
-          })
-          .then(() => {
-            this.$router.go();
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+        instance.delete(`http://localhost:3000/api/posts/${id}`, {
+          headers: {
+            Authorization: 'Bearer ' + user.token,
+          },
+        })
+        .then(() => {
+          this.$router.go()
+        })
+        .catch((err) => {
+          console.log(err)
+          alert('Une erreur est survenue lors de la suppression!')
+        })
       }
     },
     toggleModale: function (post) {
-      this.currentPost = post;
-      this.displayModale = true;
+      this.currentPost = post
+      this.displayModale = true
     },
     receiveStateFromChild() {
-      this.displayModale = false;
-    },
-  },
-};
+      this.displayModale = false
+    }
+  }
+}
 </script>
 
 <style scoped>
@@ -226,8 +220,6 @@ export default {
   transform: scale(0.9);
   transition-property: transform;
   transition-duration: 0.4s;
-  color: #fff;
-  z-index: 1;
   margin-top: 15px;
   color: #b55f04;
   cursor: pointer;
@@ -240,7 +232,6 @@ export default {
   transition-property: transform;
   transition-duration: 0.4s;
   color: #df500c;
-  z-index: 1;
   margin-top: 15px;
   cursor: pointer;
 }
@@ -343,7 +334,7 @@ export default {
   }
 
   .card {
-    width: 95%;
+    width: 99%;
     padding: 15px;
   }
 
@@ -358,6 +349,10 @@ export default {
 
   .user-infos {
     font-size: 14px;
+  }
+
+  .image-container {
+    height: 215px;
   }
 }
 </style>
