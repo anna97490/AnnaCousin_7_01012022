@@ -38,7 +38,6 @@ const User = db.define('user', {
 });
 
 // Lien avec la table posts
-// En cas de suppression du user, ses posts le seront aussi 
 User.hasMany(Post, {
   onDelete: 'cascade',
   onUpdate: 'cascade',

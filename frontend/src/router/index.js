@@ -45,14 +45,14 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  let requiresAuth = to.matched.some( record => record.meta.requiresAuth );
+  let requiresAuth = to.matched.some( record => record.meta.requiresAuth )
   let currentUser = JSON.parse(localStorage.getItem('user')) 
   if(requiresAuth && !currentUser){
     next('/');
   } else if (to.path == '/' && currentUser){
-    next('/posts');
+    next('/posts')
   } else {
-    next(); 
+    next()
   }
 })
 

@@ -4,9 +4,15 @@
     <div class="container">
       <div class="profile-fields">
         <div class="picture-container">
-          <img class="profile-picture" 
+          <img 
+          v-if="profileInfos.imageUrl"
+          class="profile-picture" 
           :src="profileInfos.imageUrl"
           alt="Photo de profil de l'auteur de la publication">
+          <img
+            class="profile-picture"
+            v-else src="../assets/img-user-default.jpg"
+            alt="Photo de profil par défaut">
           <p class="profile-datas">
             <strong>{{ profileInfos.firstname }} {{ profileInfos.lastname }}</strong>
           </p>
@@ -105,6 +111,7 @@ export default {
     padding: 32px;
     margin: auto;
     background: white;
+    border: 17px solid #1877f2;
     border-radius: 16px;
     box-shadow: 0 15px 29px rgb(0 0 0 / 20%), 0 8px 16px rgb(0 0 0 / 5%);;
 }
@@ -141,7 +148,7 @@ export default {
 }
 
 .profile-picture {
-    width: 180pxpx;
+    width: 180px;
     height: 160px;
     border-radius: 8px 8px 0 0;
 }

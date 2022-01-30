@@ -109,6 +109,7 @@ export default {
       });
   },
   methods: {
+    // Récupération du current user
     getProfile: function () {
       this.account = JSON.parse(localStorage.getItem('user'))
       if (this.account?.userId) {
@@ -205,7 +206,7 @@ export default {
 }
 
 .name {
-  margin-right: 45%;
+  margin-left: -50%;
 }
 
 .profile-picture {
@@ -294,15 +295,6 @@ export default {
   .card {
     width: 95%;
   }
-
-  .name {
-    margin-right: 57%;
-  }
-
-  .svg-inline--fa {
-    width: 16px;
-    height: 16px;
-  }
 }
 
 @media screen and (min-width: 501px) and (max-width: 768px) {
@@ -312,17 +304,12 @@ export default {
     justify-content: center;
   }
 
+  .name {
+    margin-left: -30%;
+  }
+
   .card {
     width: 95%;
-  }
-
-  .svg-inline--fa {
-    width: 16px;
-    height: 16px;
-  }
-
-  .name {
-    margin-right: 30%;
   }
 }
 
@@ -344,7 +331,7 @@ export default {
   }
 
   .name {
-    margin-right: 0%;
+    margin-right: -45%;
   }
 
   .user-infos {
