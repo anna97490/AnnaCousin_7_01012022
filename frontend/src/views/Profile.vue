@@ -65,7 +65,7 @@
                 v-if="this.isAdmin === true"
                 data-aos="fade-right"
                 data-aos-delay="2100">
-                <strong>Rôle:</strong>Administrateur
+                <strong>Rôle:</strong>Modérateur
               </span>
             </div>
           </div>
@@ -90,7 +90,6 @@ export default {
   },
   data() {
     return {
-      user: JSON.parse(localStorage.getItem('user')),
       userInfo: {},
       selectedFile: null,
       account: null,

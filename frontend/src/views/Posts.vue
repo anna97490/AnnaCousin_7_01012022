@@ -171,6 +171,7 @@ form {
 
 .posts-file {
   display: flex;
+  justify-content: center;
   width: 100%;
 }
 
@@ -183,10 +184,12 @@ form {
 }
 
 #file {
+  display: none;
   font-size: 12px;
 }
 
 .posts-img label {
+  display: none;
   font-size: 15px;
 }
 
@@ -235,10 +238,6 @@ form {
     padding: 20px;
   }
 
-  .posts-file {
-    justify-content: space-between;
-  }
-
   #file {
     width: 100%;
   }
@@ -253,10 +252,6 @@ form {
   .posts-creation {
     width: 100%;
     padding: 20px;
-  }
- 
-  .posts-file {
-    justify-content: space-between;
   }
 
   .form {
@@ -281,11 +276,6 @@ form {
 
   .title {
     font-size: 17px;
-  }
-
-  .posts-file {
-    flex-wrap: wrap;
-    justify-content: center;
   }
 
   .form {

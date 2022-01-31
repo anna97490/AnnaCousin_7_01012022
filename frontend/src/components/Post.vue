@@ -9,7 +9,7 @@
       data-aos-easing="linear"
       data-aos-duration="700">
       <div>
-        <p class="user-infos">
+        <p class="user-infos" >
           <img
             class="profile-picture"
             v-if="post.user.imageUrl"
@@ -197,16 +197,12 @@ export default {
 .user-infos {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+ 
   border-radius: 22px;
   padding: 5px 15px;
   margin-bottom: 10px;
   background-color: #ebeae9;
   box-shadow: 0 0 0 rgb(0 0 0 / 1%), 0 2px 5px rgb(0 0 0 / 30%);
-}
-
-.name {
-  margin-left: -50%;
 }
 
 .profile-picture {
@@ -244,7 +240,7 @@ export default {
 }
 
 .profile {
-  margin: 0;
+  margin-left: 46%;
   color: grey;
   cursor: pointer;
 }
@@ -295,6 +291,10 @@ export default {
   .card {
     width: 95%;
   }
+
+  .profile {
+  margin-left: 59%;
+  }
 }
 
 @media screen and (min-width: 501px) and (max-width: 768px) {
@@ -304,12 +304,12 @@ export default {
     justify-content: center;
   }
 
-  .name {
-    margin-left: -30%;
-  }
-
   .card {
     width: 95%;
+  }
+
+  .profile {
+  margin-left: 31%;
   }
 }
 
@@ -325,17 +325,17 @@ export default {
     padding: 15px;
   }
 
-  .svg-inline--fa {
-    width: 16px;
-    height: 16px;
+  .user-infos {
+    justify-content: space-between;
+    font-size: 14px;
+  }
+
+   .profile {
+    margin-left: 0;
   }
 
   .name {
-    margin-right: -45%;
-  }
-
-  .user-infos {
-    font-size: 14px;
+    margin-left: -7%;
   }
 
   .image-container {

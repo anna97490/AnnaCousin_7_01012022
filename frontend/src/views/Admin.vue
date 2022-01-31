@@ -47,22 +47,17 @@ export default {
     data() {
         return {
             profileInfos: {},
-            user: JSON.parse(localStorage.getItem('user')),
         };
-    },
-    props: {
-        id: String,
     },
     created() {
         let id = this.$route.params.id
         this.getInfos(id)
-        this.currentId = this.getInfos(id)
     },
     methods: {
         getInfos: function (id) {
-            this.user = JSON.parse(localStorage.getItem('user'))
+            let user = JSON.parse(localStorage.getItem('user'))
             instance.get(`http://localhost:3000/api/auth/${id}`, {
-                headers: { Authorization: 'Bearer ' + this.user.token }
+                headers: { Authorization: 'Bearer ' + user.token }
             })
             .then((res) => {
                 this.profileInfos = res.data
@@ -75,11 +70,11 @@ export default {
             return moment(value).format('DD.MM.YY');
         },
         deleteProfile: function () {
-            this.user = JSON.parse(localStorage.getItem('user'))
+            let user = JSON.parse(localStorage.getItem('user'))
             let id = this.$route.params.id
             if (confirm('Souhaitez-vous vraiment supprimer le compte de cet utilisateur?')) {
                 instance.delete(`http://localhost:3000/api/auth/${id}/delete`, {
-                    headers: { Authorization: 'Bearer ' + this.user.token },
+                    headers: { Authorization: 'Bearer ' + user.token },
                 })
                 .then(() => {
                     alert('Le profil a bien été supprimé !')

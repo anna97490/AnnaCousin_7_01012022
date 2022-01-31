@@ -101,12 +101,12 @@ export default {
       firstnameError: false,
       lastnameError: false,
       passwordError: false,
+      idError: false,
       message: '',
       messageFirstname: '',
       messageLastname: '',
       messageId: '',
       messagePass: '',
-      account: '',
       nameRegex: /^[A-Za-z-éèç ]+$/,
       emailRegex: /^[A-Za-z0-9._+-]{2,40}@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/,
       passwordRegex: /^[A-Za-z0-9]{6,50}$/

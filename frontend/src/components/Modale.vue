@@ -59,10 +59,9 @@ export default {
             selectedFile: null,
             text: '',
             fullName: '',
-            Filelist: {},
             userInfo: {},
             account: null,
-            user: JSON.parse(localStorage.getItem('user'))
+          
         }
     },
     mounted() {
@@ -177,6 +176,15 @@ export default {
     margin: 8px 0 15px;
     border-radius: 22px;
     font-size: 13px;
+}
+
+.publish {
+    display: flex;
+    justify-content: center;
+}
+
+#file {
+    display: none;
 }
 
 .modale {
