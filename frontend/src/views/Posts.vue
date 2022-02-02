@@ -11,7 +11,9 @@
                 <strong>Rédigez votre texte:</strong>
               </span>
             </label>
-            <textarea id="text" v-model="text" aria-label="Contenu du message">
+            <textarea id="text" 
+              v-model="text" 
+              aria-label="Contenu du message">
             </textarea>
           </form>
         </div>
@@ -31,7 +33,11 @@
             </form>
           </div>
           <div class="publish">
-            <button class="create-btn" @click="createPost()">Publier</button>
+            <button 
+              class="create-btn" 
+              @click="createPost()">
+              Publier
+            </button>
           </div>
         </div>
       </div>
@@ -65,8 +71,9 @@ export default {
     }
   },
   mounted() {
+    // Récupération des infos du user courant
     this.account = JSON.parse(localStorage.getItem('user'))
-    if (this.account?.userId) {
+    if (this.account.userId) {
       instance.get(`http://localhost:3000/api/auth/${this.account.userId}`, {
         headers: { Authorization: 'Bearer ' + this.account.token }
       })

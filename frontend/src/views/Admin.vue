@@ -50,6 +50,8 @@ export default {
         };
     },
     created() {
+        // Récupérer l'id contenu dans l'url 
+        // Pour récupérer les infos de l'auteur du post
         let id = this.$route.params.id
         this.getInfos(id)
     },
@@ -63,12 +65,14 @@ export default {
                 this.profileInfos = res.data
             })
             .catch((err) => {
-                console.log(err);
-            });
+                console.log(err)
+            })
         },
+        // Date de création du profil 
         dateTime: function (value) {
             return moment(value).format('DD.MM.YY');
         },
+        // Suppression du profil
         deleteProfile: function () {
             let user = JSON.parse(localStorage.getItem('user'))
             let id = this.$route.params.id

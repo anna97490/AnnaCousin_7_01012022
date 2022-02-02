@@ -79,9 +79,9 @@
 </template>
 
 <script>
-import instance from '../axios';
-import Header from '../components/Header.vue';
-import moment from 'moment';
+import instance from '../axios'
+import Header from '../components/Header.vue'
+import moment from 'moment'
 
 export default {
   name: 'Posts',
@@ -97,10 +97,11 @@ export default {
     }
   },
   mounted() {
+    // Récupération des infos du user courant
     this.account = JSON.parse(localStorage.getItem('user'))
-    if (this.account?.userId) {
+    if (this.account.userId) {
       instance.get(`http://localhost:3000/api/auth/${this.account.userId}`, {
-          headers: { Authorization: 'Bearer ' + this.account.token },
+        headers: { Authorization: 'Bearer ' + this.account.token },
       })
       .then((res) => {
         this.userInfo = res.data
@@ -108,16 +109,18 @@ export default {
       })
       .catch((err) => {
         console.log(err)
-      });
+      })
     }
   },
   methods: {
+    // Date de création du compte
     dateTime: function (value) {
-      return moment(value).format('DD.MM.YY');
+      return moment(value).format('DD.MM.YY')
     },
     onFileSelected(event) {
       this.selectedFile = event.target.files[0];
     },
+    // Photo de profil
     addPicture() {
       let user = JSON.parse(localStorage.getItem('user'))
       const fd = new FormData()
@@ -131,10 +134,11 @@ export default {
       .then(() => {
         this.$router.go()
       })
-      .catch((req) => {
-        console.log(req.file)
+      .catch((err) => {
+        console.log(err)
       })
     },
+    // Supprimer le profil
     deleteProfile: function () {
       if (confirm('Souhaitez-vous vraiment supprimer votre compte?')) {
         instance.delete(`http://localhost:3000/api/auth/${this.account.userId}/delete`, {

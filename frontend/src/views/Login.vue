@@ -78,6 +78,7 @@ export default {
   methods: {
     // Fonction de Login
     login: function () {
+      // Tests des champs du formulaire
       this.emailError = this.emailRegex.test(this.email)
       this.passwordError = this.passwordRegex.test(this.password)
       let user = {

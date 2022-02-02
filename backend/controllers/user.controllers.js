@@ -70,6 +70,17 @@ exports.getOneUser = (req, res, next) => {
 
 // Modifier le profil
 exports.updateUser = (req, res, next) => {
+  User.findOne({ where: { id: req.params.id } })
+  .then((user) => {
+    if (!user) {
+      return res.status(404).json({ message: 'User not found!' });
+    } else if(user.imageUrl !== null) {
+      const filename = user.imageUrl.split('/images/')[1];
+      fs.unlink(`./images/${filename}`, (err) => {
+        if (err) throw err;
+      })
+    }
+  })
   const userObject = {
     imageUrl: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`
   } 

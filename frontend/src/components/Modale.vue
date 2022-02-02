@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import instance from '../axios';
+import instance from '../axios'
 
 export default {
     name: 'Modale',
@@ -60,29 +60,30 @@ export default {
             text: '',
             fullName: '',
             userInfo: {},
-            account: null,
-          
+            account: null  
         }
     },
     mounted() {
+        // Récupération du user courant
         this.account = JSON.parse(localStorage.getItem('user'))
-        if (this.account?.userId) {
+        if (this.account.userId) {
             instance.get(`http://localhost:3000/api/auth/${this.account.userId}`, {
                 headers: { Authorization: 'Bearer ' + this.account.token },
             })
             .then((res) => {
-            this.userInfo = res.data;
-            this.fullName = `${res.data.firstname} ${res.data.lastname}`
+                this.userInfo = res.data;
+                this.fullName = `${res.data.firstname} ${res.data.lastname}`
             })
             .catch((err) => {
-            console.log(err)
-            });
+                console.log(err)
+            })
         }
     },
     methods: {
         onFileSelected(event) {
             this.selectedFile = event.target.files[0];
         },
+        // Modifier le post
         updatePost: function (post) {
             const id = post.id;
             let user = JSON.parse(localStorage.getItem('user'))
@@ -114,16 +115,13 @@ export default {
                 })
             }
         },
-        close() {
-            this.display = false
-        },
         sendStateModalToParent() {
             this.$emit('closeModal')
         }
     },
     watch: {
         toggleModale: function () {
-        this.display = this.toggleModale
+            this.display = this.toggleModale
         },
         dataPost: function () {
             this.data = this.dataPost

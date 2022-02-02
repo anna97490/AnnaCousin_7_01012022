@@ -8,7 +8,10 @@
           alt="Logo de la société Groupomania">
       </div>
       <h1 class="title">Votre réseau social d'entreprise!</h1>
-      <router-link class="login" to="/" aria-label="Lien vers la connexion">
+      <router-link 
+        class="login" 
+        to="/" 
+        aria-label="Lien vers la connexion">
         <strong>Se connecter</strong>
       </router-link>
       <form id="submit" method="post">
@@ -86,7 +89,7 @@
 </template>
 
 <script>
-import instance from '../axios';
+import instance from '../axios'
 
 export default {
   name: 'Signup',

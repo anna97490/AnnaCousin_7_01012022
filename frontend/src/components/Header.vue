@@ -63,36 +63,37 @@
 </template>
 
 <script>
-import instance from '../axios';
+import instance from '../axios'
 
 export default {
   name: 'Header',
   data: function () {
     return {
-      component: {},
       userInfo: {},
       account: null,
-    };
+    }
   },
   mounted() {
-     this.account = JSON.parse(localStorage.getItem('user'));
-    if (this.account?.userId) {
+    // Récupération du user courant
+     this.account = JSON.parse(localStorage.getItem('user'))
+    if (this.account.userId) {
       instance.get(`http://localhost:3000/api/auth/${this.account.userId}`, {
           headers: { Authorization: 'Bearer ' + this.account.token },
       })
       .then((res) => {
-        this.userInfo = res.data;
-        this.isAdmin = this.account.isAdmin;
+        this.userInfo = res.data
+        this.isAdmin = this.account.isAdmin
       })
       .catch((err) => {
-        console.log(err);
+        console.log(err)
       });
     }
   },
   methods: {
+    // Déconnexion
     logout: function () {
-      localStorage.clear();
-      this.$router.push('/');
+      localStorage.clear()
+      this.$router.push('/')
     },
   },
 };

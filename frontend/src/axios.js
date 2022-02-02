@@ -1,4 +1,4 @@
-const axios = require('axios');
+const axios = require('axios')
 
 // Config pour les requetes API avec Axios
 const instance = axios.create({
@@ -9,4 +9,4 @@ const instance = axios.create({
   },
 });
 
-export default instance;
+export default instance

@@ -1,13 +1,13 @@
-import Vue from 'vue';
-import VueRouter from 'vue-router';
-import Login from '../views/Login.vue';
-import Signup from '../views/Signup.vue';
-import Posts from '../views/Posts.vue';
-import Profile from '../views/Profile.vue';
-import Admin from '../views/Admin.vue';
+import Vue from 'vue'
+import VueRouter from 'vue-router'
+import Login from '../views/Login.vue'
+import Signup from '../views/Signup.vue'
+import Posts from '../views/Posts.vue'
+import Profile from '../views/Profile.vue'
+import Admin from '../views/Admin.vue'
 
 
-Vue.use(VueRouter);
+Vue.use(VueRouter)
 
 const routes = [
   {
@@ -48,7 +48,7 @@ router.beforeEach((to, from, next) => {
   let requiresAuth = to.matched.some( record => record.meta.requiresAuth )
   let currentUser = JSON.parse(localStorage.getItem('user')) 
   if(requiresAuth && !currentUser){
-    next('/');
+    next('/')
   } else if (to.path == '/' && currentUser){
     next('/posts')
   } else {
@@ -56,5 +56,5 @@ router.beforeEach((to, from, next) => {
   }
 })
 
-export default router;
+export default router
 

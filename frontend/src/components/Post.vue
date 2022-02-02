@@ -21,7 +21,7 @@
             src="../assets/img-user-default.jpg"
             alt="Photo de profil par défaut">
           <span class="name">
-            <strong>Publié par :</strong> {{ post.authorFullName }}
+            <strong>{{ post.authorFullName }}</strong>
           <p class="date">
             {{ dateTime(post.createdAt) }} 
           </p>
@@ -45,7 +45,7 @@
         <div class="btn-container">
           <modale
             :dataPost="currentPost"
-            v-bind:toggleModale="displayModale"
+            :toggleModale="displayModale"
             v-on:closeModal="receiveStateFromChild">
           </modale>
           <span
@@ -90,7 +90,7 @@ export default {
     }
   },
   created() {
-    this.getProfile();
+    this.getProfile()
   },
   mounted() {
     const user = JSON.parse(localStorage.getItem('user'));
@@ -101,33 +101,33 @@ export default {
       })
       .then((res) => {
         for (const post of res.data) {
-          this.allPosts.push(post);
+          this.allPosts.push(post)
         }
       })
       .catch((err) => {
-        console.log(err);
+        console.log(err)
       });
   },
   methods: {
     // Récupération du current user
     getProfile: function () {
       this.account = JSON.parse(localStorage.getItem('user'))
-      if (this.account?.userId) {
+      if (this.account.userId) {
         instance.get(`http://localhost:3000/api/auth/${this.account.userId}`, {
             headers: { Authorization: 'Bearer ' + this.account.token },
           })
-          .then((res) => {
-            this.userInfo = res.data
-            this.isAdmin = this.account.isAdmin
-          })
-          .catch((err) => {
-            console.log(err)
-          });
+        .then((res) => {
+          this.userInfo = res.data
+          this.isAdmin = this.account.isAdmin
+        })
+        .catch((err) => {
+          console.log(err)
+        })
       }
     },
-    // Récupération du user pour rediriger l'admin sur le profil de  créateur du post
+    // Récupération des infos de l'auteur du post pour rediriger l'admin sur son profil
     getOneUser: function (post) {
-      const user = JSON.parse(localStorage.getItem('user'));
+      const user = JSON.parse(localStorage.getItem('user'))
       let id = post.userId;
       instance.get(`http://localhost:3000/api/auth/${id}`, {
         headers: {
@@ -166,6 +166,7 @@ export default {
         })
       }
     },
+    // Modifier un post
     toggleModale: function (post) {
       this.currentPost = post
       this.displayModale = true
@@ -197,7 +198,6 @@ export default {
 .user-infos {
   display: flex;
   align-items: center;
- 
   border-radius: 22px;
   padding: 5px 15px;
   margin-bottom: 10px;
@@ -240,9 +240,12 @@ export default {
 }
 
 .profile {
-  margin-left: 46%;
   color: grey;
   cursor: pointer;
+}
+
+.name {
+  width: 85%;
 }
 
 .svg-inline--fa {
@@ -292,8 +295,8 @@ export default {
     width: 95%;
   }
 
-  .profile {
-  margin-left: 59%;
+  .user-infos {
+    justify-content: space-between;
   }
 }
 
@@ -308,8 +311,8 @@ export default {
     width: 95%;
   }
 
-  .profile {
-  margin-left: 31%;
+  .user-infos {
+    justify-content: space-between;
   }
 }
 
@@ -328,14 +331,6 @@ export default {
   .user-infos {
     justify-content: space-between;
     font-size: 14px;
-  }
-
-   .profile {
-    margin-left: 0;
-  }
-
-  .name {
-    margin-left: -7%;
   }
 
   .image-container {
